@@ -9,7 +9,7 @@ public enum ProjetoSingleton {
     private final RepositoryProjeto repositoryProjeto;
 
     ProjetoSingleton() {
-        repositoryProjeto = new RepositoryProjeto(ArquivoPaths.PESSOAS);
+        repositoryProjeto = new RepositoryProjeto(ArquivoPaths.PROJETOS);
     }
 
     public RepositoryProjeto getRepositoryProjeto() {

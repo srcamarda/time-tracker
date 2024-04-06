@@ -9,7 +9,7 @@ public enum TarefaSingleton {
     private final RepositoryTarefa repositoryTarefa;
 
     TarefaSingleton() {
-        repositoryTarefa = new RepositoryTarefa(ArquivoPaths.PESSOAS);
+        repositoryTarefa = new RepositoryTarefa(ArquivoPaths.TAREFAS);
     }
 
     public RepositoryTarefa getRepositoryTarefa() {

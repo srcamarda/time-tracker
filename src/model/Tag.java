@@ -2,5 +2,8 @@ package model;
 
 public enum Tag {
     URGENTE,
-    IMPORTANTE
+    IMPORTANTE,
+    REVISAO,
+    EM_ANDAMENTO,
+    FINALIZADO
 }

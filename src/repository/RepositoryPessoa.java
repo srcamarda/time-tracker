@@ -59,4 +59,13 @@ public class RepositoryPessoa {
         }
         return null;
     }
+
+    public Pessoa buscarPessoaPorUsername(String username) {
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.getUsername().equals(username)) {
+                return pessoa;
+            }
+        }
+        return null;
+    }
 }

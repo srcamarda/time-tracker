@@ -38,9 +38,9 @@ public class RepositoryProjeto {
         String ProjetoStr = Projeto.getId() + ";"
                 + Projeto.getTitulo() + ";"
                 + Projeto.getDescricao() + ";"
-                + Projeto.getPlano() + ";"
                 + Projeto.getDataHoraInicio() + ";"
                 + Projeto.getDataHoraFim();
+
         arquivo.escreverArquivo(ProjetoStr);
     }
 
@@ -56,9 +56,8 @@ public class RepositoryProjeto {
                 .id(id_projeto)
                 .titulo(valores[1])
                 .descricao(valores[2])
-                .plano(TipoPlano.valueOf(valores[3]))
-                .dataHoraInicio(LocalDateTime.parse(valores[4]))
-                .dataHoraFim(LocalDateTime.parse(valores[5]))
+                .dataHoraInicio(LocalDateTime.parse(valores[3]))
+                .dataHoraFim(LocalDateTime.parse(valores[4]))
                 .pessoas(pessoasProjeto)
                 .tags(tagsProjeto)
                 .tarefas(tarefasProjeto)

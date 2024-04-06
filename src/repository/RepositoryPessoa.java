@@ -1,6 +1,8 @@
 package repository;
 
 import model.Pessoa;
+import utility.TipoCargo;
+import utility.TipoPlano;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,10 @@ public class RepositoryPessoa {
     public void salvarPessoa(Pessoa pessoa) {
         String pessoaStr = pessoa.getId() + ";"
                 + pessoa.getNome() + ";"
-                + pessoa.getCargo().toString();
+                + pessoa.getCpf() + ";"
+                + pessoa.getCargo().toString() + ";"
+                + pessoa.getPlano().toString();
+
         arquivo.escreverArquivo(pessoaStr);
     }
 
@@ -38,7 +43,9 @@ public class RepositoryPessoa {
         return new Pessoa.Builder()
                 .id(valores[0])
                 .nome(valores[1])
-                .cargo(Pessoa.TipoCargo.valueOf(valores[2]))
+                .cpf(valores[2])
+                .cargo(TipoCargo.valueOf(valores[3]))
+                .plano(TipoPlano.valueOf(valores[4]))
                 .build();
     }
 

@@ -1,5 +1,7 @@
 package model;
 
+import dto.PessoaDTO;
+import dto.TarefaDTO;
 import utility.TipoPlano;
 
 import java.time.LocalDateTime;
@@ -11,13 +13,13 @@ public class Projeto {
     private UUID id;
     private String titulo;
     private String descricao;
-    private List<Pessoa> pessoas;
+    private List<PessoaDTO> pessoas;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
     private List<Tag> tags;
-    private List<Tarefa> tarefas;
+    private List<TarefaDTO> tarefas;
 
-    private Projeto(UUID id, String titulo, String descricao, List<Pessoa> pessoas, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, List<Tag> tags, List<Tarefa> tarefas) {
+    private Projeto(UUID id, String titulo, String descricao, List<PessoaDTO> pessoas, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, List<Tag> tags, List<TarefaDTO> tarefas) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -40,7 +42,7 @@ public class Projeto {
         return descricao;
     }
 
-    public List<Pessoa> getPessoas() {
+    public List<PessoaDTO> getPessoasDTO() {
         return pessoas;
     }
 
@@ -56,7 +58,7 @@ public class Projeto {
         return tags;
     }
 
-    public List<Tarefa> getTarefas() {
+    public List<TarefaDTO> getTarefasDTO() {
         return tarefas;
     }
 
@@ -91,11 +93,11 @@ public class Projeto {
         private UUID id;
         private String titulo;
         private String descricao;
-        private List<Pessoa> pessoas;
+        private List<PessoaDTO> pessoas;
         private LocalDateTime dataHoraInicio;
         private LocalDateTime dataHoraFim;
         private List<Tag> tags;
-        private List<Tarefa> tarefas;
+        private List<TarefaDTO> tarefas;
 
         public Builder id(String id) {
             this.id = UUID.fromString(id);
@@ -112,7 +114,7 @@ public class Projeto {
             return this;
         }
 
-        public Builder pessoas(List<Pessoa> pessoas) {
+        public Builder pessoasDTO(List<PessoaDTO> pessoas) {
             this.pessoas = pessoas;
             return this;
         }
@@ -132,7 +134,7 @@ public class Projeto {
             return this;
         }
 
-        public Builder tarefas(List<Tarefa> tarefas) {
+        public Builder tarefasDTO(List<TarefaDTO> tarefas) {
             this.tarefas = tarefas;
             return this;
         }

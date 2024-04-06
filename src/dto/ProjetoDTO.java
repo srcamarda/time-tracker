@@ -11,8 +11,8 @@ import java.util.UUID;
 public record ProjetoDTO(UUID id,
                          String titulo,
                          String descricao,
-                         List<Pessoa> pessoas,
+                         List<PessoaDTO> pessoas,
                          LocalDateTime dataHoraInicio,
                          LocalDateTime dataHoraFim,
                          List<Tag> tags,
-                         List<Tarefa> tarefas) { }
+                         List<TarefaDTO> tarefas) { }

@@ -1,5 +1,7 @@
 package model;
 
+import dto.PessoaDTO;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -8,12 +10,12 @@ public class Tarefa {
     private UUID id;
     private String titulo;
     private String descricao;
-    private Pessoa pessoa;
+    private PessoaDTO pessoa;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
     private Tag tag;
 
-    private Tarefa(UUID id, String titulo, String descricao, Pessoa pessoa, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, Tag tag) {
+    private Tarefa(UUID id, String titulo, String descricao, PessoaDTO pessoa, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, Tag tag) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
@@ -35,7 +37,7 @@ public class Tarefa {
         return descricao;
     }
 
-    public Pessoa getPessoa() {
+    public PessoaDTO getPessoaDTO() {
         return pessoa;
     }
 
@@ -81,7 +83,7 @@ public class Tarefa {
         private UUID id;
         private String titulo;
         private String descricao;
-        private Pessoa pessoa;
+        private PessoaDTO pessoa;
         private LocalDateTime dataHoraInicio;
         private LocalDateTime dataHoraFim;
         private Tag tag;
@@ -101,7 +103,7 @@ public class Tarefa {
             return this;
         }
 
-        public Builder pessoa(Pessoa pessoa) {
+        public Builder pessoaDTO(PessoaDTO pessoa) {
             this.pessoa = pessoa;
             return this;
         }

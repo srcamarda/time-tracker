@@ -98,11 +98,6 @@ public class Pessoa {
             return this;
         }
 
-        public Builder plano(TipoPlano plano) {
-            this.plano = plano;
-            return this;
-        }
-
         public Builder cargo(TipoCargo cargo) {
             this.cargo = cargo;
             return this;

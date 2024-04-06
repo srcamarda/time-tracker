@@ -29,6 +29,7 @@ public class RepositoryPessoa {
 
     public void salvarPessoa(Pessoa pessoa) {
         String pessoaStr = pessoa.getId() + ";"
+                + pessoa.getUsername() + ";"
                 + pessoa.getNome() + ";"
                 + pessoa.getCpf() + ";"
                 + pessoa.getCargo().toString() + ";"
@@ -42,10 +43,11 @@ public class RepositoryPessoa {
 
         return new Pessoa.Builder()
                 .id(valores[0])
-                .nome(valores[1])
-                .cpf(valores[2])
-                .cargo(TipoCargo.valueOf(valores[3]))
-                .plano(TipoPlano.valueOf(valores[4]))
+                .username(valores[1])
+                .nome(valores[2])
+                .cpf(valores[3])
+                .cargo(TipoCargo.valueOf(valores[4]))
+                .plano(TipoPlano.valueOf(valores[5]))
                 .build();
     }
 

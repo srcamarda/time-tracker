@@ -1,1 +1,11 @@
 id;titulo;descricao;plano;data_hora_inicio;data_hora_fim
+1e07a8de-88ed-4b20-a5e2-fd2871f9d9c4;Sistema de Gerenciamento;Plataforma para gestão de recursos internos;PREMIUM;2024-01-01T09:00;2024-06-30T18:00
+2f158f4d-c6d1-4f0b-822d-2e2b3e6f0f44;Aplicativo de Delivery;Aplicativo para entrega rápida de comida;PLUS_PREMIUM;2024-02-01T08:00;2024-07-01T17:00
+3a369e6d-b24e-4846-916e-3c4f5e9f5d55;Portal de Notícias;Site com notícias atualizadas diariamente;FREE;2024-03-05T08:00;2024-08-05T20:00
+4b47b07c-d55d-49c4-a1e3-4d5f6e7d6e66;Plataforma EAD;Sistema de Ensino a Distância;PREMIUM;2024-04-10T09:00;2024-09-15T18:00
+5c58c16d-e66e-4d55-b1f2-5e607f8f7f77;Sistema de Vendas Online;E-commerce para vendas variadas;PLUS_PREMIUM;2024-05-15T08:00;2024-10-20T17:00
+6d69d25e-f77f-4e66-c2g1-6f718g9g8g88;Ferramenta de CRM;Gerenciamento de Relacionamento com Cliente;FREE;2024-06-20T08:00;2024-11-25T20:00
+7e7a7e4f-0880-5f77-d3h2-7g829h0h9h99;App de Monitoramento Fitness;Aplicativo para acompanhamento de atividades físicas;PREMIUM;2024-07-25T09:00;2024-12-30T18:00
+8f8b8f5g-1991-6g88-e4i3-8h930i1i0i11;Rede Social para Pets;Plataforma social para donos de pets compartilharem momentos;PLUS_PREMIUM;2024-08-30T08:00;2025-01-04T17:00
+9g9c9g6h-2a02-7h99-f5j4-9i041j2j1j22;Sistema de Gestão Financeira;Ferramenta para controle financeiro pessoal e empresarial;FREE;2024-09-04T08:00;2025-02-09T20:00
+ah0dah7i-3b13-8i0a-g6k5-aj152k3k2k33;Jogo de Realidade Aumentada;Jogo mobile com elementos de realidade aumentada;PREMIUM;2024-10-09T09:00;2025-03-15T18:00

@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Arquivo implements ArquivoInterface {
+//Funções base de leitura e escrita para arquivos
+public class ArquivoUtil {
     File arquivo;
 
-    public Arquivo(ArquivoPaths path) {
+    public ArquivoUtil(ArquivoPaths path) {
         this.arquivo = new File(path.getPath());
     }
 

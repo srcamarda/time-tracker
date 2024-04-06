@@ -93,6 +93,10 @@ public class Pessoa {
             this.nome = nome;
             return this;
         }
+        public Builder plano(TipoPlano plano) {
+            this.plano = plano;
+            return this;
+        }
 
         public Builder plano(TipoPlano plano) {
             this.plano = plano;
@@ -113,6 +117,7 @@ public class Pessoa {
             if (Objects.isNull(id)) {
                 id = UUID.randomUUID();
             }
+
             return new Pessoa(id, username, nome, cpf, plano, cargo);
         }
     }

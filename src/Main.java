@@ -1,8 +1,8 @@
-import pessoa.Pessoa;
-import pessoa.TipoCargo;
-import projeto.Projeto;
-import projeto.Tag;
-import projeto.Tarefa;
+import model.Pessoa;
+import utility.TipoCargo;
+import model.Projeto;
+import model.Tag;
+import model.Tarefa;
 
 import java.time.LocalDateTime;
 import java.util.List;

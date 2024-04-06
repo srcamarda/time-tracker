@@ -1,4 +1,6 @@
-package pessoa;
+package model;
+
+import utility.TipoCargo;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -76,4 +78,14 @@ public class Pessoa {
             return new Pessoa(id, nome, cargo);
         }
     }
+
+    public enum TipoCargo {
+        JUNIOR,
+        PLENO,
+        SENIOR,
+        SCRUM_MASTER,
+        PRODUCT_OWNER
+    }
 }
+
+

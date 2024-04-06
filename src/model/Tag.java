@@ -1,4 +1,4 @@
-package projeto;
+package model;
 
 public enum Tag {
     URGENTE,

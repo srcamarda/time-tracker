@@ -1,4 +1,4 @@
-package pessoa;
+package utility;
 
 public enum TipoCargo {
     JUNIOR,

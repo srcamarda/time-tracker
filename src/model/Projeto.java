@@ -1,6 +1,6 @@
-package projeto;
+package model;
 
-import pessoa.Pessoa;
+import utility.TipoPlano;
 
 import java.time.LocalDateTime;
 import java.util.List;

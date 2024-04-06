@@ -1,4 +1,4 @@
-package projeto;
+package utility;
 
 public enum TipoPlano {
     FREE,

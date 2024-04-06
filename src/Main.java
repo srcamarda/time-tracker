@@ -3,13 +3,21 @@ import utility.TipoCargo;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
+import view.MenuPrincipal;
+import view.MenuProjeto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 public class Main {
+
+    MenuProjeto menuProjeto;
+
     public static void main(String[] args) {
+
+        MenuPrincipal.mainMenu();
+
         // Pessoa
         Pessoa pessoa = new Pessoa.Builder().nome("Paulo").cargo(TipoCargo.JUNIOR).build();
         System.out.println(pessoa);

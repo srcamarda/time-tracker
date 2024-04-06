@@ -31,7 +31,7 @@ public class ArquivoUtil {
 
     public boolean escreverArquivo(String linha) {
         try (FileWriter writer = new FileWriter(this.arquivo, true)) {
-            writer.write(linha + "\n");
+            writer.write("\n" + linha);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,8 +1,11 @@
 import mockup.Mockup;
+import model.Pessoa;
 import repository.ArquivoPaths;
 import repository.RepositoryPessoa;
 import repository.RepositoryProjeto;
 import repository.RepositoryTarefa;
+import utility.TipoCargo;
+import utility.TipoPlano;
 
 public class Main {
     public static void main(String[] args) {

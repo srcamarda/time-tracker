@@ -113,8 +113,19 @@ public class Pessoa {
                 id = UUID.randomUUID();
             }
 
+            if (Objects.isNull(username)){
+                username = nome.replace(" ", "_").toLowerCase();
+            }
+
+            if (Objects.isNull(plano)){
+                plano = TipoPlano.FREE;
+            }
+
+            if (Objects.isNull(cargo)){
+                cargo = TipoCargo.SEM_CARGO;
+            }
+
             return new Pessoa(id, username, nome, cpf, plano, cargo);
         }
     }
 }
-

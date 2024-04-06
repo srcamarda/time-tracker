@@ -39,6 +39,7 @@ public class RepositoryTarefa {
                 + Tarefa.getPessoaDTO() + ";"
                 + Tarefa.getDataHoraInicio() + ";"
                 + Tarefa.getDataHoraFim();
+
         arquivo.escreverArquivo(tarefaStr);
     }
 

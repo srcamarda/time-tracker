@@ -144,6 +144,10 @@ public class Projeto {
                 this.id = UUID.randomUUID();
             }
 
+            if (Objects.isNull(dataHoraInicio)) {
+                this.dataHoraInicio = LocalDateTime.now();
+            }
+
             return new Projeto(id, titulo, descricao, pessoas, dataHoraInicio, dataHoraFim, tags, tarefas);
         }
     }

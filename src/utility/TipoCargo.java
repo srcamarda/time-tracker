@@ -5,5 +5,6 @@ public enum TipoCargo {
     PLENO,
     SENIOR,
     SCRUM_MASTER,
-    PRODUCT_OWNER
+    PRODUCT_OWNER,
+    SEM_CARGO
 }

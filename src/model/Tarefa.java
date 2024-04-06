@@ -128,6 +128,10 @@ public class Tarefa {
                 id = UUID.randomUUID();
             }
 
+            if (Objects.isNull(dataHoraInicio)) {
+                dataHoraInicio = LocalDateTime.now();
+            }
+
             return new Tarefa(id, titulo, descricao, pessoa, dataHoraInicio, dataHoraFim, tag);
         }
     }

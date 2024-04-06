@@ -1,7 +1,9 @@
 package repository;
 
+import dto.PessoaDTO;
 import model.Tag;
 import model.Tarefa;
+import utility.converter.ConverterPessoaImp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,9 +15,9 @@ public class RepositoryTarefa {
     RepositoryPessoa repositoryPessoa;
 
     public RepositoryTarefa(ArquivoPaths path, RepositoryPessoa repositoryPessoa) {
+        this.repositoryPessoa = repositoryPessoa;
         arquivo = new ArquivoUtil(path);
         tarefas = carregarTarefas();
-        this.repositoryPessoa = repositoryPessoa;
     }
 
     public List<Tarefa> carregarTarefas() {
@@ -34,7 +36,7 @@ public class RepositoryTarefa {
                 + Tarefa.getTitulo() + ";"
                 + Tarefa.getDescricao() + ";"
                 + Tarefa.getTag() + ";"
-                + Tarefa.getPessoa() + ";"
+                + Tarefa.getPessoaDTO() + ";"
                 + Tarefa.getDataHoraInicio() + ";"
                 + Tarefa.getDataHoraFim();
         arquivo.escreverArquivo(tarefaStr);
@@ -43,12 +45,15 @@ public class RepositoryTarefa {
     public Tarefa tarefaParser(String linha) {
         String[] valores = linha.split(";");
 
+        ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
+        PessoaDTO pessoaDTO = converterPessoaImp.converterParaDTO(repositoryPessoa.buscarPessoa(valores[4]));
+
         return new Tarefa.Builder()
                 .id(valores[0])
                 .titulo(valores[1])
                 .descricao(valores[2])
                 .tag(Tag.valueOf(valores[3]))
-                .pessoa(repositoryPessoa.buscarPessoa(valores[4]))
+                .pessoaDTO(pessoaDTO)
                 .dataHoraInicio(LocalDateTime.parse(valores[5]))
                 .dataHoraFim(LocalDateTime.parse(valores[6]))
                 .build();

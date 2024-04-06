@@ -1,10 +1,14 @@
 package repository;
 
+import dto.PessoaDTO;
+import dto.TarefaDTO;
 import model.Pessoa;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import utility.TipoPlano;
+import utility.converter.ConverterPessoaImp;
+import utility.converter.ConverterTarefaImp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,10 +21,10 @@ public class RepositoryProjeto {
     RepositoryTarefa repositoryTarefa;
 
     public RepositoryProjeto(ArquivoPaths path, RepositoryPessoa repositoryPessoa, RepositoryTarefa repositoryTarefa) {
-        arquivo = new ArquivoUtil(path);
-        projetos = carregarProjetos();
         this.repositoryPessoa = repositoryPessoa;
         this.repositoryTarefa = repositoryTarefa;
+        arquivo = new ArquivoUtil(path);
+        projetos = carregarProjetos();
     }
 
     public List<Projeto> carregarProjetos() {
@@ -52,15 +56,21 @@ public class RepositoryProjeto {
         List<Tag> tagsProjeto = buscarTag(id_projeto);
         List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
 
+        ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
+        List<PessoaDTO> pessoasDTO = pessoasProjeto.stream().map(converterPessoaImp::converterParaDTO).toList();
+
+        ConverterTarefaImp converterTarefaImp = new ConverterTarefaImp();
+        List<TarefaDTO> tarefasDTO = tarefasProjeto.stream().map(converterTarefaImp::converterParaDTO).toList();
+
         return new Projeto.Builder()
                 .id(id_projeto)
                 .titulo(valores[1])
                 .descricao(valores[2])
                 .dataHoraInicio(LocalDateTime.parse(valores[3]))
                 .dataHoraFim(LocalDateTime.parse(valores[4]))
-                .pessoas(pessoasProjeto)
+                .pessoasDTO(pessoasDTO)
                 .tags(tagsProjeto)
-                .tarefas(tarefasProjeto)
+                .tarefasDTO(tarefasDTO)
                 .build();
     }
 

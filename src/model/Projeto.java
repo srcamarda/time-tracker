@@ -12,18 +12,16 @@ public class Projeto {
     private String titulo;
     private String descricao;
     private List<Pessoa> pessoas;
-    private TipoPlano plano;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
     private List<Tag> tags;
     private List<Tarefa> tarefas;
 
-    private Projeto(UUID id, String titulo, String descricao, List<Pessoa> pessoas, TipoPlano plano, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, List<Tag> tags, List<Tarefa> tarefas) {
+    private Projeto(UUID id, String titulo, String descricao, List<Pessoa> pessoas, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, List<Tag> tags, List<Tarefa> tarefas) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.pessoas = pessoas;
-        this.plano = plano;
         this.dataHoraInicio = dataHoraInicio;
         this.dataHoraFim = dataHoraFim;
         this.tags = tags;
@@ -44,10 +42,6 @@ public class Projeto {
 
     public List<Pessoa> getPessoas() {
         return pessoas;
-    }
-
-    public TipoPlano getPlano() {
-        return plano;
     }
 
     public LocalDateTime getDataHoraInicio() {
@@ -86,7 +80,6 @@ public class Projeto {
                 ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", pessoas=" + pessoas +
-                ", plano=" + plano +
                 ", dataHoraInicio=" + dataHoraInicio +
                 ", dataHoraFim=" + dataHoraFim +
                 ", tags=" + tags +
@@ -99,7 +92,6 @@ public class Projeto {
         private String titulo;
         private String descricao;
         private List<Pessoa> pessoas;
-        private TipoPlano plano;
         private LocalDateTime dataHoraInicio;
         private LocalDateTime dataHoraFim;
         private List<Tag> tags;
@@ -122,11 +114,6 @@ public class Projeto {
 
         public Builder pessoas(List<Pessoa> pessoas) {
             this.pessoas = pessoas;
-            return this;
-        }
-
-        public Builder plano(TipoPlano plano) {
-            this.plano = plano;
             return this;
         }
 
@@ -155,7 +142,7 @@ public class Projeto {
                 this.id = UUID.randomUUID();
             }
 
-            return new Projeto(id, titulo, descricao, pessoas, plano, dataHoraInicio, dataHoraFim, tags, tarefas);
+            return new Projeto(id, titulo, descricao, pessoas, dataHoraInicio, dataHoraFim, tags, tarefas);
         }
     }
 }

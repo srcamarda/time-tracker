@@ -4,12 +4,12 @@ import model.Tag;
 import model.Tarefa;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RepositoryTarefa {
     ArquivoUtil arquivo;
-    HashSet<Tarefa> tarefas;
+    List<Tarefa> tarefas;
     RepositoryPessoa repositoryPessoa;
 
     public RepositoryTarefa(ArquivoPaths path, RepositoryPessoa repositoryPessoa) {
@@ -18,9 +18,9 @@ public class RepositoryTarefa {
         this.repositoryPessoa = repositoryPessoa;
     }
 
-    public HashSet<Tarefa> carregarTarefas() {
+    public List<Tarefa> carregarTarefas() {
         List<String> tarefasStr = arquivo.lerArquivo();
-        HashSet<Tarefa> tarefas = new HashSet<>();
+        List<Tarefa> tarefas = new ArrayList<>();
         tarefasStr.stream().skip(1).map((this::tarefaParser)).forEach(tarefas::add);
         return tarefas;
     }
@@ -30,7 +30,13 @@ public class RepositoryTarefa {
     }
 
     public void salvarTarefa(Tarefa Tarefa) {
-        String tarefaStr = Tarefa.getId() + ";" + Tarefa.getTitulo() + ";" + Tarefa.getDescricao() + ";" + Tarefa.getTag() + ";" + Tarefa.getPessoa() + ";" + Tarefa.getDataHoraInicio() + ";" + Tarefa.getDataHoraFim();
+        String tarefaStr = Tarefa.getId() + ";"
+                + Tarefa.getTitulo() + ";"
+                + Tarefa.getDescricao() + ";"
+                + Tarefa.getTag() + ";"
+                + Tarefa.getPessoa() + ";"
+                + Tarefa.getDataHoraInicio() + ";"
+                + Tarefa.getDataHoraFim();
         arquivo.escreverArquivo(tarefaStr);
     }
 
@@ -43,8 +49,8 @@ public class RepositoryTarefa {
                 .descricao(valores[2])
                 .tag(Tag.valueOf(valores[3]))
                 .pessoa(repositoryPessoa.buscarPessoa(valores[4]))
-                .dataHoraInicio(LocalDateTime.parse(valores[4]))
-                .dataHoraFim(LocalDateTime.parse(valores[5]))
+                .dataHoraInicio(LocalDateTime.parse(valores[5]))
+                .dataHoraFim(LocalDateTime.parse(valores[6]))
                 .build();
     }
 

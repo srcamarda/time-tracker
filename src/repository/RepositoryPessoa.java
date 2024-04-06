@@ -2,21 +2,21 @@ package repository;
 
 import model.Pessoa;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RepositoryPessoa {
     ArquivoUtil arquivo;
-    HashSet<Pessoa> pessoas;
+    List<Pessoa> pessoas;
 
     public RepositoryPessoa(ArquivoPaths path) {
         arquivo = new ArquivoUtil(path);
         pessoas = carregarPessoas();
     }
 
-    public HashSet<Pessoa> carregarPessoas() {
+    public List<Pessoa> carregarPessoas() {
         List<String> pessoasStr = arquivo.lerArquivo();
-        HashSet<Pessoa> pessoas = new HashSet<>();
+        List<Pessoa> pessoas = new ArrayList<>();
         pessoasStr.stream().skip(1).map((this::pessoaParser)).forEach(pessoas::add);
         return pessoas;
     }
@@ -26,7 +26,9 @@ public class RepositoryPessoa {
     }
 
     public void salvarPessoa(Pessoa pessoa) {
-        String pessoaStr = pessoa.getId() + ";" + pessoa.getNome() + ";" + pessoa.getCargo().toString();
+        String pessoaStr = pessoa.getId() + ";"
+                + pessoa.getNome() + ";"
+                + pessoa.getCargo().toString();
         arquivo.escreverArquivo(pessoaStr);
     }
 

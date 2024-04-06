@@ -101,13 +101,5 @@ public class Pessoa {
             return new Pessoa(id, nome, cpf, plano, cargo);
         }
     }
-
-    public enum TipoCargo {
-        JUNIOR,
-        PLENO,
-        SENIOR,
-        SCRUM_MASTER,
-        PRODUCT_OWNER
-    }
 }
 

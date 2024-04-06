@@ -8,6 +8,9 @@ import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import utility.TipoCargo;
+import utility.converter.ConverterPessoaImp;
+import utility.converter.ConverterProjetoImp;
+import utility.converter.ConverterTarefaImp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,11 +21,19 @@ public class Mockup {
     public static List<PessoaDTO> pessoaDTOList = new ArrayList<>();
     public static List<TarefaDTO> tarefaDTOList = new ArrayList<>();
     public static List<ProjetoDTO> projetoDTOList = new ArrayList<>();
+    private static ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
+    private static ConverterTarefaImp converterTarefaImp = new ConverterTarefaImp();
+    private static ConverterProjetoImp converterProjetoImp = new ConverterProjetoImp();
+
 
     public static void init() {
         criarPessoas();
         criarTarefas();
         criarTarefas();
+    }
+
+    private static void criarInstancias() {
+
     }
 
     private static void criarPessoas() {
@@ -37,8 +48,9 @@ public class Mockup {
         Tarefa tarefa = new Tarefa.Builder().titulo("Estruturar projeto").pessoaDTO(pessoaDTOList.get(0)).build();
         Tarefa tarefa1 = new Tarefa.Builder().titulo("Testar classes").pessoaDTO(pessoaDTOList.get(1)).build();
 
-        tarefaDTOList.add(new TarefaDTO(tarefa.getId(), tarefa.getTitulo(), tarefa.getDescricao(), tarefa.getPessoaDTO(), tarefa.getDataHoraInicio(), tarefa.getDataHoraFim(), tarefa.getTag()));
-        tarefaDTOList.add(new TarefaDTO(tarefa1.getId(), tarefa1.getTitulo(), tarefa1.getDescricao(), tarefa1.getPessoaDTO(), tarefa1.getDataHoraInicio(), tarefa1.getDataHoraFim(), tarefa1.getTag()));
+        tarefaDTOList.add(converterTarefaImp.converterParaDTO(tarefa));
+        tarefaDTOList.add(converterTarefaImp.converterParaDTO(tarefa1));
+
     }
 
     private static void criarProjetos() {

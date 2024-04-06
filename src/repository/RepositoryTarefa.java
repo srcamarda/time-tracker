@@ -4,6 +4,7 @@ import dto.PessoaDTO;
 import model.Tag;
 import model.Tarefa;
 import utility.converter.ConverterPessoaImp;
+import utility.singleton.PessoaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,10 +13,8 @@ import java.util.List;
 public class RepositoryTarefa {
     ArquivoUtil arquivo;
     List<Tarefa> tarefas;
-    RepositoryPessoa repositoryPessoa;
 
-    public RepositoryTarefa(ArquivoPaths path, RepositoryPessoa repositoryPessoa) {
-        this.repositoryPessoa = repositoryPessoa;
+    public RepositoryTarefa(ArquivoPaths path) {
         arquivo = new ArquivoUtil(path);
         tarefas = carregarTarefas();
     }
@@ -47,7 +46,11 @@ public class RepositoryTarefa {
         String[] valores = linha.split(";");
 
         ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
-        PessoaDTO pessoaDTO = converterPessoaImp.converterParaDTO(repositoryPessoa.buscarPessoa(valores[4]));
+        PessoaDTO pessoaDTO = converterPessoaImp.converterParaDTO(
+                PessoaSingleton
+                        .INSTANCE
+                        .getRepositoryPessoa()
+                        .buscarPessoa(valores[4]));
 
         return new Tarefa.Builder()
                 .id(valores[0])

@@ -9,6 +9,8 @@ import model.Tarefa;
 import utility.TipoPlano;
 import utility.converter.ConverterPessoaImp;
 import utility.converter.ConverterTarefaImp;
+import utility.singleton.PessoaSingleton;
+import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,12 +19,8 @@ import java.util.List;
 public class RepositoryProjeto {
     ArquivoUtil arquivo;
     List<Projeto> projetos;
-    RepositoryPessoa repositoryPessoa;
-    RepositoryTarefa repositoryTarefa;
 
-    public RepositoryProjeto(ArquivoPaths path, RepositoryPessoa repositoryPessoa, RepositoryTarefa repositoryTarefa) {
-        this.repositoryPessoa = repositoryPessoa;
-        this.repositoryTarefa = repositoryTarefa;
+    public RepositoryProjeto(ArquivoPaths path) {
         arquivo = new ArquivoUtil(path);
         projetos = carregarProjetos();
     }
@@ -90,8 +88,11 @@ public class RepositoryProjeto {
 
         pessoasStr.stream()
                 .filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(pessoa -> pessoasProjeto.add(repositoryPessoa.
-                        buscarPessoa(pessoa.split(";")[0])));
+                .forEach(pessoa -> pessoasProjeto.add(
+                        PessoaSingleton
+                                .INSTANCE
+                                .getRepositoryPessoa()
+                                .buscarPessoa(pessoa.split(";")[0])));
 
         return pessoasProjeto;
     }
@@ -114,7 +115,11 @@ public class RepositoryProjeto {
         List<Tarefa> tarefasProjeto = new ArrayList<>();
 
         tarefasStr.stream().filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(tarefa -> tarefasProjeto.add(repositoryTarefa.buscarTarefa(tarefa.split(";")[0])));
+                .forEach(tarefa -> tarefasProjeto.add(
+                        TarefaSingleton
+                                .INSTANCE
+                                .getRepositoryTarefa()
+                                .buscarTarefa(tarefa.split(";")[0])));
 
         return tarefasProjeto;
     }

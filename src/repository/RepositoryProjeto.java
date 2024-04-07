@@ -8,6 +8,7 @@ import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
 import utility.Entradas;
+import utility.Mensagens;
 import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;
@@ -114,8 +115,10 @@ public class RepositoryProjeto {
             LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[3]);
             LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
 
-            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim))
+            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
+                System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
                 return null;
+            }
 
             return new Projeto.Builder()
                     .id(id_projeto)
@@ -129,6 +132,7 @@ public class RepositoryProjeto {
                     .build();
 
         } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -151,11 +155,9 @@ public class RepositoryProjeto {
 
         pessoasStr.stream()
                 .filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(pessoa -> pessoasProjeto.add(
-                        PessoaSingleton
-                                .INSTANCE
-                                .getRepositoryPessoa()
-                                .buscarPessoa(pessoa.split(";")[0])));
+                .map(pessoa -> PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoa.split(";")[0]))
+                .filter(Objects::nonNull)
+                .forEach(pessoasProjeto::add);
 
         return pessoasProjeto;
     }
@@ -178,11 +180,9 @@ public class RepositoryProjeto {
         List<Tarefa> tarefasProjeto = new ArrayList<>();
 
         tarefasStr.stream().filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(tarefa -> tarefasProjeto.add(
-                        TarefaSingleton
-                                .INSTANCE
-                                .getRepositoryTarefa()
-                                .buscarTarefa(tarefa.split(";")[0])));
+                .map(tarefa -> TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefa(tarefa.split(";")[0]))
+                .filter(Objects::nonNull)
+                .forEach(tarefasProjeto::add);
 
         return tarefasProjeto;
     }

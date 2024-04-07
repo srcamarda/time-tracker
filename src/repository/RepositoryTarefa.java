@@ -5,6 +5,7 @@ import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
 import utility.Entradas;
+import utility.Mensagens;
 import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 
@@ -67,8 +68,10 @@ public class RepositoryTarefa {
             LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[5]);
             LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
 
-            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim))
+            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)){
+                System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
                 return null;
+            }
 
             return new Tarefa.Builder()
                     .id(id)
@@ -80,6 +83,7 @@ public class RepositoryTarefa {
                     .dataHoraFim(dataHoraFim)
                     .build();
         } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }

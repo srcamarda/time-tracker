@@ -65,6 +65,7 @@ public class RepositoryPessoa {
                     .build();
 
         } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }

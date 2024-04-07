@@ -52,20 +52,14 @@ public class RepositoryPessoa {
     }
 
     public Pessoa buscarPessoa(String id) {
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getId().toString().equals(id)) {
-                return pessoa;
-            }
-        }
-        return null;
+        return pessoas.stream()
+                .filter(pessoa -> pessoa.getId().toString().equals(id))
+                .findFirst().orElse(null);
     }
 
     public Pessoa buscarPessoaPorUsername(String username) {
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getUsername().equals(username)) {
-                return pessoa;
-            }
-        }
-        return null;
+        return pessoas.stream()
+                .filter(pessoa -> pessoa.getUsername().equals(username))
+                .findFirst().orElse(null);
     }
 }

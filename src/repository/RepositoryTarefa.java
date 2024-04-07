@@ -64,12 +64,9 @@ public class RepositoryTarefa {
     }
 
     public Tarefa buscarTarefa(String id) {
-        for (Tarefa tarefa : tarefas) {
-            if (tarefa.getId().toString().equals(id)) {
-                return tarefa;
-            }
-        }
-        return null;
+        return tarefas.stream()
+                .filter(tarefa -> tarefa.getId().toString().equals(id))
+                .findFirst().orElse(null);
     }
 
     public List<Tarefa> buscarTarefasComTitulo(String titulo) {

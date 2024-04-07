@@ -35,6 +35,33 @@ public class RepositoryProjeto {
         Projetos.forEach(this::salvarProjeto);
     }
 
+    public void salvarPessoasProjeto(String idProjeto, List<Pessoa> pessoas) {
+        ArquivoUtil arquivoPessoasProjeto = new ArquivoUtil(ArquivoPaths.PESSOAS_PROJ);
+
+        pessoas.forEach(pessoa -> {
+            String pessoaStr = pessoa.getId() + ";" + idProjeto;
+            arquivoPessoasProjeto.escreverArquivo(pessoaStr);
+        });
+    }
+
+    public void salvarTarefasProjeto(String idProjeto, List<Tarefa> tarefas) {
+        ArquivoUtil arquivoTarefasProjeto = new ArquivoUtil(ArquivoPaths.TAREFAS_PROJ);
+
+        tarefas.forEach(tarefa -> {
+            String tarefaStr = tarefa.getId() + ";" + idProjeto;
+            arquivoTarefasProjeto.escreverArquivo(tarefaStr);
+        });
+    }
+
+    public void salvarTagProjeto(String idProjeto, List<Tag> tags) {
+        ArquivoUtil arquivoTagProjeto = new ArquivoUtil(ArquivoPaths.TAGS_PROJ);
+
+        tags.forEach(tag -> {
+            String tagStr = tag.toString() + ";" + idProjeto;
+            arquivoTagProjeto.escreverArquivo(tagStr);
+        });
+    }
+
     public void salvarProjeto(Projeto Projeto) {
         String ProjetoStr = Projeto.getId() + ";"
                 + Projeto.getTitulo() + ";"
@@ -42,7 +69,19 @@ public class RepositoryProjeto {
                 + Projeto.getDataHoraInicio() + ";"
                 + Projeto.getDataHoraFim();
 
+        List<Pessoa> pessoas = Projeto.getPessoasDTO()
+                .stream().map(Conversores::converterParaModel)
+                .toList();
+
+        List<Tarefa> tarefas = Projeto.getTarefasDTO()
+                .stream().map(Conversores::converterParaModel)
+                .toList();
+
         arquivo.escreverArquivo(ProjetoStr);
+
+        salvarPessoasProjeto(Projeto.getId().toString(), pessoas);
+        salvarTarefasProjeto(Projeto.getId().toString(), tarefas);
+        salvarTagProjeto(Projeto.getId().toString(), Projeto.getTags());
     }
 
     public Projeto projetoParser(String linha) {
@@ -50,12 +89,16 @@ public class RepositoryProjeto {
         String id_projeto = valores[0];
 
         List<Pessoa> pessoasProjeto = buscarPessoas(id_projeto);
-        List<Tag> tagsProjeto = buscarTag(id_projeto);
         List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
+        List<Tag> tagsProjeto = buscarTag(id_projeto);
 
-        List<PessoaDTO> pessoasDTO = pessoasProjeto.stream().map(Conversores::converterParaDTO).toList();
+        List<PessoaDTO> pessoasDTO = pessoasProjeto
+                .stream().map(Conversores::converterParaDTO)
+                .toList();
 
-        List<TarefaDTO> tarefasDTO = tarefasProjeto.stream().map(Conversores::converterParaDTO).toList();
+        List<TarefaDTO> tarefasDTO = tarefasProjeto
+                .stream().map(Conversores::converterParaDTO)
+                .toList();
 
         return new Projeto.Builder()
                 .id(id_projeto)
@@ -70,12 +113,9 @@ public class RepositoryProjeto {
     }
 
     public Projeto buscarProjeto(String id) {
-        for (Projeto projeto : projetos) {
-            if (projeto.getId().toString().equals(id)) {
-                return projeto;
-            }
-        }
-        return null;
+        return projetos.stream()
+                .filter(projeto -> projeto.getId().toString().equals(id))
+                .findFirst().orElse(null);
     }
     public List<Projeto> buscarProjetosComTitulo(String titulo) {
         return projetos.stream()

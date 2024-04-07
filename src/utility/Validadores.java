@@ -29,4 +29,12 @@ public class Validadores {
     public static boolean validaDataFinal(Date dataInicio, Date dataFinal) {
         return dataFinal.after(dataInicio);
     }
+
+    public static boolean validaEnum(String valor){
+        return valor.matches("^[A-Z0-9_]*$");
+    }
+
+    public static boolean validaUUID(String uuid) {
+        return uuid.matches("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$");
+    }
 }

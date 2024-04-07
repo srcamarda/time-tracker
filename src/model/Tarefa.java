@@ -15,7 +15,6 @@ public class Tarefa {
     private PessoaDTO pessoa;
     private LocalDateTime dataHoraInicio;
     private LocalDateTime dataHoraFim;
-    private Duration duracao;
     private Tag tag;
 
     private Tarefa(UUID id, String titulo, String descricao, PessoaDTO pessoa, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, Tag tag) {
@@ -45,6 +44,7 @@ public class Tarefa {
         return pessoa;
     }
     public Duration getDuracao() {
+        Duration duracao;
         if (!Objects.isNull(dataHoraFim)) {
             duracao = Duration.between(dataHoraInicio,dataHoraFim);
         } else{

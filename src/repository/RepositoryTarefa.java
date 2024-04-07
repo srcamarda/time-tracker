@@ -37,7 +37,7 @@ public class RepositoryTarefa {
                 + Tarefa.getTitulo() + ";"
                 + Tarefa.getDescricao() + ";"
                 + Tarefa.getTag() + ";"
-                + Tarefa.getPessoaDTO() + ";"
+                + Tarefa.getPessoaDTO().id() + ";"
                 + Tarefa.getDataHoraInicio() + ";"
                 + Tarefa.getDataHoraFim();
 

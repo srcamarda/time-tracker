@@ -7,8 +7,10 @@ import model.Pessoa;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
+import service.PessoaService;
 import utility.Conversores;
 import utility.TipoCargo;
+import utility.singleton.PessoaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class Mockup {
     }
 
     private static void criarTarefas() {
-        Tarefa tarefa = new Tarefa.Builder().titulo("Estruturar projeto").pessoaDTO(pessoaDTOList.get(0)).build();
+        Tarefa tarefa = new Tarefa.Builder().titulo("Estruturar projeto").pessoaDTO(Conversores.converterParaDTO(PessoaService.buscarPessoa("igor"))).build();
         Tarefa tarefa1 = new Tarefa.Builder().titulo("Testar classes").pessoaDTO(pessoaDTOList.get(1)).build();
 
         tarefaDTOList.add(Conversores.converterParaDTO(tarefa));

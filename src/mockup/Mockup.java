@@ -7,23 +7,17 @@ import model.Pessoa;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
+import utility.Conversores;
 import utility.TipoCargo;
-import utility.converter.ConverterPessoaImp;
-import utility.converter.ConverterProjetoImp;
-import utility.converter.ConverterTarefaImp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Mockup {
     public static List<PessoaDTO> pessoaDTOList = new ArrayList<>();
     public static List<TarefaDTO> tarefaDTOList = new ArrayList<>();
     public static List<ProjetoDTO> projetoDTOList = new ArrayList<>();
-    private static ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
-    private static ConverterTarefaImp converterTarefaImp = new ConverterTarefaImp();
-    private static ConverterProjetoImp converterProjetoImp = new ConverterProjetoImp();
 
 
     public static void init() {
@@ -48,8 +42,8 @@ public class Mockup {
         Tarefa tarefa = new Tarefa.Builder().titulo("Estruturar projeto").pessoaDTO(pessoaDTOList.get(0)).build();
         Tarefa tarefa1 = new Tarefa.Builder().titulo("Testar classes").pessoaDTO(pessoaDTOList.get(1)).build();
 
-        tarefaDTOList.add(converterTarefaImp.converterParaDTO(tarefa));
-        tarefaDTOList.add(converterTarefaImp.converterParaDTO(tarefa1));
+        tarefaDTOList.add(Conversores.converterParaDTO(tarefa));
+        tarefaDTOList.add(Conversores.converterParaDTO(tarefa1));
 
     }
 

@@ -1,10 +1,9 @@
 package repository;
 
 import dto.PessoaDTO;
-import model.Projeto;
 import model.Tag;
 import model.Tarefa;
-import utility.converter.ConverterPessoaImp;
+import utility.Conversores;
 import utility.singleton.PessoaSingleton;
 
 import java.time.LocalDateTime;
@@ -47,8 +46,7 @@ public class RepositoryTarefa {
     public Tarefa tarefaParser(String linha) {
         String[] valores = linha.split(";");
 
-        ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
-        PessoaDTO pessoaDTO = converterPessoaImp.converterParaDTO(
+        PessoaDTO pessoaDTO = Conversores.converterParaDTO(
                 PessoaSingleton
                         .INSTANCE
                         .getRepositoryPessoa()

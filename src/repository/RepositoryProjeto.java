@@ -6,9 +6,7 @@ import model.Pessoa;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
-import utility.TipoPlano;
-import utility.converter.ConverterPessoaImp;
-import utility.converter.ConverterTarefaImp;
+import utility.Conversores;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;
 
@@ -55,11 +53,9 @@ public class RepositoryProjeto {
         List<Tag> tagsProjeto = buscarTag(id_projeto);
         List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
 
-        ConverterPessoaImp converterPessoaImp = new ConverterPessoaImp();
-        List<PessoaDTO> pessoasDTO = pessoasProjeto.stream().map(converterPessoaImp::converterParaDTO).toList();
+        List<PessoaDTO> pessoasDTO = pessoasProjeto.stream().map(Conversores::converterParaDTO).toList();
 
-        ConverterTarefaImp converterTarefaImp = new ConverterTarefaImp();
-        List<TarefaDTO> tarefasDTO = tarefasProjeto.stream().map(converterTarefaImp::converterParaDTO).toList();
+        List<TarefaDTO> tarefasDTO = tarefasProjeto.stream().map(Conversores::converterParaDTO).toList();
 
         return new Projeto.Builder()
                 .id(id_projeto)

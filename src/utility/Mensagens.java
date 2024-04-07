@@ -5,6 +5,7 @@ public enum Mensagens {
     ERRO_NOME("Nome inválido"),
     ERRO_USERNAME("Username inválido"),
     ERRO_DATA("Data inválida"),
+    ERRO_DATA_FINAL("Data final anterior à data inicial"),
     ERRO_CARGO("Cargo inválido"),
     ERRO_PLANO("Plano inválido"),
     ERRO_UUID("UUID inválido"),

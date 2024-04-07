@@ -11,7 +11,7 @@ public class Entradas {
         return cpf;
     }
 
-    public String obterNomeValidade(String nome) {
+    public String obterNomeValidado(String nome) {
         if (!Validadores.validaNome(nome))
             throw new IllegalArgumentException(Mensagens.ERRO_NOME.getMensagem());
         return nome;
@@ -27,7 +27,7 @@ public class Entradas {
         return username;
     }
 
-    public LocalDateTime obterDataValida(String data) {
+    public LocalDateTime obterDataValidada(String data) {
         if (!Validadores.validaData(data))
             throw new IllegalArgumentException(Mensagens.ERRO_DATA.getMensagem());
         return LocalDateTime.parse(data);

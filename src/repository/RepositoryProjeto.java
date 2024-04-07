@@ -156,12 +156,12 @@ public class RepositoryProjeto {
         List<String> tarefasStr = arquivoTarefasProjeto.lerArquivo();
         List<Tarefa> tarefasProjeto = new ArrayList<>();
 
-        tarefasStr.stream().filter(linha -> linha.split(";")[1].equals(id))
+        tarefasStr.stream().filter(linha -> linha.split(";")[0].equals(id))
                 .forEach(tarefa -> tarefasProjeto.add(
                         TarefaSingleton
                                 .INSTANCE
                                 .getRepositoryTarefa()
-                                .buscarTarefa(tarefa.split(";")[0])));
+                                .buscarTarefa(tarefa.split(";")[1])));
 
         return tarefasProjeto;
     }

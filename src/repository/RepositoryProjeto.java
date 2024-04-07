@@ -81,6 +81,15 @@ public class RepositoryProjeto {
         return null;
     }
 
+    public Projeto buscarProjetoTitulo(String titulo){
+        for (Projeto projeto : projetos){
+            if (projeto.getTitulo().toLowerCase().contains(titulo)){
+                return projeto;
+            }
+        }
+        return null;
+    }
+
     public List<Pessoa> buscarPessoas(String id) {
         ArquivoUtil arquivoPessoasProjeto = new ArquivoUtil(ArquivoPaths.PESSOAS_PROJ);
         List<String> pessoasStr = arquivoPessoasProjeto.lerArquivo();

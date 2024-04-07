@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 public class Validadores {
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-
     public static boolean validaCPF(String cpf) {
         cpf = cpf.replaceAll("[^\\d]", "");
         return cpf.length() == 11 && !cpf.matches("^(\\d)\\1{10}$");

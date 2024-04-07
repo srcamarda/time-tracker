@@ -1,8 +1,10 @@
 package model;
 
+import dto.TarefaDTO;
 import utility.TipoCargo;
 import utility.TipoPlano;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,6 +15,7 @@ public class Pessoa {
     private String cpf;
     private TipoPlano plano;
     private TipoCargo cargo;
+
 
     private Pessoa(UUID id, String username, String nome, String cpf, TipoPlano plano, TipoCargo cargo) {
         this.id = id;
@@ -78,6 +81,7 @@ public class Pessoa {
         private String cpf;
         private TipoPlano plano;
         private TipoCargo cargo;
+
 
         public Builder id(String id) {
             this.id = UUID.fromString(id);

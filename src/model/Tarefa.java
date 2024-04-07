@@ -2,7 +2,9 @@ package model;
 
 import dto.PessoaDTO;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,6 +27,7 @@ public class Tarefa {
         this.tag = tag;
     }
 
+
     public UUID getId() {
         return id;
     }
@@ -40,7 +43,15 @@ public class Tarefa {
     public PessoaDTO getPessoaDTO() {
         return pessoa;
     }
-
+    public Duration getDuracao() {
+        Duration duracao;
+        if (!Objects.isNull(dataHoraFim)) {
+            duracao = Duration.between(dataHoraInicio,dataHoraFim);
+        } else{
+            duracao =  Duration.between(dataHoraInicio, LocalDateTime.now());
+        }
+        return duracao;
+    }
     public LocalDateTime getDataHoraInicio() {
         return dataHoraInicio;
     }
@@ -68,15 +79,15 @@ public class Tarefa {
 
     @Override
     public String toString() {
-        return "Tarefa{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", pessoa=" + pessoa +
-                ", dataHoraInicio=" + dataHoraInicio +
-                ", dataHoraFim=" + dataHoraFim +
-                ", tag=" + tag +
-                '}';
+        return "Tarefa:\n" +
+                "  UUID: " + id + ",\n" +
+                "  Titulo: '" + titulo + "',\n" +
+                "  Descricao: '" + descricao + "',\n" +
+                "  Responsável: " + pessoa.nome() + ",\n" +
+                "  Data de início: " + dataHoraInicio + ",\n" +
+                "  Data de fim: " + dataHoraFim + ",\n" +
+                "  Tempo da tarefa em minutos: " + getDuracao().toMinutes() + ",\n" +
+                "  tag: " + tag + "\n";
     }
 
     public static class Builder {

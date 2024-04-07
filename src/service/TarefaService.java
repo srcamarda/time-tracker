@@ -7,7 +7,7 @@ import utility.singleton.TarefaSingleton;
 import java.util.List;
 
 public class TarefaService {
-    public static List<Tarefa> buscarProjeto(String titulo) {
+    public static List<Tarefa> buscarTarefa(String titulo) {
         return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefasComTitulo(titulo.toLowerCase());
     }
 }

@@ -9,7 +9,8 @@ public enum Mensagens {
     ERRO_CARGO("Cargo inválido"),
     ERRO_PLANO("Plano inválido"),
     ERRO_UUID("UUID inválido"),
-    ERRO_TEXTO("Informação inválida");
+    ERRO_TEXTO("Informação inválida"),
+    ERRO_PESSOA("Pessoa não encontrada");
 
     private final String mensagem;
 

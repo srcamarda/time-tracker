@@ -1,6 +1,7 @@
 package repository;
 
 import dto.PessoaDTO;
+import model.Pessoa;
 import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
@@ -55,18 +56,22 @@ public class RepositoryTarefa {
         String[] valores = linha.split(";");
 
         try {
-            PessoaDTO pessoaDTO = Conversores.converterParaDTO(
-                    PessoaSingleton
-                            .INSTANCE
-                            .getRepositoryPessoa()
-                            .buscarPessoa(valores[4]));
-
             String id = Entradas.obterUUIDValidado(valores[0]);
             String titulo = Entradas.obterTextoValidado(valores[1]);
             String descricao = Entradas.obterTextoValidado(valores[2]);
             Tag tag = Entradas.obterTagValidado(valores[3]);
+            String id_pessoa = Entradas.obterUUIDValidado(valores[4]);
             LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[5]);
             LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
+
+            Pessoa pessoa = PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(id_pessoa);
+
+            if (Objects.isNull(pessoa)) {
+                System.out.println(Mensagens.ERRO_PESSOA.getMensagem());
+                return null;
+            }
+
+            PessoaDTO pessoaDTO = Conversores.converterParaDTO(pessoa);
 
             if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)){
                 System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());

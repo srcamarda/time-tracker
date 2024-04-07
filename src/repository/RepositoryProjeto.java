@@ -15,6 +15,7 @@ import utility.singleton.TarefaSingleton;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RepositoryProjeto {
     ArquivoUtil arquivo;
@@ -80,14 +81,10 @@ public class RepositoryProjeto {
         }
         return null;
     }
-
-    public Projeto buscarProjetoTitulo(String titulo){
-        for (Projeto projeto : projetos){
-            if (projeto.getTitulo().toLowerCase().contains(titulo)){
-                return projeto;
-            }
-        }
-        return null;
+    public List<Projeto> buscarProjetosComTitulo(String titulo) {
+        return projetos.stream()
+                .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     public List<Pessoa> buscarPessoas(String id) {

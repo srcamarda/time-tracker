@@ -41,7 +41,13 @@ public class Mockup {
     }
 
     private static void criarTarefas() {
-        Tarefa tarefa = new Tarefa.Builder().titulo("Estruturar projeto").pessoaDTO(Conversores.converterParaDTO(PessoaService.buscarPessoa("igor"))).build();
+        Tarefa tarefa = new Tarefa.Builder()
+                .titulo("Estruturar projeto")
+                .pessoaDTO(Conversores.converterParaDTO(PessoaService.buscarPessoa("igor")))
+                .tag(Tag.URGENTE)
+                .dataHoraInicio(LocalDateTime.of(2024, 4, 7, 10, 0))
+                .dataHoraFim(LocalDateTime.of(2024, 4, 7, 10, 4))
+                .build();
         Tarefa tarefa1 = new Tarefa.Builder().titulo("Testar classes").pessoaDTO(pessoaDTOList.get(1)).build();
 
         tarefaDTOList.add(Conversores.converterParaDTO(tarefa));

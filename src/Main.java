@@ -21,8 +21,9 @@ public class Main {
         Mockup.init();
         Tarefa tarefaTeste = Conversores.converterParaModel(Mockup.tarefaDTOList.get(0));
         System.out.println(tarefaTeste);
-        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefaTeste);
+//        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefaTeste);
 
+        System.out.println(TarefaService.criarTarefa(tarefaTeste));
 
     }
 }

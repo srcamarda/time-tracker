@@ -1,15 +1,19 @@
 package repository;
 
 import dto.PessoaDTO;
+import model.Pessoa;
 import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
+import utility.Entradas;
+import utility.Mensagens;
+import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class RepositoryTarefa {
@@ -24,7 +28,11 @@ public class RepositoryTarefa {
     public List<Tarefa> carregarTarefas() {
         List<String> tarefasStr = arquivo.lerArquivo();
         List<Tarefa> tarefas = new ArrayList<>();
-        tarefasStr.stream().skip(1).map((this::tarefaParser)).forEach(tarefas::add);
+        tarefasStr.stream().skip(1)
+                .map((this::tarefaParser))
+                .filter(Objects::nonNull)
+                .forEach(tarefas::add);
+
         return tarefas;
     }
 
@@ -47,21 +55,42 @@ public class RepositoryTarefa {
     public Tarefa tarefaParser(String linha) {
         String[] valores = linha.split(";");
 
-        PessoaDTO pessoaDTO = Conversores.converterParaDTO(
-                PessoaSingleton
-                        .INSTANCE
-                        .getRepositoryPessoa()
-                        .buscarPessoa(valores[4]));
+        try {
+            String id = Entradas.obterUUIDValidado(valores[0]);
+            String titulo = Entradas.obterTextoValidado(valores[1]);
+            String descricao = Entradas.obterTextoValidado(valores[2]);
+            Tag tag = Entradas.obterTagValidado(valores[3]);
+            String id_pessoa = Entradas.obterUUIDValidado(valores[4]);
+            LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[5]);
+            LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
 
-        return new Tarefa.Builder()
-                .id(valores[0])
-                .titulo(valores[1])
-                .descricao(valores[2])
-                .tag(Tag.valueOf(valores[3]))
-                .pessoaDTO(pessoaDTO)
-                .dataHoraInicio(LocalDateTime.parse(valores[5]))
-                .dataHoraFim(LocalDateTime.parse(valores[6]))
-                .build();
+            Pessoa pessoa = PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(id_pessoa);
+
+            if (Objects.isNull(pessoa)) {
+                System.out.println(Mensagens.ERRO_PESSOA.getMensagem());
+                return null;
+            }
+
+            PessoaDTO pessoaDTO = Conversores.converterParaDTO(pessoa);
+
+            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)){
+                System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
+                return null;
+            }
+
+            return new Tarefa.Builder()
+                    .id(id)
+                    .titulo(titulo)
+                    .descricao(descricao)
+                    .tag(tag)
+                    .pessoaDTO(pessoaDTO)
+                    .dataHoraInicio(dataHoraInicio)
+                    .dataHoraFim(dataHoraFim)
+                    .build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public Tarefa buscarTarefa(String id) {

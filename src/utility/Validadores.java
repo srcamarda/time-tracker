@@ -2,18 +2,25 @@ package utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Validadores {
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
     public static boolean validaCPF(String cpf) {
         cpf = cpf.replaceAll("[^\\d]", "");
         return cpf.length() == 11 && !cpf.matches("^(\\d)\\1{10}$");
     }
 
     public static boolean validaNome(String nome) {
-        return nome != null && !nome.isEmpty();
+        return nome != null && !nome.isEmpty() && nome.matches("^[a-zA-Z ]+$");
+    }
+
+    public static boolean validaUsername(String username) {
+        return username != null && !username.isEmpty() && username.matches("^[a-z0-9_]+$");
+    }
+
+    public static boolean validaTexto(String texto) {
+        return texto != null && !texto.isEmpty();
     }
 
     public static boolean validaData(String data) {
@@ -26,8 +33,8 @@ public class Validadores {
         return true;
     }
 
-    public static boolean validaDataFinal(Date dataInicio, Date dataFinal) {
-        return dataFinal.after(dataInicio);
+    public static boolean validaDataFinal(LocalDateTime dataInicio, LocalDateTime dataFinal) {
+        return dataFinal.isAfter(dataInicio);
     }
 
     public static boolean validaEnum(String valor){

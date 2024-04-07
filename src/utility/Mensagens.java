@@ -7,7 +7,8 @@ public enum Mensagens {
     ERRO_DATA("Data inválida"),
     ERRO_CARGO("Cargo inválido"),
     ERRO_PLANO("Plano inválido"),
-    ERRO_UUID("UUID inválido");
+    ERRO_UUID("UUID inválido"),
+    ERRO_TEXTO("Informação inválida");
 
     private final String mensagem;
 

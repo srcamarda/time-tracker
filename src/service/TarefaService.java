@@ -34,15 +34,15 @@ public class TarefaService {
     }
 
     public static List<Tarefa> buscarTarefa(String titulo) {
-        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefasComTitulo(titulo.toLowerCase());
+        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefas(titulo.toLowerCase());
     }
 
     public static List<Tarefa> buscarTarefa(UUID pessoaId) {
-        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefasPorPessoa(pessoaId);
+        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefas(pessoaId);
     }
 
     public static List<Tarefa> buscarTarefa(PessoaDTO pessoaDTO) {
-        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefasPorPessoa(pessoaDTO);
+        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefas(pessoaDTO);
     }
 
     private static long obterDuracaoMaximaPorDia(Tarefa tarefa, List<Tarefa> tarefas) {

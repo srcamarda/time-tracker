@@ -100,8 +100,8 @@ public class RepositoryProjeto {
             String titulo = Entradas.obterTextoValidado(valores[1]);
             String descricao = Entradas.obterTextoValidado(valores[2]);
 
-            List<Pessoa> pessoasProjeto = buscarPessoas(id_projeto);
-            List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
+            List<Pessoa> pessoasProjeto = buscarPessoasDoProjeto(id_projeto);
+            List<Tarefa> tarefasProjeto = buscarTarefasDoProjeto(id_projeto);
             List<Tag> tagsProjeto = buscarTag(id_projeto);
 
             List<PessoaDTO> pessoasDTO = pessoasProjeto
@@ -142,13 +142,13 @@ public class RepositoryProjeto {
                 .filter(projeto -> projeto.getId().toString().equals(id))
                 .findFirst().orElse(null);
     }
-    public List<Projeto> buscarProjetosComTitulo(String titulo) {
+    public List<Projeto> buscarProjetos(String titulo) {
         return projetos.stream()
                 .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
-    public List<Pessoa> buscarPessoas(String id) {
+    public List<Pessoa> buscarPessoasDoProjeto(String id) {
         ArquivoUtil arquivoPessoasProjeto = new ArquivoUtil(ArquivoPaths.PESSOAS_PROJ);
         List<String> pessoasStr = arquivoPessoasProjeto.lerArquivo();
         List<Pessoa> pessoasProjeto = new ArrayList<>();
@@ -174,7 +174,7 @@ public class RepositoryProjeto {
         return tagsProjeto;
     }
 
-    public List<Tarefa> buscarTarefas(String id) {
+    public List<Tarefa> buscarTarefasDoProjeto(String id) {
         ArquivoUtil arquivoTarefasProjeto = new ArquivoUtil(ArquivoPaths.TAREFAS_PROJ);
         List<String> tarefasStr = arquivoTarefasProjeto.lerArquivo();
         List<Tarefa> tarefasProjeto = new ArrayList<>();

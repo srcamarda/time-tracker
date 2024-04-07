@@ -1,13 +1,18 @@
 package repository;
 
+import dto.PessoaDTO;
 import model.Pessoa;
+import model.Tarefa;
 import utility.Entradas;
 import utility.TipoCargo;
 import utility.TipoPlano;
+import utility.singleton.PessoaSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class RepositoryPessoa {
     ArquivoUtil arquivo;
@@ -80,5 +85,10 @@ public class RepositoryPessoa {
         return pessoas.stream()
                 .filter(pessoa -> pessoa.getUsername().equals(username))
                 .findFirst().orElse(null);
+    }
+    public List<Pessoa> buscarPessoas(String nome) {
+        return pessoas.stream()
+                .filter(pessoa -> pessoa.getNome().equalsIgnoreCase(nome))
+                .collect(Collectors.toList());
     }
 }

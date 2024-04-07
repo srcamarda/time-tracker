@@ -29,13 +29,11 @@ public class ArquivoUtil {
         return linhas;
     }
 
-    public boolean escreverArquivo(String linha) {
+    public void escreverArquivo(String linha) {
         try (FileWriter writer = new FileWriter(this.arquivo, true)) {
             writer.write("\n" + linha);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return true;
     }
 }

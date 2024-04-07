@@ -7,4 +7,5 @@ id;titulo;descricao;tag;id_pessoa;data_hora_inicio;data_hora_fim
 06f2f70a-8bc5-477a-83a3-e6b20b5a7644;Otimização de Performance;Melhorar performance do sistema Q;URGENTE;5f2f70a4-8bc5-477a-83a3-e6b20b5a7644;2024-06-22T08:00;2024-07-12T20:00
 07d946c9-5a83-434a-89b2-6c74a9c2eed9;Implementação de Segurança;Implementar medidas de segurança no projeto W;URGENTE;2d946c9a-5a83-434a-89b2-6c74a9c2eed9;2024-07-05T09:00;2024-08-30T18:00
 08cb2f9a-a487-4db4-945b-34c2aa6c9ec0;Pesquisa de Mercado;Realizar pesquisa de mercado para o produto G;EM_ANDAMENTO;623a5cf1-33f7-4de9-9c04-e1f4ebb0a01e;2024-08-14T08:00;2024-09-05T17:00
-09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4d;Desenvolvimento de Chatbot;Criar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-09-10T08:00;2024-10-25T20:00
+09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4d;Desenvolvimento de Chatbot;Criar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-07T08:00;2024-04-07T08:30
+09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4c;Desenvolvimento de Chatbot 2;Editar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-07T08:00;2024-04-07T09:50

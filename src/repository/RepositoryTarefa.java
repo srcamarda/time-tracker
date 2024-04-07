@@ -9,6 +9,7 @@ import utility.singleton.PessoaSingleton;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RepositoryTarefa {
@@ -72,6 +73,16 @@ public class RepositoryTarefa {
     public List<Tarefa> buscarTarefasComTitulo(String titulo) {
         return tarefas.stream()
                 .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+    public List<Tarefa> buscarTarefasPorPessoa(UUID pessoaId) {
+        return tarefas.stream()
+                .filter(tarefa -> tarefa.getPessoaDTO().id().equals(pessoaId))
+                .collect(Collectors.toList());
+    }
+    public List<Tarefa> buscarTarefasPorPessoa(PessoaDTO pessoaDTO) {
+        return tarefas.stream()
+                .filter(tarefa -> tarefa.getPessoaDTO().nome().equalsIgnoreCase(pessoaDTO.nome()))
                 .collect(Collectors.toList());
     }
 }

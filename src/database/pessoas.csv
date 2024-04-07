@@ -1,6 +1,6 @@
 id;username;nome;cpf;cargo;tipo_plano
 f47ac10b-58cc-4372-a567-0e02b2c3d479;ana;Ana;123.456.789-01;JUNIOR;PREMIUM
-bfec356e-f7fb-4aef-9f2a-eaef331b2a2b;bruno;Bruno;234.567.890-12;PLENO;PLUS_PREMIUM
+bfec356e-f7fb-4aef-9f2a-eaef331b2a2b;igorxd;Igor;234.567.890-12;PLENO;PLUS_PREMIUM
 c56a4180-65aa-42ec-a945-5fd21dec0538;carlos;Carlos;345.678.901-23;SENIOR;FREE
 d4ee26ee-8cf0-11bd-b23e-10b96e4ef00d;diana;Diana;456.789.012-34;SCRUM_MASTER;PREMIUM
 aeb6bc72-c9b7-4a22-8b2b-42e3b67929d6;eduardo;Eduardo;567.890.123-45;PRODUCT_OWNER;PLUS_PREMIUM

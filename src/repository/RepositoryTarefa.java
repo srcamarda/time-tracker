@@ -1,6 +1,7 @@
 package repository;
 
 import dto.PessoaDTO;
+import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import utility.converter.ConverterPessoaImp;
@@ -66,6 +67,15 @@ public class RepositoryTarefa {
     public Tarefa buscarTarefa(String id) {
         for (Tarefa tarefa : tarefas) {
             if (tarefa.getId().toString().equals(id)) {
+                return tarefa;
+            }
+        }
+        return null;
+    }
+
+    public Tarefa buscarTarefaTitulo(String titulo) {
+        for (Tarefa tarefa : tarefas){
+            if (tarefa.getTitulo().toLowerCase().contains(titulo)){
                 return tarefa;
             }
         }

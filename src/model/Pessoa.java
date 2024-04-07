@@ -128,4 +128,11 @@ public class Pessoa {
             return new Pessoa(id, username, nome, cpf, plano, cargo);
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+}
+
+
+>>>>>>> 1642292e5a7b6806b55727e0e7c169bcd5b64e9a

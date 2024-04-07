@@ -7,8 +7,6 @@ public class PessoaService {
     public void criarPessoa(){}
 
     public static Pessoa buscarPessoa(String username) {
-        String usernameSearch = username.trim().toLowerCase();
-
-        return PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoaPorUsername(usernameSearch);
+        return PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoaPorUsername(username.trim().toLowerCase());
     }
 }

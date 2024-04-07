@@ -145,8 +145,8 @@ public class RepositoryProjeto {
         List<Tag> tagsProjeto = new ArrayList<>();
 
         tagsStr.stream()
-                .filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(tag -> tagsProjeto.add(Tag.valueOf(tag.split(";")[0])));
+                .filter(linha -> linha.split(";")[0].equals(id))
+                .forEach(tag -> tagsProjeto.add(Tag.valueOf(tag.split(";")[1])));
 
         return tagsProjeto;
     }

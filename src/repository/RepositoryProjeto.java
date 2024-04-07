@@ -7,12 +7,15 @@ import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
+import utility.Entradas;
+import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class RepositoryProjeto {
@@ -27,7 +30,11 @@ public class RepositoryProjeto {
     public List<Projeto> carregarProjetos() {
         List<String> projetosStr = arquivo.lerArquivo();
         List<Projeto> projetos = new ArrayList<>();
-        projetosStr.stream().skip(1).map((this::projetoParser)).forEach(projetos::add);
+        projetosStr.stream().skip(1)
+                .map((this::projetoParser))
+                .filter(Objects::nonNull)
+                .forEach(projetos::add);
+
         return projetos;
     }
 
@@ -86,30 +93,44 @@ public class RepositoryProjeto {
 
     public Projeto projetoParser(String linha) {
         String[] valores = linha.split(";");
-        String id_projeto = valores[0];
 
-        List<Pessoa> pessoasProjeto = buscarPessoas(id_projeto);
-        List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
-        List<Tag> tagsProjeto = buscarTag(id_projeto);
+        try {
+            String id_projeto = Entradas.obterUUIDValidado(valores[0]);
+            String titulo = Entradas.obterTextoValidado(valores[1]);
+            String descricao = Entradas.obterTextoValidado(valores[2]);
 
-        List<PessoaDTO> pessoasDTO = pessoasProjeto
-                .stream().map(Conversores::converterParaDTO)
-                .toList();
+            List<Pessoa> pessoasProjeto = buscarPessoas(id_projeto);
+            List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
+            List<Tag> tagsProjeto = buscarTag(id_projeto);
 
-        List<TarefaDTO> tarefasDTO = tarefasProjeto
-                .stream().map(Conversores::converterParaDTO)
-                .toList();
+            List<PessoaDTO> pessoasDTO = pessoasProjeto
+                    .stream().map(Conversores::converterParaDTO)
+                    .toList();
 
-        return new Projeto.Builder()
-                .id(id_projeto)
-                .titulo(valores[1])
-                .descricao(valores[2])
-                .dataHoraInicio(LocalDateTime.parse(valores[3]))
-                .dataHoraFim(LocalDateTime.parse(valores[4]))
-                .pessoasDTO(pessoasDTO)
-                .tags(tagsProjeto)
-                .tarefasDTO(tarefasDTO)
-                .build();
+            List<TarefaDTO> tarefasDTO = tarefasProjeto
+                    .stream().map(Conversores::converterParaDTO)
+                    .toList();
+
+            LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[3]);
+            LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
+
+            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim))
+                return null;
+
+            return new Projeto.Builder()
+                    .id(id_projeto)
+                    .titulo(titulo)
+                    .descricao(descricao)
+                    .dataHoraInicio(dataHoraInicio)
+                    .dataHoraFim(dataHoraFim)
+                    .pessoasDTO(pessoasDTO)
+                    .tags(tagsProjeto)
+                    .tarefasDTO(tarefasDTO)
+                    .build();
+
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     public Projeto buscarProjeto(String id) {

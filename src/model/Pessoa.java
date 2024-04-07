@@ -67,11 +67,10 @@ public class Pessoa {
 
     @Override
     public String toString() {
-        return "Pessoa{" +
-                "username='" + username + '\'' +
-                ", nome='" + nome + '\'' +
-                ", cargo=" + cargo +
-                '}';
+        return "Pessoa:\n" +
+                "  Username: '" + username + "',\n" +
+                "  Nome: '" + nome + "',\n" +
+                "  Cargo: " + cargo + "\n\n";
     }
 
     public static class Builder {

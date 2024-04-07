@@ -2,12 +2,13 @@ package model;
 
 import dto.PessoaDTO;
 import dto.TarefaDTO;
-import utility.TipoPlano;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Projeto {
     private UUID id;
@@ -75,18 +76,47 @@ public class Projeto {
         return Objects.hashCode(id);
     }
 
-    @Override
     public String toString() {
-        return "Projeto{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", pessoas=" + pessoas +
-                ", dataHoraInicio=" + dataHoraInicio +
-                ", dataHoraFim=" + dataHoraFim +
-                ", tags=" + tags +
-                ", tarefas=" + tarefas +
-                '}';
+
+        final AtomicInteger pessoaCounter = new AtomicInteger(1);
+        String pessoasStr = pessoas.isEmpty() ? "Nenhuma pessoa associada"
+                : pessoas.stream()
+                .map(pessoa -> pessoaCounter.getAndIncrement() + ". " + pessoa.nome() + "(" + pessoa.cargo() + ")") // Corrigido aqui
+                .collect(Collectors.joining(", "));
+
+        final AtomicInteger tarefaCounter = new AtomicInteger(1);
+        String tarefasStr = tarefas.isEmpty() ? "Nenhuma tarefa definida"
+                : tarefas.stream()
+                .map(tarefa -> tarefaCounter.getAndIncrement() + ". " + tarefa.titulo()) // Corrigido aqui
+                .collect(Collectors.joining(", "));
+
+        final AtomicInteger tagCounter = new AtomicInteger(1);
+        String tagsStr = tags.isEmpty() ? "Nenhuma tag definida"
+                : tags.stream()
+                .map(tag -> tagCounter.getAndIncrement() + ". " + tag.toString())
+                .collect(Collectors.joining(", "));
+
+        return "Projeto: \n" +
+                "  UUID: " + id + ",\n" +
+                "  Título: '" + titulo + "',\n" +
+                "  Descrição: '" + descricao + "',\n" +
+                "  Pessoas: " + pessoasStr + ",\n" +
+                "  Data de início: " + dataHoraInicio + ",\n" +
+                "  Data de fim: " + dataHoraFim + ",\n" +
+                "  Tags: " + tagsStr + ",\n" +
+                "  Tarefas: " + tarefasStr + "\n\n";
+    }
+
+    private String obterTituloTarefas() {
+        return tarefas.stream()
+                .map(TarefaDTO::titulo)
+                .collect(Collectors.joining("\n"));
+    }
+
+    private String obterNomePessoas() {
+        return pessoas.stream()
+                .map(PessoaDTO::nome)
+                .collect(Collectors.joining("\n"));
     }
 
     public static class Builder {

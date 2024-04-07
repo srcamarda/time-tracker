@@ -10,6 +10,7 @@ import utility.singleton.PessoaSingleton;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RepositoryTarefa {
     ArquivoUtil arquivo;
@@ -73,12 +74,9 @@ public class RepositoryTarefa {
         return null;
     }
 
-    public Tarefa buscarTarefaTitulo(String titulo) {
-        for (Tarefa tarefa : tarefas){
-            if (tarefa.getTitulo().toLowerCase().contains(titulo)){
-                return tarefa;
-            }
-        }
-        return null;
+    public List<Tarefa> buscarTarefasComTitulo(String titulo) {
+        return tarefas.stream()
+                .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }

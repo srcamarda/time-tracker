@@ -51,6 +51,7 @@ public class RepositoryTarefa {
                 + Tarefa.getDataHoraFim();
 
         arquivo.escreverArquivo(tarefaStr);
+        tarefas.add(Tarefa);
     }
 
     public Tarefa tarefaParser(String linha) {

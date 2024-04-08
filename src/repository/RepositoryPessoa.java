@@ -1,22 +1,23 @@
 package repository;
 
-import dto.PessoaDTO;
 import model.Pessoa;
-import model.Tarefa;
 import utility.Entradas;
 import utility.TipoCargo;
 import utility.TipoPlano;
-import utility.singleton.PessoaSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RepositoryPessoa {
     ArquivoUtil arquivo;
     List<Pessoa> pessoas;
+
+    public List<Pessoa> listarPessoasAptas(Enum cargo) {
+        return pessoas.stream().filter(pessoa ->pessoa.getCargo().equals(cargo))
+                .collect(Collectors.toList());
+    }
 
     public RepositoryPessoa(ArquivoPaths path) {
         arquivo = new ArquivoUtil(path);

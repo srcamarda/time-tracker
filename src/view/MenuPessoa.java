@@ -44,8 +44,8 @@ public class MenuPessoa {
 
                 System.out.println("\nPlanilia de horas\n" + "\nUsuário: " + pessoa.getUsername());
 
-                listaProjetos(projetos, pessoaId);
-                listaTarefas(tarefas, pessoaId);
+                listaProjetosPlanilia(projetos, pessoaId);
+                listaTarefasPlanilia(tarefas, pessoaId);
 
         }
 
@@ -78,6 +78,7 @@ public class MenuPessoa {
 
     public static void rankingTempo() {
         //Percorrer o projeto e retornar as pessoas com mais tempo;
+
     }
 
     //Corrigir
@@ -127,9 +128,8 @@ public class MenuPessoa {
     }
 
 
-    private static void listaProjetos(List<Projeto> projetos, String pessoaId) {
+    private static void listaProjetosPlanilia(List<Projeto> projetos, String pessoaId) {
 
-        projetos = repositoryProjeto.carregarProjetos();
         Pessoa pesquisaPessoa = repositoryPessoa.buscarPessoa(pessoaId);
 
         Duration duracaoTotal = Duration.ZERO;
@@ -153,9 +153,8 @@ public class MenuPessoa {
             }
     }
 
-    private static void listaTarefas(List<Tarefa> tarefas, String pessoaId) {
+    private static void listaTarefasPlanilia(List<Tarefa> tarefas, String pessoaId) {
 
-        tarefas = repositoryTarefa.carregarTarefas();
         Pessoa pesquisaPessoa = repositoryPessoa.buscarPessoa(pessoaId);
 
         Duration duracaoTotal = Duration.ZERO;
@@ -178,12 +177,21 @@ public class MenuPessoa {
             }
     }
 
+
     private static String tempoFormatado(Duration duracao) {
-        int hora = duracao.toHoursPart();
+        long horasTotais = duracao.toHours();
+        int horas = (int) (horasTotais % 24);
         int minutos = duracao.toMinutesPart();
         int segundos = duracao.toSecondsPart();
 
-        return hora + ":" + minutos + ":" + segundos;
+        String horasFormatadas = (horas < 10) ? "0" + horas : String.valueOf(horas);
+        String minutosFormatados = (minutos < 10) ? "0" + minutos : String.valueOf(minutos);
+        String segundosFormatados = (segundos < 10) ? "0" + segundos : String.valueOf(segundos);
+
+        StringBuilder resultado = new StringBuilder();
+        resultado.append(horasFormatadas).append(":").append(minutosFormatados).append(":").append(segundosFormatados);
+
+        return resultado.toString();
     }
 
     private static String diaFormatado(LocalDateTime data) {

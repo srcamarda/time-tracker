@@ -16,6 +16,7 @@ import utility.singleton.TarefaSingleton;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -78,20 +79,28 @@ public class RepositoryProjeto {
                 + projeto.getDataHoraInicio() + ";"
                 + projeto.getDataHoraFim();
 
-        List<Pessoa> pessoas = projeto.getPessoasDTO()
-                .stream().map(Conversores::converterParaModel)
-                .toList();
-
-        List<Tarefa> tarefas = projeto.getTarefasDTO()
-                .stream().map(Conversores::converterParaModel)
-                .toList();
-
         arquivo.escreverArquivo(ProjetoStr);
         projetos.add(projeto);
 
-        salvarPessoasProjeto(projeto.getId().toString(), pessoas);
-        salvarTarefasProjeto(projeto.getId().toString(), tarefas);
-        salvarTagProjeto(projeto.getId().toString(), projeto.getTags());
+        if (!Objects.isNull(projeto.getPessoasDTO()) && !projeto.getPessoasDTO().isEmpty()) {
+            List<Pessoa> pessoas = projeto.getPessoasDTO()
+                    .stream().map(Conversores::converterParaModel)
+                    .toList();
+
+            salvarPessoasProjeto(projeto.getId().toString(), pessoas);
+        }
+
+        if (!Objects.isNull(projeto.getTarefasDTO()) && !projeto.getTarefasDTO().isEmpty()) {
+            List<Tarefa> tarefas = projeto.getTarefasDTO()
+                    .stream().map(Conversores::converterParaModel)
+                    .toList();
+
+            salvarTarefasProjeto(projeto.getId().toString(), tarefas);
+        }
+
+        if (!Objects.isNull(projeto.getTags()) && !projeto.getTags().isEmpty()) {
+            salvarTagProjeto(projeto.getId().toString(), projeto.getTags());
+        }
     }
 
     public Projeto projetoParser(String linha) {

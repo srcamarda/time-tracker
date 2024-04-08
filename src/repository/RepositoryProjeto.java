@@ -70,26 +70,27 @@ public class RepositoryProjeto {
         });
     }
 
-    public void salvarProjeto(Projeto Projeto) {
-        String ProjetoStr = Projeto.getId() + ";"
-                + Projeto.getTitulo() + ";"
-                + Projeto.getDescricao() + ";"
-                + Projeto.getDataHoraInicio() + ";"
-                + Projeto.getDataHoraFim();
+    public void salvarProjeto(Projeto projeto) {
+        String ProjetoStr = projeto.getId() + ";"
+                + projeto.getTitulo() + ";"
+                + projeto.getDescricao() + ";"
+                + projeto.getDataHoraInicio() + ";"
+                + projeto.getDataHoraFim();
 
-        List<Pessoa> pessoas = Projeto.getPessoasDTO()
+        List<Pessoa> pessoas = projeto.getPessoasDTO()
                 .stream().map(Conversores::converterParaModel)
                 .toList();
 
-        List<Tarefa> tarefas = Projeto.getTarefasDTO()
+        List<Tarefa> tarefas = projeto.getTarefasDTO()
                 .stream().map(Conversores::converterParaModel)
                 .toList();
 
         arquivo.escreverArquivo(ProjetoStr);
+        projetos.add(projeto);
 
-        salvarPessoasProjeto(Projeto.getId().toString(), pessoas);
-        salvarTarefasProjeto(Projeto.getId().toString(), tarefas);
-        salvarTagProjeto(Projeto.getId().toString(), Projeto.getTags());
+        salvarPessoasProjeto(projeto.getId().toString(), pessoas);
+        salvarTarefasProjeto(projeto.getId().toString(), tarefas);
+        salvarTagProjeto(projeto.getId().toString(), projeto.getTags());
     }
 
     public Projeto projetoParser(String linha) {

@@ -48,6 +48,7 @@ public class RepositoryPessoa {
                 + pessoa.getPlano().toString();
 
         arquivo.escreverArquivo(pessoaStr);
+        pessoas.add(pessoa);
     }
 
     public Pessoa pessoaParser(String linha) {

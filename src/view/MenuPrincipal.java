@@ -1,17 +1,15 @@
 package view;
 
-import java.awt.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPrincipal {
 
-    MenuPrincipal(){
+    MenuPrincipal() {
         MenuTarefa menuTarefa;
         MenuPessoa menuPessoa;
         MenuProjeto menuProjeto;
     }
-
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -48,7 +46,6 @@ public class MenuPrincipal {
 
         } while (menuOption != 4);
     }
-
 
     private static void relatoriosAtividades() {
         System.out.println("Relatórios de Atividades");
@@ -118,46 +115,45 @@ public class MenuPrincipal {
 
     private static void menuPrincipal() {
         System.out.print("""
-                
+                                
                 ---- Menu Principal ----
-                
+                                
                 1- Planilha de Horas
                 2- Relatórios de Atividades
                 3- Relatórios de Indicadores
                 4- Sair
-                
+                                
                 Selecione uma opção ->""");
     }
 
     private static void RelatoriosAtividadesMenu() {
         System.out.println("""
-                
+                                
                 ---- Relatórios de Atividades ----
-                
+                                
                 1. Tempo Total Semanal
                 2. Tempo Total Mensal
                 3. Voltar
-                
+                                
                 Selecione uma opção ->""");
-
     }
 
     private static void RelatoriosIndicadoresMenu() {
         System.out.print("""
-                
+                                
                 ---- Relatórios de Indicadores ----"
-                
+                                
                 1- Média de Tempo por Dia
                 2- Média de Tempo Geral
                 3- Ranking de Tempo
                 4- Voltar
-               
+                               
                 Selecione uma opção ->""");
     }
 
     private static void planilhaDeHoras() {
         System.out.println("Opção selecionada: Planilha de Horas");
-        MenuPessoa.planiliaDeHoras();
+        MenuPessoa.planilhaDeHoras();
     }
 
     private static void tempoTotalSemanal() {
@@ -184,6 +180,4 @@ public class MenuPrincipal {
         System.out.println("Opção selecionada: Ranking de Tempo");
         MenuPessoa.rankingTempo();
     }
-
-
 }

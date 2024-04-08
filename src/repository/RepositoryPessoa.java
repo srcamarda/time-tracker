@@ -1,11 +1,14 @@
 package repository;
 
 import model.Pessoa;
+import utility.Entradas;
 import utility.TipoCargo;
 import utility.TipoPlano;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class RepositoryPessoa {
     ArquivoUtil arquivo;
@@ -19,7 +22,11 @@ public class RepositoryPessoa {
     public List<Pessoa> carregarPessoas() {
         List<String> pessoasStr = arquivo.lerArquivo();
         List<Pessoa> pessoas = new ArrayList<>();
-        pessoasStr.stream().skip(1).map((this::pessoaParser)).forEach(pessoas::add);
+        pessoasStr.stream().skip(1)
+                .map((this::pessoaParser))
+                .filter(Objects::nonNull)
+                .forEach(pessoas::add);
+
         return pessoas;
     }
 
@@ -36,19 +43,37 @@ public class RepositoryPessoa {
                 + pessoa.getPlano().toString();
 
         arquivo.escreverArquivo(pessoaStr);
+        pessoas.add(pessoa);
     }
 
     public Pessoa pessoaParser(String linha) {
         String[] valores = linha.split(";");
 
-        return new Pessoa.Builder()
-                .id(valores[0])
-                .username(valores[1])
-                .nome(valores[2])
-                .cpf(valores[3])
-                .cargo(TipoCargo.valueOf(valores[4]))
-                .plano(TipoPlano.valueOf(valores[5]))
-                .build();
+        try {
+            String id = Entradas.obterUUIDValidado(valores[0]);
+            String nome = Entradas.obterNomeValidado(valores[2]);
+            String username = Entradas.obterUsernameValidado(valores[1], nome);
+            String cpf = Entradas.obterCpfValidado(valores[3]);
+            TipoCargo cargo = Entradas.obterCargoValidado(valores[4]);
+            TipoPlano plano = Entradas.obterPlanoValidado(valores[5]);
+
+            return new Pessoa.Builder()
+                    .id(id)
+                    .username(username)
+                    .nome(nome)
+                    .cpf(cpf)
+                    .cargo(cargo)
+                    .plano(plano)
+                    .build();
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Pessoa> getPessoas() {
+        return pessoas;
     }
 
     public Pessoa buscarPessoa(String id) {
@@ -61,5 +86,16 @@ public class RepositoryPessoa {
         return pessoas.stream()
                 .filter(pessoa -> pessoa.getUsername().equals(username))
                 .findFirst().orElse(null);
+    }
+
+    public List<Pessoa> buscarPessoas(String nome) {
+        return pessoas.stream()
+                .filter(pessoa -> pessoa.getNome().equalsIgnoreCase(nome))
+                .collect(Collectors.toList());
+    }
+
+    public List<Pessoa> listarPessoasAptas(TipoCargo cargo) {
+        return pessoas.stream().filter(pessoa -> pessoa.getCargo().equals(cargo))
+                .collect(Collectors.toList());
     }
 }

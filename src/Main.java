@@ -1,3 +1,7 @@
+import dto.PessoaDTO;
+import mockup.Mockup;
+import model.Pessoa;
+import model.Tarefa;
 import service.PessoaService;
 import service.ProjetoService;
 import service.TarefaService;
@@ -8,58 +12,34 @@ import model.Tag;
 import model.Tarefa;
 import view.MenuPrincipal;
 import view.MenuProjeto;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import utility.Conversores;
+import utility.TipoCargo;
+import utility.singleton.TarefaSingleton;
+
+import java.util.List;
+
 
 public class Main {
 
     MenuProjeto menuProjeto;
 
-    public static void main(String[] args) {
-        System.out.println(PessoaService.buscarPessoa("  JuliA   "));
-        System.out.println(ProjetoService.buscarProjeto("Ap"));
-        System.out.println(TarefaService.buscarTarefa("desen"));
+    public static void main(String[] args) { 
+  //      System.out.println(PessoaService.buscarTodasAsPessoas(TipoCargo.SENIOR));
+ //       System.out.println(ProjetoService.buscarProjeto(""));
+//        System.out.println(TarefaService.buscarTarefa("desen"));
+//        Pessoa pessoa = PessoaService.buscarPessoa("  igor   ");
+//        System.out.println(TarefaService.buscarTarefa(Conversores.converterParaDTO(pessoa)));
+//
+//        Mockup.init();
+//        Tarefa tarefaTeste = Conversores.converterParaModel(Mockup.tarefaDTOList.get(0));
+//        System.out.println(tarefaTeste);
+//        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefaTeste);
+//
+//        System.out.println(TarefaService.criarTarefa(tarefaTeste));
 
-        MenuPrincipal.mainMenu();
-
-        // Pessoa
-        Pessoa pessoa = new Pessoa.Builder().nome("Paulo").cargo(TipoCargo.JUNIOR).build();
-        System.out.println(pessoa);
-
-        String uuid = UUID.randomUUID().toString();
-        System.out.println(uuid);
-        Pessoa pessoa2 = new Pessoa.Builder().id(uuid).nome("Pedro").cargo(TipoCargo.JUNIOR).build();
-        System.out.println(pessoa2);
-        System.out.println();
-
-        // Tarefa
-        Tarefa tarefa = new Tarefa.Builder().titulo("Estruturar projeto").build();
-        System.out.println(tarefa);
-
-        String uuidTarefa = UUID.randomUUID().toString();
-        System.out.println(uuidTarefa);
-        System.out.println();
-
-        // Projeto
-        Projeto projeto = new Projeto.Builder()
-                .titulo("TP Time Tracker")
-                .descricao("Projeto Ada")
-                .tags(List.of(Tag.IMPORTANTE))
-                .build();
-        System.out.println(projeto);
-
-        String uuidProjeto = UUID.randomUUID().toString();
-        System.out.println(uuidProjeto);
-        Projeto projeto1 = new Projeto.Builder()
-                .id(uuidProjeto)
-                .titulo("Projeto final")
-                .descricao("Projeto Final Ada")
-                .tags(List.of(Tag.URGENTE))
-                .dataHoraInicio(LocalDateTime.of(2024, 4, 1, 12, 30))
-                .build();
-        System.out.println(projeto1);
-        System.out.println();
+          MenuPrincipal.mainMenu();
     }
 }

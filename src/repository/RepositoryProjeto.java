@@ -7,12 +7,17 @@ import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
+import utility.Entradas;
+import utility.Mensagens;
+import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class RepositoryProjeto {
@@ -27,7 +32,11 @@ public class RepositoryProjeto {
     public List<Projeto> carregarProjetos() {
         List<String> projetosStr = arquivo.lerArquivo();
         List<Projeto> projetos = new ArrayList<>();
-        projetosStr.stream().skip(1).map((this::projetoParser)).forEach(projetos::add);
+        projetosStr.stream().skip(1)
+                .map((this::projetoParser))
+                .filter(Objects::nonNull)
+                .forEach(projetos::add);
+
         return projetos;
     }
 
@@ -57,59 +66,104 @@ public class RepositoryProjeto {
         ArquivoUtil arquivoTagProjeto = new ArquivoUtil(ArquivoPaths.TAGS_PROJ);
 
         tags.forEach(tag -> {
-            String tagStr = tag.toString() + ";" + idProjeto;
+            String tagStr = idProjeto + ";" + tag.toString();
             arquivoTagProjeto.escreverArquivo(tagStr);
         });
     }
 
-    public void salvarProjeto(Projeto Projeto) {
-        String ProjetoStr = Projeto.getId() + ";"
-                + Projeto.getTitulo() + ";"
-                + Projeto.getDescricao() + ";"
-                + Projeto.getDataHoraInicio() + ";"
-                + Projeto.getDataHoraFim();
-
-        List<Pessoa> pessoas = Projeto.getPessoasDTO()
-                .stream().map(Conversores::converterParaModel)
-                .toList();
-
-        List<Tarefa> tarefas = Projeto.getTarefasDTO()
-                .stream().map(Conversores::converterParaModel)
-                .toList();
+    public void salvarProjeto(Projeto projeto) {
+        String ProjetoStr = projeto.getId() + ";"
+                + projeto.getTitulo() + ";"
+                + projeto.getDescricao() + ";"
+                + projeto.getDataHoraInicio() + ";"
+                + projeto.getDataHoraFim();
 
         arquivo.escreverArquivo(ProjetoStr);
+        projetos.add(projeto);
 
-        salvarPessoasProjeto(Projeto.getId().toString(), pessoas);
-        salvarTarefasProjeto(Projeto.getId().toString(), tarefas);
-        salvarTagProjeto(Projeto.getId().toString(), Projeto.getTags());
+        if (!Objects.isNull(projeto.getPessoasDTO()) && !projeto.getPessoasDTO().isEmpty()) {
+            List<Pessoa> pessoas = projeto.getPessoasDTO()
+                    .stream().map(Conversores::converterParaModel)
+                    .toList();
+
+            salvarPessoasProjeto(projeto.getId().toString(), pessoas);
+        }
+
+        if (!Objects.isNull(projeto.getTarefasDTO()) && !projeto.getTarefasDTO().isEmpty()) {
+            List<Tarefa> tarefas = projeto.getTarefasDTO()
+                    .stream().map(Conversores::converterParaModel)
+                    .toList();
+
+            salvarTarefasProjeto(projeto.getId().toString(), tarefas);
+        }
+
+        if (!Objects.isNull(projeto.getTags()) && !projeto.getTags().isEmpty()) {
+            salvarTagProjeto(projeto.getId().toString(), projeto.getTags());
+        }
     }
 
     public Projeto projetoParser(String linha) {
         String[] valores = linha.split(";");
-        String id_projeto = valores[0];
 
-        List<Pessoa> pessoasProjeto = buscarPessoas(id_projeto);
-        List<Tarefa> tarefasProjeto = buscarTarefas(id_projeto);
-        List<Tag> tagsProjeto = buscarTag(id_projeto);
+        try {
+            String id_projeto = Entradas.obterUUIDValidado(valores[0]);
+            String titulo = Entradas.obterTextoValidado(valores[1]);
+            String descricao = Entradas.obterTextoValidado(valores[2]);
 
-        List<PessoaDTO> pessoasDTO = pessoasProjeto
-                .stream().map(Conversores::converterParaDTO)
-                .toList();
+            List<Pessoa> pessoasProjeto = buscarPessoasDoProjeto(id_projeto);
+            List<Tarefa> tarefasProjeto = buscarTarefasDoProjeto(id_projeto);
+            List<Tag> tagsProjeto = buscarTag(id_projeto);
 
-        List<TarefaDTO> tarefasDTO = tarefasProjeto
-                .stream().map(Conversores::converterParaDTO)
-                .toList();
+            List<PessoaDTO> pessoasDTO = pessoasProjeto
+                    .stream().map(Conversores::converterParaDTO)
+                    .toList();
 
-        return new Projeto.Builder()
-                .id(id_projeto)
-                .titulo(valores[1])
-                .descricao(valores[2])
-                .dataHoraInicio(LocalDateTime.parse(valores[3]))
-                .dataHoraFim(LocalDateTime.parse(valores[4]))
-                .pessoasDTO(pessoasDTO)
-                .tags(tagsProjeto)
-                .tarefasDTO(tarefasDTO)
-                .build();
+            List<TarefaDTO> tarefasDTO = tarefasProjeto
+                    .stream().map(Conversores::converterParaDTO)
+                    .toList();
+
+            //Caso não tenha data de início, utiliza a atual
+            LocalDateTime dataHoraInicio;
+            if (!valores[3].isEmpty() && !valores[3].equals("null"))
+                dataHoraInicio = Entradas.obterDataValidada(valores[3]);
+            else
+                dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+
+            //Permite carregar projetos em andamento (sem data de término)
+            if (valores.length > 4 && !valores[4].isEmpty() && !valores[4].equals("null")) {
+                LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
+
+                if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
+                    System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
+                    return null;
+                }
+
+                return new Projeto.Builder()
+                        .id(id_projeto)
+                        .titulo(titulo)
+                        .descricao(descricao)
+                        .dataHoraInicio(dataHoraInicio)
+                        .dataHoraFim(dataHoraFim)
+                        .pessoasDTO(pessoasDTO)
+                        .tags(tagsProjeto)
+                        .tarefasDTO(tarefasDTO)
+                        .build();
+            }
+
+            return new Projeto.Builder()
+                    .id(id_projeto)
+                    .titulo(titulo)
+                    .descricao(descricao)
+                    .dataHoraInicio(dataHoraInicio)
+                    .pessoasDTO(pessoasDTO)
+                    .tags(tagsProjeto)
+                    .tarefasDTO(tarefasDTO)
+                    .build();
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public Projeto buscarProjeto(String id) {
@@ -117,24 +171,23 @@ public class RepositoryProjeto {
                 .filter(projeto -> projeto.getId().toString().equals(id))
                 .findFirst().orElse(null);
     }
-    public List<Projeto> buscarProjetosComTitulo(String titulo) {
+
+    public List<Projeto> buscarProjetos(String titulo) {
         return projetos.stream()
                 .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
-    public List<Pessoa> buscarPessoas(String id) {
+    public List<Pessoa> buscarPessoasDoProjeto(String id) {
         ArquivoUtil arquivoPessoasProjeto = new ArquivoUtil(ArquivoPaths.PESSOAS_PROJ);
         List<String> pessoasStr = arquivoPessoasProjeto.lerArquivo();
         List<Pessoa> pessoasProjeto = new ArrayList<>();
 
         pessoasStr.stream()
                 .filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(pessoa -> pessoasProjeto.add(
-                        PessoaSingleton
-                                .INSTANCE
-                                .getRepositoryPessoa()
-                                .buscarPessoa(pessoa.split(";")[0])));
+                .map(pessoa -> PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoa.split(";")[0]))
+                .filter(Objects::nonNull)
+                .forEach(pessoasProjeto::add);
 
         return pessoasProjeto;
     }
@@ -145,23 +198,21 @@ public class RepositoryProjeto {
         List<Tag> tagsProjeto = new ArrayList<>();
 
         tagsStr.stream()
-                .filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(tag -> tagsProjeto.add(Tag.valueOf(tag.split(";")[0])));
+                .filter(linha -> linha.split(";")[0].equals(id))
+                .forEach(tag -> tagsProjeto.add(Tag.valueOf(tag.split(";")[1])));
 
         return tagsProjeto;
     }
 
-    public List<Tarefa> buscarTarefas(String id) {
+    public List<Tarefa> buscarTarefasDoProjeto(String id) {
         ArquivoUtil arquivoTarefasProjeto = new ArquivoUtil(ArquivoPaths.TAREFAS_PROJ);
         List<String> tarefasStr = arquivoTarefasProjeto.lerArquivo();
         List<Tarefa> tarefasProjeto = new ArrayList<>();
 
         tarefasStr.stream().filter(linha -> linha.split(";")[1].equals(id))
-                .forEach(tarefa -> tarefasProjeto.add(
-                        TarefaSingleton
-                                .INSTANCE
-                                .getRepositoryTarefa()
-                                .buscarTarefa(tarefa.split(";")[0])));
+                .map(tarefa -> TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefa(tarefa.split(";")[0]))
+                .filter(Objects::nonNull)
+                .forEach(tarefasProjeto::add);
 
         return tarefasProjeto;
     }

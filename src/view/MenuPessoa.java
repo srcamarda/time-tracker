@@ -2,9 +2,11 @@ package view;
 
 import model.Pessoa;
 import model.Projeto;
+import model.Tarefa;
 import repository.ArquivoPaths;
 import repository.RepositoryPessoa;
 import repository.RepositoryProjeto;
+import repository.RepositoryTarefa;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,46 +15,40 @@ import java.util.List;
 
 public class MenuPessoa {
 
+    //Declaracoes para arquivos e puxar os dados dos arqquivos
     private static final ArquivoPaths arquivoPessoa = ArquivoPaths.PESSOAS;
     private static final ArquivoPaths arquivoProjeto = ArquivoPaths.PROJETOS;
+    private static final ArquivoPaths arquivoTarefas = ArquivoPaths.TAREFAS;
     private static final RepositoryPessoa repositoryPessoa = new RepositoryPessoa(arquivoPessoa);
     private static final RepositoryProjeto repositoryProjeto = new RepositoryProjeto(arquivoProjeto);
+    private static final RepositoryTarefa repositoryTarefa = new RepositoryTarefa(arquivoTarefas);
+
+    public static void tempoTotalSemanal() {
+        //Calcular o tempo total Semanal
+    }
+
+    public static void tempoTotalMensal() {
+        //Calcular o tempo total Mensal
+    }
 
     public static void planiliaDeHoras() {
 
+        //Retorna a planilia de horas conforme a pessoa participou.
+        System.out.print("Digite o id do usuário: ");
         String pessoaId = MenuPrincipal.scanner.nextLine();
+
         List<Projeto> projetos = repositoryProjeto.carregarProjetos();
-        Pessoa pesquisaPessoa = repositoryPessoa.buscarPessoa(pessoaId);
+        List<Tarefa> tarefas = repositoryTarefa.carregarTarefas();
 
-        if (pesquisaPessoa != null) {
+                Pessoa pessoa = repositoryPessoa.buscarPessoa(pessoaId);
 
-            System.out.println("\nUsuario:" + pesquisaPessoa.getUsername() + "\nPlanilia de horas");
+                System.out.println("\nPlanilia de horas\n" + "\nUsuário: " + pessoa.getUsername());
 
-            for (Projeto projeto : projetos) {
-                if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(pesquisaPessoa.getId()))) {
+                listaProjetos(projetos, pessoaId);
+                listaTarefas(tarefas, pessoaId);
 
-                    LocalDateTime inicio = projeto.getDataHoraInicio();
-                    LocalDateTime fim = projeto.getDataHoraFim();
-
-                    Duration duracaoProjeto = Duration.between(inicio, fim);
-
-                    System.out.print("\n"+
-                                     "\nProjeto: " + projeto.getTitulo() +
-                                     "\nDia da Semana " + inicio.getDayOfWeek() +
-                                     "\nDia: "+ diaFormatado(inicio) +
-                                     "\nTempo decorrido-" + tempoFormatado(duracaoProjeto)+ "\n");
-                }
-            }
         }
-    }
 
-
-    public static void verificarPessoas() {
-        List<Pessoa> pessoaList = repositoryPessoa.carregarPessoas();
-
-        pessoaList.stream().forEach(pessoa -> System.out.println(pessoa.getId() + pessoa.getNome()));
-
-    }
 
     public static void calcularMediaTempoGeral() {
 
@@ -70,7 +66,7 @@ public class MenuPessoa {
     //Corrigir
     public static void calcularMediaPorDia() {
 
-        //Corrigir erro
+        //Corrigir para dividir o total de dias pelas horas;
 
         String id = MenuPrincipal.scanner.nextLine();
 
@@ -80,13 +76,18 @@ public class MenuPessoa {
         System.out.println(tempoFormatado(duracaoTotal));
     }
 
+    public static void rankingTempo() {
+        //Percorrer o projeto e retornar as pessoas com mais tempo;
+    }
+
     //Corrigir
     public static Duration obterTempoProjetos(String pessoaId) {
 
+        //Carrega os projetos e pesquisa pessoas
         List<Projeto> projetos = repositoryProjeto.carregarProjetos();
-
         Pessoa pesquisaPessoa = repositoryPessoa.buscarPessoa(pessoaId);
 
+        //conta as participações e cria duracao do projeto
         int participacoes = 0;
         Duration duracaoTotal = Duration.ZERO;
 
@@ -95,10 +96,10 @@ public class MenuPessoa {
                 if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(pesquisaPessoa.getId()))) {
 
                     LocalDateTime inicio = projeto.getDataHoraInicio();
-                    System.out.print("inicio hora - " + inicio.getHour() + " ini min - " + inicio.getMinute() + " ini sec - " + inicio.getSecond() + "\n");
+                    System.out.print("\ninicio hora - " + inicio.getHour() + " ini min - " + inicio.getMinute() + " ini sec - " + inicio.getSecond() + "\n");
 
                     LocalDateTime fim = projeto.getDataHoraFim();
-                    System.out.print("Fim hora - " + fim.getHour() + " Fim min - " + fim.getMinute() + " Fim sec - " + fim.getSecond() + "\n");
+                    System.out.print("\nFim hora - " + fim.getHour() + " Fim min - " + fim.getMinute() + " Fim sec - " + fim.getSecond() + "\n");
 
                     Duration duracaoProjeto = Duration.between(inicio, fim);
 
@@ -106,7 +107,7 @@ public class MenuPessoa {
 
                     duracaoTotal = duracaoTotal.plus(duracaoProjeto);
                     //Está somando até certo ponto após 2 projetos a mais ele reduz
-                    System.out.println(participacoes + " Duracao Total" + tempoFormatado(duracaoTotal));
+                    System.out.println("\n" + participacoes + " Duracao Total apos soma->" + tempoFormatado(duracaoTotal));
 
                     participacoes++;
                 }
@@ -125,6 +126,57 @@ public class MenuPessoa {
         return Duration.ZERO;
     }
 
+
+    private static void listaProjetos(List<Projeto> projetos, String pessoaId) {
+
+        projetos = repositoryProjeto.carregarProjetos();
+        Pessoa pesquisaPessoa = repositoryPessoa.buscarPessoa(pessoaId);
+
+        Duration duracaoTotal = Duration.ZERO;
+
+
+            System.out.println("\nProjetos");
+
+            for (Projeto projeto : projetos) {
+                if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(pesquisaPessoa.getId()))) {
+                    LocalDateTime inicio = projeto.getDataHoraInicio();
+                    LocalDateTime fim = projeto.getDataHoraFim();
+
+                    Duration tempoTotal = Duration.between(inicio, fim);
+
+                    duracaoTotal = duracaoTotal.plus(tempoTotal);
+                    System.out.println("\nTitulo projeto: " + projeto.getTitulo() +
+                                       "\nData de Inicio projeto:" + diaFormatado(inicio) +
+                                       "\nData de fim projeto: " + diaFormatado(fim) +
+                                       "\nTempo total no projeto: " + tempoFormatado(tempoTotal));
+                }
+            }
+    }
+
+    private static void listaTarefas(List<Tarefa> tarefas, String pessoaId) {
+
+        tarefas = repositoryTarefa.carregarTarefas();
+        Pessoa pesquisaPessoa = repositoryPessoa.buscarPessoa(pessoaId);
+
+        Duration duracaoTotal = Duration.ZERO;
+
+            System.out.println("\nTarefas");
+
+            for (Tarefa tarefa : tarefas) {
+                if (tarefa.getPessoaDTO().id().equals(pesquisaPessoa.getId())) {
+                    LocalDateTime inicio = tarefa.getDataHoraInicio();
+                    LocalDateTime fim = tarefa.getDataHoraFim();
+
+                    Duration tempoTotal = Duration.between(inicio, fim);
+
+                    duracaoTotal = duracaoTotal.plus(tempoTotal);
+                    System.out.println("\nTitulo tarefa: " + tarefa.getTitulo() +
+                                       "\nData de Inicio projeto:" + diaFormatado(inicio) +
+                                       "\nData de fim projeto: " + diaFormatado(fim) +
+                                       "\nTempo total no projeto: " + tempoFormatado(tempoTotal));
+                }
+            }
+    }
 
     private static String tempoFormatado(Duration duracao) {
         int hora = duracao.toHoursPart();

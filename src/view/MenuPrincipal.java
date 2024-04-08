@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -161,10 +162,12 @@ public class MenuPrincipal {
 
     private static void tempoTotalSemanal() {
         System.out.println("Opção selecionada: Tempo Total Semanal");
+        MenuPessoa.tempoTotalSemanal();
     }
 
     private static void tempoTotalMensal() {
         System.out.println("Opção selecionada: Tempo Total Mensal");
+        MenuPessoa.tempoTotalMensal();
     }
 
     private static void mediaTempoPorDia() {
@@ -179,7 +182,7 @@ public class MenuPrincipal {
 
     private static void rankingTempo() {
         System.out.println("Opção selecionada: Ranking de Tempo");
-
+        MenuPessoa.rankingTempo();
     }
 
 

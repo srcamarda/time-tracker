@@ -14,6 +14,7 @@ import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -118,7 +119,7 @@ public class RepositoryProjeto {
             if (!valores[3].isEmpty())
                 dataHoraInicio = Entradas.obterDataValidada(valores[3]);
             else
-                dataHoraInicio = LocalDateTime.now();
+                dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
             //Permite carregar projetos em andamento (sem data de término)
             if (valores.length > 4 && !valores[4].isEmpty()) {

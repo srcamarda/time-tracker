@@ -4,6 +4,7 @@ import dto.PessoaDTO;
 import dto.TarefaDTO;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -175,7 +176,7 @@ public class Projeto {
             }
 
             if (Objects.isNull(dataHoraInicio)) {
-                this.dataHoraInicio = LocalDateTime.now();
+                this.dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             }
 
             return new Projeto(id, titulo, descricao, pessoas, dataHoraInicio, dataHoraFim, tags, tarefas);

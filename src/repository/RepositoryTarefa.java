@@ -11,6 +11,7 @@ import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,7 +78,7 @@ public class RepositoryTarefa {
             if (!valores[5].isEmpty())
                 dataHoraInicio = Entradas.obterDataValidada(valores[5]);
             else
-                dataHoraInicio = LocalDateTime.now();
+                dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
             if (valores.length > 6 && !valores[6].isEmpty()) {
                 LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);

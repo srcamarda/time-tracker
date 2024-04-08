@@ -140,7 +140,7 @@ public class Tarefa {
             }
 
             if (Objects.isNull(dataHoraInicio)) {
-                dataHoraInicio = LocalDateTime.now();
+                dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
             }
 
             return new Tarefa(id, titulo, descricao, pessoa, dataHoraInicio, dataHoraFim, tag);

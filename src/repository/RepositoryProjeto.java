@@ -125,13 +125,13 @@ public class RepositoryProjeto {
 
             //Caso não tenha data de início, utiliza a atual
             LocalDateTime dataHoraInicio;
-            if (!valores[3].isEmpty())
+            if (!valores[3].isEmpty() && !valores[3].equals("null"))
                 dataHoraInicio = Entradas.obterDataValidada(valores[3]);
             else
                 dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
             //Permite carregar projetos em andamento (sem data de término)
-            if (valores.length > 4 && !valores[4].isEmpty()) {
+            if (valores.length > 4 && !valores[4].isEmpty() && !valores[4].equals("null")) {
                 LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {

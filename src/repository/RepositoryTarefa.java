@@ -74,13 +74,15 @@ public class RepositoryTarefa {
 
             PessoaDTO pessoaDTO = Conversores.converterParaDTO(pessoa);
 
+            //Caso não tenha data de início, utiliza a atual
             LocalDateTime dataHoraInicio;
-            if (!valores[5].isEmpty())
+            if (!valores[5].isEmpty() && !valores[5].equals("null"))
                 dataHoraInicio = Entradas.obterDataValidada(valores[5]);
             else
                 dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
-            if (valores.length > 6 && !valores[6].isEmpty()) {
+            //Permite carregar projetos em andamento (sem data de término)
+            if (valores.length > 6 && !valores[6].isEmpty() && !valores[6].equals("null")) {
                 LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {

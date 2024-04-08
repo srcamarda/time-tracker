@@ -12,15 +12,15 @@ public class Validadores {
     }
 
     public static boolean validaNome(String nome) {
-        return nome != null && !nome.isEmpty() && nome.matches("^[a-zA-Z ]+$");
+        return nome != null && !nome.isEmpty() && !nome.equals("null") && nome.matches("^[a-zA-Z ]+$");
     }
 
     public static boolean validaUsername(String username) {
-        return username != null && !username.isEmpty() && username.matches("^[a-z0-9_]+$");
+        return username != null && !username.isEmpty() && !username.equals("null") && username.matches("^[a-z0-9_]+$");
     }
 
     public static boolean validaTexto(String texto) {
-        return texto != null && !texto.isEmpty();
+        return texto != null && !texto.isEmpty() && !texto.equals("null");
     }
 
     public static boolean validaData(String data) {

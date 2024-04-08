@@ -14,11 +14,6 @@ public class RepositoryPessoa {
     ArquivoUtil arquivo;
     List<Pessoa> pessoas;
 
-    public List<Pessoa> listarPessoasAptas(Enum cargo) {
-        return pessoas.stream().filter(pessoa ->pessoa.getCargo().equals(cargo))
-                .collect(Collectors.toList());
-    }
-
     public RepositoryPessoa(ArquivoPaths path) {
         arquivo = new ArquivoUtil(path);
         pessoas = carregarPessoas();
@@ -77,6 +72,10 @@ public class RepositoryPessoa {
         }
     }
 
+    public List<Pessoa> getPessoas() {
+        return pessoas;
+    }
+
     public Pessoa buscarPessoa(String id) {
         return pessoas.stream()
                 .filter(pessoa -> pessoa.getId().toString().equals(id))
@@ -92,6 +91,11 @@ public class RepositoryPessoa {
     public List<Pessoa> buscarPessoas(String nome) {
         return pessoas.stream()
                 .filter(pessoa -> pessoa.getNome().equalsIgnoreCase(nome))
+                .collect(Collectors.toList());
+    }
+
+    public List<Pessoa> listarPessoasAptas(TipoCargo cargo) {
+        return pessoas.stream().filter(pessoa ->pessoa.getCargo().equals(cargo))
                 .collect(Collectors.toList());
     }
 }

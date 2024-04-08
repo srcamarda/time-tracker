@@ -1,6 +1,7 @@
 package service;
 
 import model.Pessoa;
+import utility.TipoCargo;
 import utility.singleton.PessoaSingleton;
 
 import java.util.List;
@@ -14,7 +15,11 @@ public class PessoaService {
     public static List<Pessoa> buscarPessoas(String nome) {
         return PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoas(nome.trim().toLowerCase());
     }
-    public static List<Pessoa> buscarTodasAsPessoas(Enum cargo) {
+    public static List<Pessoa> buscarTodasAsPessoas(TipoCargo cargo) {
         return PessoaSingleton.INSTANCE.getRepositoryPessoa().listarPessoasAptas(cargo);
+    }
+
+    public static List<Pessoa> buscarTodasAsPessoas() {
+        return PessoaSingleton.INSTANCE.getRepositoryPessoa().getPessoas();
     }
 }

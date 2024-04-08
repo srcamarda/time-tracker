@@ -4,9 +4,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-    MenuTarefa menuTarefa;
-    MenuPessoa menuPessoa;
-    MenuProjeto menuProjeto;
+
+    MenuPrincipal(){
+        MenuTarefa menuTarefa;
+        MenuPessoa menuPessoa;
+        MenuProjeto menuProjeto;
+    }
+
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -135,7 +139,6 @@ public class MenuPrincipal {
                 
                 Selecione uma opção ->""");
 
-        System.out.println("\n---- Relatórios de Atividades ----");
     }
 
     private static void RelatoriosIndicadoresMenu() {
@@ -153,31 +156,31 @@ public class MenuPrincipal {
 
     private static void planilhaDeHoras() {
         System.out.println("Opção selecionada: Planilha de Horas");
-        //A implementar a lógica ainda....
+        MenuPessoa.planiliaDeHoras();
     }
 
     private static void tempoTotalSemanal() {
         System.out.println("Opção selecionada: Tempo Total Semanal");
-        //A implementar a lógica ainda....
     }
 
     private static void tempoTotalMensal() {
         System.out.println("Opção selecionada: Tempo Total Mensal");
-        //A implementar a lógica ainda....
     }
 
     private static void mediaTempoPorDia() {
         System.out.println("Opção selecionada: Média de Tempo por Dia");
-        //A implementar a lógica ainda....
+        MenuPessoa.calcularMediaPorDia();
     }
 
     private static void mediaTempoGeral() {
         System.out.println("Opção selecionada: Média de Tempo Geral");
-        //A implementar a lógica ainda....
+        MenuPessoa.calcularMediaTempoGeral();
     }
 
     private static void rankingTempo() {
         System.out.println("Opção selecionada: Ranking de Tempo");
-        //A implementar a lógica ainda....
+
     }
+
+
 }

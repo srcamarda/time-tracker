@@ -11,6 +11,8 @@ import service.PessoaService;
 import utility.Conversores;
 import utility.TipoCargo;
 import utility.singleton.PessoaSingleton;
+import utility.singleton.ProjetoSingleton;
+import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class Mockup {
     public static void init() {
         criarPessoas();
         criarTarefas();
-        criarTarefas();
+        criarProjetos();
     }
 
     private static void criarInstancias() {
@@ -33,26 +35,38 @@ public class Mockup {
     }
 
     private static void criarPessoas() {
-        Pessoa pessoa = new Pessoa.Builder().nome("Paulo").cargo(TipoCargo.JUNIOR).build();
-        Pessoa pessoa1 = new Pessoa.Builder().nome("Pedro").cargo(TipoCargo.JUNIOR).build();
+        Pessoa pessoa = new Pessoa.Builder().nome("Paulo").cargo(TipoCargo.JUNIOR).cpf("123.456.789-01").build();
+        Pessoa pessoa1 = new Pessoa.Builder().nome("Pedro").cargo(TipoCargo.JUNIOR).cpf("123.456.789-02").build();
 
         pessoaDTOList.add(new dto.PessoaDTO(pessoa.getId(), pessoa.getUsername(), pessoa.getNome(), pessoa.getPlano(), pessoa.getCargo()));
         pessoaDTOList.add(new dto.PessoaDTO(pessoa1.getId(), pessoa1.getUsername(), pessoa1.getNome(), pessoa1.getPlano(), pessoa1.getCargo()));
+
+        PessoaSingleton.INSTANCE.getRepositoryPessoa().salvarPessoa(pessoa);
+        PessoaSingleton.INSTANCE.getRepositoryPessoa().salvarPessoa(pessoa1);
     }
 
     private static void criarTarefas() {
         Tarefa tarefa = new Tarefa.Builder()
                 .titulo("Estruturar projeto")
+                .descricao("Teste")
                 .pessoaDTO(Conversores.converterParaDTO(PessoaService.buscarPessoa("igor")))
                 .tag(Tag.URGENTE)
                 .dataHoraInicio(LocalDateTime.of(2024, 4, 7, 10, 0))
                 .dataHoraFim(LocalDateTime.of(2024, 4, 7, 10, 4))
                 .build();
-        Tarefa tarefa1 = new Tarefa.Builder().titulo("Testar classes").pessoaDTO(pessoaDTOList.get(1)).build();
+
+        Tarefa tarefa1 = new Tarefa.Builder()
+                .titulo("Testar classes")
+                .descricao("Teste")
+                .pessoaDTO(pessoaDTOList.get(1))
+                .tag(Tag.IMPORTANTE)
+                .build();
 
         tarefaDTOList.add(Conversores.converterParaDTO(tarefa));
         tarefaDTOList.add(Conversores.converterParaDTO(tarefa1));
 
+        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefa);
+        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefa1);
     }
 
     private static void criarProjetos() {
@@ -60,7 +74,9 @@ public class Mockup {
                 .titulo("TP Time Tracker")
                 .descricao("Projeto Ada")
                 .tags(List.of(Tag.IMPORTANTE))
+                .tarefasDTO(tarefaDTOList)
                 .build();
+
         ProjetoDTO projetoDTO = new ProjetoDTO(
                 projeto.getId(),
                 projeto.getTitulo(),
@@ -75,10 +91,11 @@ public class Mockup {
                 .titulo("Projeto final")
                 .descricao("Projeto Final Ada")
                 .tags(List.of(Tag.URGENTE))
-                .tarefasDTO(List.of(tarefaDTOList.get(0), tarefaDTOList.get(1)))
                 .dataHoraInicio(LocalDateTime.of(2024, 4, 1, 12, 30))
-                .pessoasDTO(List.of(pessoaDTOList.get(0), pessoaDTOList.get(1)))
+                .dataHoraFim(LocalDateTime.of(2024, 4, 8, 23, 59))
+                .pessoasDTO(pessoaDTOList)
                 .build();
+
         ProjetoDTO projetoDTO1 = new ProjetoDTO(
                 projeto1.getId(),
                 projeto1.getTitulo(),
@@ -91,5 +108,8 @@ public class Mockup {
 
         projetoDTOList.add(projetoDTO);
         projetoDTOList.add(projetoDTO1);
+
+        ProjetoSingleton.INSTANCE.getRepositoryProjeto().salvarProjeto(projeto);
+        ProjetoSingleton.INSTANCE.getRepositoryProjeto().salvarProjeto(projeto1);
     }
 }

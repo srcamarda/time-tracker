@@ -29,7 +29,6 @@ public class Pessoa {
     public UUID getId() {
         return id;
     }
-
     public String getUsername() {
         return username;
     }
@@ -132,3 +131,6 @@ public class Pessoa {
         }
     }
 }
+
+
+

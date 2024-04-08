@@ -65,7 +65,7 @@ public class RepositoryProjeto {
         ArquivoUtil arquivoTagProjeto = new ArquivoUtil(ArquivoPaths.TAGS_PROJ);
 
         tags.forEach(tag -> {
-            String tagStr = tag.toString() + ";" + idProjeto;
+            String tagStr = idProjeto + ";" + tag.toString();
             arquivoTagProjeto.escreverArquivo(tagStr);
         });
     }
@@ -112,12 +112,32 @@ public class RepositoryProjeto {
                     .stream().map(Conversores::converterParaDTO)
                     .toList();
 
-            LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[3]);
-            LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
+            //Caso não tenha data de início, utiliza a atual
+            LocalDateTime dataHoraInicio;
+            if (!valores[3].isEmpty())
+                dataHoraInicio = Entradas.obterDataValidada(valores[3]);
+            else
+                dataHoraInicio = LocalDateTime.now();
 
-            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
-                System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
-                return null;
+            //Permite carregar projetos em andamento (sem data de término)
+            if (valores.length > 4 && !valores[4].isEmpty()) {
+                LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
+
+                if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
+                    System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
+                    return null;
+                }
+
+                return new Projeto.Builder()
+                        .id(id_projeto)
+                        .titulo(titulo)
+                        .descricao(descricao)
+                        .dataHoraInicio(dataHoraInicio)
+                        .dataHoraFim(dataHoraFim)
+                        .pessoasDTO(pessoasDTO)
+                        .tags(tagsProjeto)
+                        .tarefasDTO(tarefasDTO)
+                        .build();
             }
 
             return new Projeto.Builder()
@@ -125,7 +145,6 @@ public class RepositoryProjeto {
                     .titulo(titulo)
                     .descricao(descricao)
                     .dataHoraInicio(dataHoraInicio)
-                    .dataHoraFim(dataHoraFim)
                     .pessoasDTO(pessoasDTO)
                     .tags(tagsProjeto)
                     .tarefasDTO(tarefasDTO)
@@ -142,6 +161,7 @@ public class RepositoryProjeto {
                 .filter(projeto -> projeto.getId().toString().equals(id))
                 .findFirst().orElse(null);
     }
+
     public List<Projeto> buscarProjetos(String titulo) {
         return projetos.stream()
                 .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))

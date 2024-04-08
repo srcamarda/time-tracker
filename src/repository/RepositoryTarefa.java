@@ -62,8 +62,6 @@ public class RepositoryTarefa {
             String descricao = Entradas.obterTextoValidado(valores[2]);
             Tag tag = Entradas.obterTagValidado(valores[3]);
             String id_pessoa = Entradas.obterUUIDValidado(valores[4]);
-            LocalDateTime dataHoraInicio = Entradas.obterDataValidada(valores[5]);
-            LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
 
             Pessoa pessoa = PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(id_pessoa);
 
@@ -74,9 +72,29 @@ public class RepositoryTarefa {
 
             PessoaDTO pessoaDTO = Conversores.converterParaDTO(pessoa);
 
-            if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)){
-                System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
-                return null;
+            LocalDateTime dataHoraInicio;
+            if (!valores[5].isEmpty())
+                dataHoraInicio = Entradas.obterDataValidada(valores[5]);
+            else
+                dataHoraInicio = LocalDateTime.now();
+
+            if (valores.length > 6 && !valores[6].isEmpty()) {
+                LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
+
+                if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
+                    System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
+                    return null;
+                }
+
+                return new Tarefa.Builder()
+                        .id(id)
+                        .titulo(titulo)
+                        .descricao(descricao)
+                        .tag(tag)
+                        .pessoaDTO(pessoaDTO)
+                        .dataHoraInicio(dataHoraInicio)
+                        .dataHoraFim(dataHoraFim)
+                        .build();
             }
 
             return new Tarefa.Builder()
@@ -86,8 +104,8 @@ public class RepositoryTarefa {
                     .tag(tag)
                     .pessoaDTO(pessoaDTO)
                     .dataHoraInicio(dataHoraInicio)
-                    .dataHoraFim(dataHoraFim)
                     .build();
+
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return null;
@@ -105,11 +123,13 @@ public class RepositoryTarefa {
                 .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
                 .collect(Collectors.toList());
     }
+
     public List<Tarefa> buscarTarefas(UUID pessoaId) {
         return tarefas.stream()
                 .filter(tarefa -> tarefa.getPessoaDTO().id().equals(pessoaId))
                 .collect(Collectors.toList());
     }
+
     public List<Tarefa> buscarTarefas(PessoaDTO pessoaDTO) {
         return tarefas.stream()
                 .filter(tarefa -> tarefa.getPessoaDTO().nome().equalsIgnoreCase(pessoaDTO.nome()))

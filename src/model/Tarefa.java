@@ -87,7 +87,7 @@ public class Tarefa {
                 "  Data de início: " + dataHoraInicio + ",\n" +
                 "  Data de fim: " + dataHoraFim + ",\n" +
                 "  Tempo da tarefa em minutos: " + getDuracao().toMinutes() + ",\n" +
-                "  tag: " + tag + "\n";
+                "  tag: " + tag + "\n\n";
     }
 
     public static class Builder {

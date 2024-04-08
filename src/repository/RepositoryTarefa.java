@@ -81,7 +81,7 @@ public class RepositoryTarefa {
             else
                 dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
-            //Permite carregar projetos em andamento (sem data de término)
+            //Permite carregar tarefas em andamento (sem data de término)
             if (valores.length > 6 && !valores[6].isEmpty() && !valores[6].equals("null")) {
                 LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
 

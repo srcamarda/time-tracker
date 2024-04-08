@@ -4,7 +4,6 @@ import model.Tag;
 
 import java.time.LocalDateTime;
 import java.util.Random;
-import java.util.UUID;
 
 public class Entradas {
     public static String obterCpfValidado(String cpf) {
@@ -29,7 +28,7 @@ public class Entradas {
         return username;
     }
 
-    public static String obterTextoValidado(String texto){
+    public static String obterTextoValidado(String texto) {
         if (!Validadores.validaTexto(texto))
             throw new IllegalArgumentException(Mensagens.ERRO_TEXTO.getMensagem());
         return texto;

@@ -95,7 +95,7 @@ public class RepositoryPessoa {
     }
 
     public List<Pessoa> listarPessoasAptas(TipoCargo cargo) {
-        return pessoas.stream().filter(pessoa ->pessoa.getCargo().equals(cargo))
+        return pessoas.stream().filter(pessoa -> pessoa.getCargo().equals(cargo))
                 .collect(Collectors.toList());
     }
 }

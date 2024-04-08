@@ -53,7 +53,7 @@ public class RepositoryPessoa {
     public Pessoa pessoaParser(String linha) {
         String[] valores = linha.split(";");
 
-        try{
+        try {
             String id = Entradas.obterUUIDValidado(valores[0]);
             String nome = Entradas.obterNomeValidado(valores[2]);
             String username = Entradas.obterUsernameValidado(valores[1], nome);
@@ -87,6 +87,7 @@ public class RepositoryPessoa {
                 .filter(pessoa -> pessoa.getUsername().equals(username))
                 .findFirst().orElse(null);
     }
+
     public List<Pessoa> buscarPessoas(String nome) {
         return pessoas.stream()
                 .filter(pessoa -> pessoa.getNome().equalsIgnoreCase(nome))

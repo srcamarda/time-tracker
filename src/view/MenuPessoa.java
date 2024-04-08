@@ -179,6 +179,7 @@ public class MenuPessoa {
 
 
     private static String tempoFormatado(Duration duracao) {
+
         long horasTotais = duracao.toHours();
         int horas = (int) (horasTotais % 24);
         int minutos = duracao.toMinutesPart();
@@ -188,10 +189,8 @@ public class MenuPessoa {
         String minutosFormatados = (minutos < 10) ? "0" + minutos : String.valueOf(minutos);
         String segundosFormatados = (segundos < 10) ? "0" + segundos : String.valueOf(segundos);
 
-        StringBuilder resultado = new StringBuilder();
-        resultado.append(horasFormatadas).append(":").append(minutosFormatados).append(":").append(segundosFormatados);
+        return horasFormatadas + ":" + minutosFormatados + ":" + segundosFormatados;
 
-        return resultado.toString();
     }
 
     private static String diaFormatado(LocalDateTime data) {

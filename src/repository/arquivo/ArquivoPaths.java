@@ -1,4 +1,4 @@
-package repository;
+package repository.arquivo;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

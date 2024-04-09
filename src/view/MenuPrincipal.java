@@ -1,15 +1,12 @@
 package view;
 
+import controller.MenuAcoes;
+import view.mensagens.MensagensMenu;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-
-    MenuPrincipal() {
-        MenuTarefa menuTarefa;
-        MenuPessoa menuPessoa;
-        MenuProjeto menuProjeto;
-    }
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -24,17 +21,26 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (menuOption) {
-                    case 1:
-                        planilhaDeHoras();
+                    case 1: //Planilha de horas
+                        MenuAcoes.planilhaDeHoras();
                         break;
-                    case 2:
-                        relatoriosAtividades();
+                    case 2: //Relatórios de atividades
+                        menuRelatoriosAtividades();
                         break;
-                    case 3:
-                        relatoriosIndicadores();
+                    case 3: //Relatórios de indicadores
+                        menuRelatoriosIndicadores();
                         break;
-                    case 4:
-                        System.out.println("Até logo!");
+                    case 4: //Gerenciar pessoas
+                        menuGerenciarPessoas();
+                        break;
+                    case 5: //Gerenciar projetos
+                        menuGerenciarProjetos();
+                        break;
+                    case 6: //Gerenciar tarefas
+                        menuGerenciarTarefas();
+                        break;
+                    case 7: //Sair
+                        System.out.println(MensagensMenu.SAIR_MENU);
                         break;
                     default:
                         System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -47,59 +53,27 @@ public class MenuPrincipal {
         } while (menuOption != 4);
     }
 
-    private static void relatoriosAtividades() {
-        System.out.println("Relatórios de Atividades");
+    private static void menuGerenciarPessoas() {
         int subMenuOption = 0;
 
         do {
-            MenuExibir.RelatoriosAtividadesMenu();
+            MenuExibir.gerenciarPessoasMenu();
 
             try {
                 subMenuOption = scanner.nextInt();
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1:
-                        tempoTotalSemanal();
+                    case 1: //Cadastrar pessoa
+                        MenuAcoes.cadastrarPessoa();
                         break;
-                    case 2:
-                        tempoTotalMensal();
+                    case 2: //Remover pessoa
+                        MenuAcoes.removerPessoa();
                         break;
-                    case 3:
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                    case 3: //Listar pessoas
+                        MenuAcoes.listarPessoas();
                         break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
-                }
-            } catch (InputMismatchException e) {
-                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
-                scanner.nextLine();
-            }
-        } while (subMenuOption != 3);
-    }
-
-    private static void relatoriosIndicadores() {
-        System.out.println("Relatórios de Indicadores");
-        int subMenuOption = 0;
-
-        do {
-            MenuExibir.RelatoriosIndicadoresMenu();
-
-            try {
-                subMenuOption = scanner.nextInt();
-                scanner.nextLine();
-
-                switch (subMenuOption) {
-                    case 1:
-                        mediaTempoPorDia();
-                        break;
-                    case 2:
-                        mediaTempoGeral();
-                        break;
-                    case 3:
-                        rankingTempo();
-                        break;
-                    case 4:
+                    case 4: //Voltar
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
@@ -113,33 +87,135 @@ public class MenuPrincipal {
         } while (subMenuOption != 4);
     }
 
-    private static void planilhaDeHoras() {
-        System.out.println("Opção selecionada: Planilha de Horas");
-        MenuPessoa.planilhaDeHoras();
+    private static void menuGerenciarProjetos() {
+        int subMenuOption = 0;
+
+        do {
+            MenuExibir.gerenciarProjetosMenu();
+
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Cadastrar projeto
+                        MenuAcoes.cadastrarProjeto();
+                        break;
+                    case 2: //Remover projeto
+                        MenuAcoes.removerProjeto();
+                        break;
+                    case 3: //Listar projetos
+                        MenuAcoes.listarProjetos();
+                        break;
+                    case 4: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+
+        } while (subMenuOption != 4);
     }
 
-    private static void tempoTotalSemanal() {
-        System.out.println("Opção selecionada: Tempo Total Semanal");
-        MenuPessoa.tempoTotalSemanal();
+    private static void menuGerenciarTarefas() {
+        int subMenuOption = 0;
+
+        do {
+            MenuExibir.gerenciarTarefasMenu();
+
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Cadastrar tarefa
+                        MenuAcoes.cadastrarTarefa();
+                        break;
+                    case 2: //Remover tarefa
+                        MenuAcoes.removerTarefa();
+                        break;
+                    case 3: //Listar tarefas
+                        MenuAcoes.listarTarefas();
+                        break;
+                    case 4: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+
+        } while (subMenuOption != 4);
     }
 
-    private static void tempoTotalMensal() {
-        System.out.println("Opção selecionada: Tempo Total Mensal");
-        MenuPessoa.tempoTotalMensal();
+    private static void menuRelatoriosAtividades() {
+        int subMenuOption = 0;
+
+        do {
+            MenuExibir.relatoriosAtividadesMenu();
+
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Tempo total semanal
+                        MenuAcoes.tempoTotalSemanal();
+                        break;
+                    case 2: //Tempo total mensal
+                        MenuAcoes.tempoTotalMensal();
+                        break;
+                    case 3: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+        } while (subMenuOption != 3);
     }
 
-    private static void mediaTempoPorDia() {
-        System.out.println("Opção selecionada: Média de Tempo por Dia");
-        MenuPessoa.calcularMediaPorDia();
-    }
+    private static void menuRelatoriosIndicadores() {
+        int subMenuOption = 0;
 
-    private static void mediaTempoGeral() {
-        System.out.println("Opção selecionada: Média de Tempo Geral");
-        MenuPessoa.calcularMediaTempoGeral();
-    }
+        do {
+            MenuExibir.relatoriosIndicadoresMenu();
 
-    private static void rankingTempo() {
-        System.out.println("Opção selecionada: Ranking de Tempo");
-        MenuPessoa.rankingTempo();
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Media de tempo por dia
+                        MenuAcoes.mediaTempoPorDia();
+                        break;
+                    case 2: //Media de tempo geral
+                        MenuAcoes.mediaTempoGeral();
+                        break;
+                    case 3: //Ranking de tempo
+                        MenuAcoes.rankingTempo();
+                        break;
+                    case 4: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+
+        } while (subMenuOption != 4);
     }
 }

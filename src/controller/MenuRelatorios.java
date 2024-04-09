@@ -1,4 +1,4 @@
-package view;
+package controller;
 
 import dto.TarefaDTO;
 import model.Pessoa;
@@ -12,13 +12,17 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 
-public class MenuPessoa {
+public class MenuRelatorios {
+
+    static Scanner scanner = new Scanner(System.in);
+
     public static void planilhaDeHoras() {
 
         //Retorna a planilha de horas conforme a pessoa participou.
         System.out.print("Digite o id do usuário: ");
-        String pessoaId = MenuPrincipal.scanner.nextLine();
+        String pessoaId = scanner.nextLine();
         Pessoa pessoa = RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId);
 
         System.out.println("\nPlanilha de horas\n" + "\nUsuário: " + pessoa.getUsername());
@@ -42,7 +46,7 @@ public class MenuPessoa {
     public static void calcularMediaPorDia() {
 
         List<Projeto> projetos = RepositoryProjeto.INSTANCE.carregarProjetos();
-        String pessoaId = MenuPrincipal.scanner.nextLine();
+        String pessoaId = scanner.nextLine();
 
         Duration diferenca;
         Duration tempoTotal = Duration.ZERO;
@@ -77,7 +81,7 @@ public class MenuPessoa {
     public static void calcularMediaTempoGeral() {
 
         List<Projeto> projetos = RepositoryProjeto.INSTANCE.carregarProjetos();
-        String pessoaId = MenuPrincipal.scanner.nextLine();
+        String pessoaId = scanner.nextLine();
         Duration diferenca = Duration.ZERO;
         Duration soma = diferenca;
         int participacoes = 0;
@@ -123,9 +127,9 @@ public class MenuPessoa {
                 LocalDateTime inicio = projeto.getDataHoraInicio();
                 LocalDateTime fim = projeto.getDataHoraFim();
 
-                Duration tempoTotal = Duration.between(inicio, fim);
+                System.out.println(tempoFormatado(Duration.between(inicio, fim)));
 
-                duracaoTotal = duracaoTotal.plus(tempoTotal);
+                duracaoTotal = duracaoTotal.plus(Duration.between(inicio, fim));
                 System.out.println("\nTitulo projeto: " + projeto.getTitulo() +
                         "\nData de Inicio projeto:" + diaFormatado(inicio) +
                         "\nData de fim projeto: " + diaFormatado(fim) +
@@ -159,11 +163,17 @@ public class MenuPessoa {
 
     private static String tempoFormatado(Duration duracao) {
 
-        long horasTotais = duracao.toHours();
+        System.out.println(duracao);
 
-        int horas = (int) (horasTotais % 24);
-        int minutos = duracao.toMinutesPart();
-        int segundos = duracao.toSecondsPart();
+        long horasTotais = duracao.toHours();
+        long minutosTotais = duracao.toMinutes();
+        long segundosTotais = duracao.toSeconds();
+
+        System.out.print(duracao.toDays());
+
+        long horas = (horasTotais % 24);
+        long minutos = (minutosTotais % 60);
+        long segundos = (segundosTotais % 60);
 
         String horasFormatadas = (horas < 10) ? "0" + horas : String.valueOf(horas);
         String minutosFormatados = (minutos < 10) ? "0" + minutos : String.valueOf(minutos);

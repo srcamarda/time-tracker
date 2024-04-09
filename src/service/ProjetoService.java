@@ -2,8 +2,9 @@ package service;
 
 import model.Pessoa;
 import model.Projeto;
+import model.Tag;
 import repository.RepositoryProjeto;
-import utility.Conversores;
+import utility.TipoPlano;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,8 +18,7 @@ public class ProjetoService {
 
     public static boolean adicionarPessoa(String titulo, String username){
         // Obter projeto e verificar se ele está cheio
-        Predicate<Projeto> predicate = projeto -> projeto.getTitulo().equals(titulo);
-        Projeto projeto = RepositoryProjeto.INSTANCE.buscarProjetos(predicate).orElseThrow().get(0);
+        Projeto projeto = buscarProjeto(titulo);
 
         if (projeto.getPessoasDTO().size() >= MAX_PESSOAS_POR_PROJETO) return false;
 
@@ -32,6 +32,22 @@ public class ProjetoService {
         // Salvar pessoa no projeto
         RepositoryProjeto.INSTANCE.salvarPessoasProjeto(projeto.getId(), List.of(pessoa));
         return true;
+    }
+
+    public static boolean adicionarTag(String titulo, Tag tag) {
+        // Obter projeto
+        Projeto projeto = buscarProjeto(titulo);
+
+        // Verificar se tag já existe
+        if (projeto.getTags().contains(tag)) return false;
+
+        RepositoryProjeto.INSTANCE.salvarTagProjeto(projeto.getId(), List.of(tag));
+        return true;
+    }
+
+    public static Projeto buscarProjeto(String titulo) {
+        Predicate<Projeto> predicate = projeto -> projeto.getTitulo().equals(titulo);
+        return RepositoryProjeto.INSTANCE.buscarProjetos(predicate).orElseThrow().get(0);
     }
 
     public static List<Projeto> buscarProjetos(String titulo) {

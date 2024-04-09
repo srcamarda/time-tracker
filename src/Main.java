@@ -1,4 +1,5 @@
 import mockup.Mockup;
+import model.Tag;
 import service.PessoaService;
 import service.ProjetoService;
 import service.TarefaService;
@@ -9,11 +10,10 @@ public class Main {
         //System.out.println(PessoaService.buscarTodasAsPessoas());
         //System.out.println(ProjetoService.buscarProjeto(""));
         //System.out.println(TarefaService.buscarTarefa(""));
+        // System.out.println(ProjetoService.adicionarTag("App de Monitoramento Fitness", Tag.EM_ANDAMENTO));
 
         //Mockup.init();
 
-//        MenuPrincipal.mainMenu();
-
-        System.out.println(ProjetoService.adicionarPessoa("App de Monitoramento Fitness", "julia"));
+        MenuPrincipal.mainMenu();
     }
 }

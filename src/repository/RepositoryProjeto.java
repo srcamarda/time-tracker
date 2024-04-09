@@ -61,11 +61,11 @@ public enum RepositoryProjeto {
         });
     }
 
-    public void salvarTagProjeto(String idProjeto, List<Tag> tags) {
+    public void salvarTagProjeto(UUID idProjeto, List<Tag> tags) {
         ArquivoUtil arquivoTagProjeto = new ArquivoUtil(ArquivoPaths.TAGS_PROJ);
 
         tags.forEach(tag -> {
-            String tagStr = idProjeto + ";" + tag.toString();
+            String tagStr = idProjeto.toString() + ";" + tag.toString();
             arquivoTagProjeto.escreverArquivo(tagStr);
         });
     }
@@ -97,7 +97,7 @@ public enum RepositoryProjeto {
         }
 
         if (!Objects.isNull(projeto.getTags()) && !projeto.getTags().isEmpty()) {
-            salvarTagProjeto(projeto.getId().toString(), projeto.getTags());
+            salvarTagProjeto(projeto.getId(), projeto.getTags());
         }
     }
 

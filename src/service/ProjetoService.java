@@ -5,8 +5,6 @@ import model.Projeto;
 import repository.RepositoryProjeto;
 import utility.Conversores;
 import utility.TipoCargo;
-import utility.singleton.PessoaSingleton;
-import utility.singleton.ProjetoSingleton;
 
 import java.util.ArrayList;
 import java.util.List;

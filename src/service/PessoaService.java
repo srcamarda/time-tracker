@@ -3,12 +3,13 @@ package service;
 import model.Pessoa;
 import repository.RepositoryPessoa;
 import utility.TipoCargo;
-import utility.singleton.PessoaSingleton;
 
 import java.util.List;
 
 public class PessoaService {
-    public void criarPessoa(){}
+    public void criarPessoa() {
+
+    }
 
     public static Pessoa buscarPessoa(String username) {
         return RepositoryPessoa.INSTANCE.buscarPessoaPorUsername(username.trim().toLowerCase());

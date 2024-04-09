@@ -4,7 +4,6 @@ package service;
 import dto.PessoaDTO;
 import model.Tarefa;
 import repository.RepositoryTarefa;
-import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDate;
 import java.util.List;

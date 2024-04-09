@@ -1,5 +1,7 @@
 package view;
 
+import utility.MensagensMenu;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -37,10 +39,10 @@ public class MenuPrincipal {
                         System.out.println("Até logo!");
                         break;
                     default:
-                        System.out.println("Escolha uma opção valida!");
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Opção inválida! Digite um número.");
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 scanner.nextLine();
             }
 
@@ -66,13 +68,13 @@ public class MenuPrincipal {
                         tempoTotalMensal();
                         break;
                     case 3:
-                        System.out.println("Voltando ao menu principal...");
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
-                        System.out.println("Opção inválida!");
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Opção inválida! Digite um número.");
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 scanner.nextLine();
             }
         } while (subMenuOption != 3);
@@ -100,13 +102,13 @@ public class MenuPrincipal {
                         rankingTempo();
                         break;
                     case 4:
-                        System.out.println("Retornando para o menu principal");
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
-                        System.out.println("Opção inválida!");
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Opção inválida! Digite um número valido!!");
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 scanner.nextLine();
             }
 

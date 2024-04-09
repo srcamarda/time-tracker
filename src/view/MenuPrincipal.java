@@ -21,16 +21,25 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (menuOption) {
-                    case 1:
+                    case 1: //Planilha de horas
                         MenuAcoes.planilhaDeHoras();
                         break;
-                    case 2:
+                    case 2: //Relatórios de atividades
                         menuRelatoriosAtividades();
                         break;
-                    case 3:
+                    case 3: //Relatórios de indicadores
                         menuRelatoriosIndicadores();
                         break;
-                    case 4:
+                    case 4: //Gerenciar pessoas
+                        menuGerenciarPessoas();
+                        break;
+                    case 5: //Gerenciar projetos
+                        menuGerenciarProjetos();
+                        break;
+                    case 6: //Gerenciar tarefas
+                        menuGerenciarTarefas();
+                        break;
+                    case 7: //Sair
                         System.out.println(MensagensMenu.SAIR_MENU);
                         break;
                     default:
@@ -42,6 +51,15 @@ public class MenuPrincipal {
             }
 
         } while (menuOption != 4);
+    }
+
+    private static void menuGerenciarTarefas() {
+    }
+
+    private static void menuGerenciarProjetos() {
+    }
+
+    private static void menuGerenciarPessoas() {
     }
 
     private static void menuRelatoriosAtividades() {
@@ -56,13 +74,13 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1:
+                    case 1: //Tempo total semanal
                         MenuAcoes.tempoTotalSemanal();
                         break;
-                    case 2:
+                    case 2: //Tempo total mensal
                         MenuAcoes.tempoTotalMensal();
                         break;
-                    case 3:
+                    case 3: //Voltar
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
@@ -87,16 +105,16 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1:
+                    case 1: //Media de tempo por dia
                         MenuAcoes.mediaTempoPorDia();
                         break;
-                    case 2:
+                    case 2: //Media de tempo geral
                         MenuAcoes.mediaTempoGeral();
                         break;
-                    case 3:
+                    case 3: //Ranking de tempo
                         MenuAcoes.rankingTempo();
                         break;
-                    case 4:
+                    case 4: //Voltar
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:

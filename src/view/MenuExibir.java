@@ -9,7 +9,10 @@ public class MenuExibir {
                 1- Planilha de Horas
                 2- Relatórios de Atividades
                 3- Relatórios de Indicadores
-                4- Sair
+                4- Gerenciar Pessoas
+                5- Gerenciar Projetos
+                6- Gerenciar Tarefas
+                7- Sair
                 
                 Selecione uma opção ->""");
     }

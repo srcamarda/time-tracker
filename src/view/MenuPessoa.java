@@ -1,5 +1,6 @@
 package view;
 
+
 import dto.TarefaDTO;
 import model.Pessoa;
 import model.Projeto;
@@ -123,9 +124,9 @@ public class MenuPessoa {
                 LocalDateTime inicio = projeto.getDataHoraInicio();
                 LocalDateTime fim = projeto.getDataHoraFim();
 
-                Duration tempoTotal = Duration.between(inicio, fim);
+                System.out.println(tempoFormatado(Duration.between(inicio, fim)));
 
-                duracaoTotal = duracaoTotal.plus(tempoTotal);
+                duracaoTotal = duracaoTotal.plus(Duration.between(inicio, fim));
                 System.out.println("\nTitulo projeto: " + projeto.getTitulo() +
                         "\nData de Inicio projeto:" + diaFormatado(inicio) +
                         "\nData de fim projeto: " + diaFormatado(fim) +
@@ -159,11 +160,17 @@ public class MenuPessoa {
 
     private static String tempoFormatado(Duration duracao) {
 
-        long horasTotais = duracao.toHours();
+        System.out.println(duracao);
 
-        int horas = (int) (horasTotais % 24);
-        int minutos = duracao.toMinutesPart();
-        int segundos = duracao.toSecondsPart();
+        long horasTotais = duracao.toHours();
+        long minutosTotais = duracao.toMinutes();
+        long segundosTotais = duracao.toSeconds();
+
+        System.out.print(duracao.toDays());
+
+        long horas = (horasTotais % 24);
+        long minutos = (minutosTotais % 60);
+        long segundos = (segundosTotais % 60);
 
         String horasFormatadas = (horas < 10) ? "0" + horas : String.valueOf(horas);
         String minutosFormatados = (minutos < 10) ? "0" + minutos : String.valueOf(minutos);
@@ -177,4 +184,5 @@ public class MenuPessoa {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return data.format(formatter);
     }
+
 }

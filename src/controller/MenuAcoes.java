@@ -1,5 +1,9 @@
 package controller;
 
+import repository.RepositoryPessoa;
+import service.ProjetoService;
+import service.TarefaService;
+
 public class MenuAcoes {
     public static void planilhaDeHoras() {
         System.out.println("Opção selecionada: Planilha de Horas");
@@ -38,6 +42,9 @@ public class MenuAcoes {
     }
 
     public static void listarPessoas() {
+        System.out.printf("\n%-10s    %-15s", "Nome", "Cargo");
+        RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s",pessoa.getNome(), pessoa.getCargo()));
+        System.out.println();
     }
 
     public static void cadastrarTarefa() {
@@ -47,6 +54,7 @@ public class MenuAcoes {
     }
 
     public static void listarTarefas() {
+        System.out.println(TarefaService.buscarTarefa(""));
     }
 
     public static void cadastrarProjeto() {
@@ -56,5 +64,6 @@ public class MenuAcoes {
     }
 
     public static void listarProjetos() {
+        System.out.println(ProjetoService.buscarProjeto(""));
     }
 }

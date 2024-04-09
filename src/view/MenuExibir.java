@@ -75,8 +75,8 @@ public class MenuExibir {
                 
                 1- Cadastrar Tarefa
                 2- Remover Tarefa
-                2- Listar Tarefas
-                3- Voltar
+                3- Listar Tarefas
+                4- Voltar
                 
                 Selecione uma opção ->""");
     }

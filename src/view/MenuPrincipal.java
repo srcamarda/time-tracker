@@ -54,7 +54,6 @@ public class MenuPrincipal {
     }
 
     private static void menuGerenciarPessoas() {
-        System.out.println(MensagensMenu.GER_PESSOAS.getMensagem());
         int subMenuOption = 0;
 
         do {
@@ -89,7 +88,6 @@ public class MenuPrincipal {
     }
 
     private static void menuGerenciarProjetos() {
-        System.out.println(MensagensMenu.GER_PROJETOS.getMensagem());
         int subMenuOption = 0;
 
         do {
@@ -124,7 +122,6 @@ public class MenuPrincipal {
     }
 
     private static void menuGerenciarTarefas() {
-        System.out.println(MensagensMenu.GER_TAREFAS.getMensagem());
         int subMenuOption = 0;
 
         do {
@@ -159,7 +156,6 @@ public class MenuPrincipal {
     }
 
     private static void menuRelatoriosAtividades() {
-        System.out.println(MensagensMenu.REL_ATIVIDADES.getMensagem());
         int subMenuOption = 0;
 
         do {
@@ -190,7 +186,6 @@ public class MenuPrincipal {
     }
 
     private static void menuRelatoriosIndicadores() {
-        System.out.println(MensagensMenu.REL_INDICADORES.getMensagem());
         int subMenuOption = 0;
 
         do {

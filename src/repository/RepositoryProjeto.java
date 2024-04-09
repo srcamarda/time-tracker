@@ -10,8 +10,6 @@ import utility.Conversores;
 import utility.ValidadoresEntrada;
 import view.MensagensEntrada;
 import utility.Validadores;
-import utility.singleton.PessoaSingleton;
-import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

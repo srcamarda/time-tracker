@@ -87,7 +87,7 @@ public class Pessoa {
         }
 
         public Builder username(String username) {
-            this.username = username;
+            this.username = username.toLowerCase();
             return this;
         }
 

@@ -8,6 +8,8 @@ import utility.TipoPlano;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public enum RepositoryPessoa {
@@ -84,20 +86,9 @@ public enum RepositoryPessoa {
                 .findFirst().orElse(null);
     }
 
-    public Pessoa buscarPessoaPorUsername(String username) {
-        return pessoas.stream()
-                .filter(pessoa -> pessoa.getUsername().equals(username))
-                .findFirst().orElse(null);
-    }
-
-    public List<Pessoa> buscarPessoas(String nome) {
-        return pessoas.stream()
-                .filter(pessoa -> pessoa.getNome().equalsIgnoreCase(nome))
-                .collect(Collectors.toList());
-    }
-
-    public List<Pessoa> listarPessoasAptas(TipoCargo cargo) {
-        return pessoas.stream().filter(pessoa -> pessoa.getCargo().equals(cargo))
-                .collect(Collectors.toList());
+    public Optional<List<Pessoa>> buscarPessoas(Predicate<Pessoa> predicate) {
+        return Optional.of(pessoas.stream()
+                .filter(predicate)
+                .collect(Collectors.toList()));
     }
 }

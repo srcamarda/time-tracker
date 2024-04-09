@@ -1,4 +1,4 @@
-package utility;
+package view;
 
 public enum MensagensMenu {
     OPCAO_INVALIDA("Opção inválida!"),

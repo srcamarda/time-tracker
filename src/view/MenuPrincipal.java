@@ -1,7 +1,5 @@
 package view;
 
-import utility.MensagensMenu;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

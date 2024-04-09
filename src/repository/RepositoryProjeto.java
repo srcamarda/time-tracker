@@ -8,7 +8,7 @@ import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
 import utility.ValidadoresEntrada;
-import utility.MensagensEntrada;
+import view.MensagensEntrada;
 import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;

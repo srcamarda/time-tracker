@@ -1,4 +1,4 @@
-package utility;
+package view;
 
 public enum MensagensEntrada {
     ERRO_CPF("CPF inválido"),

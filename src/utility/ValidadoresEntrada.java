@@ -1,6 +1,7 @@
 package utility;
 
 import model.Tag;
+import view.MensagensEntrada;
 
 import java.time.LocalDateTime;
 import java.util.Random;

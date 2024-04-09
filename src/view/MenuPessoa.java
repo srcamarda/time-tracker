@@ -4,6 +4,9 @@ import dto.TarefaDTO;
 import model.Pessoa;
 import model.Projeto;
 import model.Tarefa;
+import repository.RepositoryPessoa;
+import repository.RepositoryProjeto;
+import repository.RepositoryTarefa;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.ProjetoSingleton;
 import utility.singleton.TarefaSingleton;
@@ -19,12 +22,12 @@ public class MenuPessoa {
         //Retorna a planilha de horas conforme a pessoa participou.
         System.out.print("Digite o id do usuário: ");
         String pessoaId = MenuPrincipal.scanner.nextLine();
-        Pessoa pessoa = PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId);
+        Pessoa pessoa = RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId);
 
         System.out.println("\nPlanilha de horas\n" + "\nUsuário: " + pessoa.getUsername());
 
-        listaProjetosPlanilha(ProjetoSingleton.INSTANCE.getRepositoryProjeto().carregarProjetos(), pessoaId);
-        listaTarefasPlanilha(TarefaSingleton.INSTANCE.getRepositoryTarefa().carregarTarefas(), pessoaId);
+        listaProjetosPlanilha(RepositoryProjeto.INSTANCE.carregarProjetos(), pessoaId);
+        listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoaId);
     }
 
     public static void tempoTotalSemanal() {
@@ -41,7 +44,7 @@ public class MenuPessoa {
 
     public static void calcularMediaPorDia() {
 
-        List<Projeto> projetos = ProjetoSingleton.INSTANCE.getRepositoryProjeto().carregarProjetos();
+        List<Projeto> projetos = RepositoryProjeto.INSTANCE.carregarProjetos();
         String pessoaId = MenuPrincipal.scanner.nextLine();
 
         Duration diferenca;
@@ -49,13 +52,13 @@ public class MenuPessoa {
         long dias = 0;
 
         for (Projeto projeto : projetos) {
-            if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId).getId()))) {
+            if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId).getId()))) {
 
 
                 List<TarefaDTO> tarefaDTOList = projeto.getTarefasDTO();
 
                 for (TarefaDTO tarefaDto : tarefaDTOList) {
-                    if (tarefaDto.pessoa().id().equals(PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId).getId())) {
+                    if (tarefaDto.pessoa().id().equals(RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId).getId())) {
 
                         LocalDateTime inicioTarefa = tarefaDto.dataHoraInicio();
                         LocalDateTime fimTarefa = tarefaDto.dataHoraFim();
@@ -76,7 +79,7 @@ public class MenuPessoa {
 
     public static void calcularMediaTempoGeral() {
 
-        List<Projeto> projetos = ProjetoSingleton.INSTANCE.getRepositoryProjeto().carregarProjetos();
+        List<Projeto> projetos = RepositoryProjeto.INSTANCE.carregarProjetos();
         String pessoaId = MenuPrincipal.scanner.nextLine();
         Duration diferenca = Duration.ZERO;
         Duration soma = diferenca;
@@ -84,12 +87,12 @@ public class MenuPessoa {
 
         for (Projeto projeto : projetos) {
 
-            if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId).getId()))) {
+            if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId).getId()))) {
 
                 List<TarefaDTO> tarefaDTOList = projeto.getTarefasDTO();
 
                 for (TarefaDTO tarefaDto : tarefaDTOList) {
-                    if (tarefaDto.pessoa().id().equals(PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId).getId())) {
+                    if (tarefaDto.pessoa().id().equals(RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId).getId())) {
                         LocalDateTime inicioTarefa = tarefaDto.dataHoraInicio();
                         LocalDateTime fimTarefa = tarefaDto.dataHoraFim();
 
@@ -118,7 +121,7 @@ public class MenuPessoa {
         System.out.println("\nProjetos");
 
         for (Projeto projeto : projetos) {
-            if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId).getId()))) {
+            if (projeto.getPessoasDTO().stream().anyMatch(pessoa -> pessoa.id().equals(RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId).getId()))) {
 
                 LocalDateTime inicio = projeto.getDataHoraInicio();
                 LocalDateTime fim = projeto.getDataHoraFim();
@@ -141,7 +144,7 @@ public class MenuPessoa {
         System.out.println("\nTarefas do Usúario");
 
         for (Tarefa tarefa : tarefas) {
-            if (tarefa.getPessoaDTO().id().equals(PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoaId).getId())) {
+            if (tarefa.getPessoaDTO().id().equals(RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId).getId())) {
                 LocalDateTime inicio = tarefa.getDataHoraInicio();
                 LocalDateTime fim = tarefa.getDataHoraFim();
 

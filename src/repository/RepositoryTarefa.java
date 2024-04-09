@@ -18,12 +18,14 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class RepositoryTarefa {
-    ArquivoUtil arquivo;
-    List<Tarefa> tarefas;
+public enum RepositoryTarefa {
+    INSTANCE;
 
-    public RepositoryTarefa(ArquivoPaths path) {
-        arquivo = new ArquivoUtil(path);
+    final ArquivoUtil arquivo;
+    final List<Tarefa> tarefas;
+
+    RepositoryTarefa() {
+        arquivo = new ArquivoUtil(ArquivoPaths.TAREFAS);
         tarefas = carregarTarefas();
     }
 
@@ -65,7 +67,7 @@ public class RepositoryTarefa {
             Tag tag = ValidadoresEntrada.obterTagValidado(valores[3]);
             String id_pessoa = ValidadoresEntrada.obterUUIDValidado(valores[4]);
 
-            Pessoa pessoa = PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(id_pessoa);
+            Pessoa pessoa = RepositoryPessoa.INSTANCE.buscarPessoa(id_pessoa);
 
             if (Objects.isNull(pessoa)) {
                 System.out.println(MensagensEntrada.ERRO_PESSOA.getMensagem());

@@ -3,6 +3,7 @@ package service;
 
 import dto.PessoaDTO;
 import model.Tarefa;
+import repository.RepositoryTarefa;
 import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDate;
@@ -29,20 +30,20 @@ public class TarefaService {
         if (tarefa.getDuracao().toMinutes() < DURACAO_MINIMA_DA_TAREFA_EM_MINUTOS) return false;
 
         // Adicionar tarefa
-        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefa);
+        RepositoryTarefa.INSTANCE.salvarTarefa(tarefa);
         return true;
     }
 
     public static List<Tarefa> buscarTarefa(String titulo) {
-        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefas(titulo.toLowerCase());
+        return RepositoryTarefa.INSTANCE.buscarTarefas(titulo.toLowerCase());
     }
 
     public static List<Tarefa> buscarTarefa(UUID pessoaId) {
-        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefas(pessoaId);
+        return RepositoryTarefa.INSTANCE.buscarTarefas(pessoaId);
     }
 
     public static List<Tarefa> buscarTarefa(PessoaDTO pessoaDTO) {
-        return TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefas(pessoaDTO);
+        return RepositoryTarefa.INSTANCE.buscarTarefas(pessoaDTO);
     }
 
     private static long obterDuracaoMaximaPorDia(Tarefa tarefa, List<Tarefa> tarefas) {

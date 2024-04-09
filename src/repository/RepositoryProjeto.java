@@ -20,12 +20,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class RepositoryProjeto {
-    ArquivoUtil arquivo;
-    List<Projeto> projetos;
+public enum RepositoryProjeto {
+    INSTANCE;
 
-    public RepositoryProjeto(ArquivoPaths path) {
-        arquivo = new ArquivoUtil(path);
+    final ArquivoUtil arquivo;
+    final List<Projeto> projetos;
+
+    RepositoryProjeto() {
+        arquivo = new ArquivoUtil(ArquivoPaths.PROJETOS);
         projetos = carregarProjetos();
     }
 
@@ -185,7 +187,7 @@ public class RepositoryProjeto {
 
         pessoasStr.stream()
                 .filter(linha -> linha.split(";")[1].equals(id))
-                .map(pessoa -> PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(pessoa.split(";")[0]))
+                .map(pessoa -> RepositoryPessoa.INSTANCE.buscarPessoa(pessoa.split(";")[0]))
                 .filter(Objects::nonNull)
                 .forEach(pessoasProjeto::add);
 
@@ -210,7 +212,7 @@ public class RepositoryProjeto {
         List<Tarefa> tarefasProjeto = new ArrayList<>();
 
         tarefasStr.stream().filter(linha -> linha.split(";")[1].equals(id))
-                .map(tarefa -> TarefaSingleton.INSTANCE.getRepositoryTarefa().buscarTarefa(tarefa.split(";")[0]))
+                .map(tarefa -> RepositoryTarefa.INSTANCE.buscarTarefa(tarefa.split(";")[0]))
                 .filter(Objects::nonNull)
                 .forEach(tarefasProjeto::add);
 

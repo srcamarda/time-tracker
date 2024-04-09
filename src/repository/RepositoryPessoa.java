@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class RepositoryPessoa {
-    ArquivoUtil arquivo;
-    List<Pessoa> pessoas;
+public enum RepositoryPessoa {
+    INSTANCE;
 
-    public RepositoryPessoa(ArquivoPaths path) {
-        arquivo = new ArquivoUtil(path);
+    final ArquivoUtil arquivo;
+    final List<Pessoa> pessoas;
+
+    RepositoryPessoa() {
+        arquivo = new ArquivoUtil(ArquivoPaths.PESSOAS);
         pessoas = carregarPessoas();
     }
 

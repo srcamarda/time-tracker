@@ -2,6 +2,7 @@ package service;
 
 import dto.PessoaDTO;
 import model.Projeto;
+import repository.RepositoryProjeto;
 import utility.Conversores;
 import utility.TipoCargo;
 import utility.singleton.PessoaSingleton;
@@ -39,6 +40,6 @@ public class ProjetoService {
     }
 
     public static List<Projeto> buscarProjeto(String titulo) {
-        return ProjetoSingleton.INSTANCE.getRepositoryProjeto().buscarProjetos(titulo.toLowerCase());
+        return RepositoryProjeto.INSTANCE.buscarProjetos(titulo.toLowerCase());
     }
 }

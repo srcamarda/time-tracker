@@ -7,6 +7,9 @@ import model.Pessoa;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
+import repository.RepositoryPessoa;
+import repository.RepositoryProjeto;
+import repository.RepositoryTarefa;
 import service.PessoaService;
 import utility.Conversores;
 import utility.TipoCargo;
@@ -41,8 +44,8 @@ public class Mockup {
         pessoaDTOList.add(new dto.PessoaDTO(pessoa.getId(), pessoa.getUsername(), pessoa.getNome(), pessoa.getPlano(), pessoa.getCargo()));
         pessoaDTOList.add(new dto.PessoaDTO(pessoa1.getId(), pessoa1.getUsername(), pessoa1.getNome(), pessoa1.getPlano(), pessoa1.getCargo()));
 
-        PessoaSingleton.INSTANCE.getRepositoryPessoa().salvarPessoa(pessoa);
-        PessoaSingleton.INSTANCE.getRepositoryPessoa().salvarPessoa(pessoa1);
+        RepositoryPessoa.INSTANCE.salvarPessoa(pessoa);
+        RepositoryPessoa.INSTANCE.salvarPessoa(pessoa1);
     }
 
     private static void criarTarefas() {
@@ -65,8 +68,8 @@ public class Mockup {
         tarefaDTOList.add(Conversores.converterParaDTO(tarefa));
         tarefaDTOList.add(Conversores.converterParaDTO(tarefa1));
 
-        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefa);
-        TarefaSingleton.INSTANCE.getRepositoryTarefa().salvarTarefa(tarefa1);
+        RepositoryTarefa.INSTANCE.salvarTarefa(tarefa);
+        RepositoryTarefa.INSTANCE.salvarTarefa(tarefa1);
     }
 
     private static void criarProjetos() {
@@ -109,7 +112,7 @@ public class Mockup {
         projetoDTOList.add(projetoDTO);
         projetoDTOList.add(projetoDTO1);
 
-        ProjetoSingleton.INSTANCE.getRepositoryProjeto().salvarProjeto(projeto);
-        ProjetoSingleton.INSTANCE.getRepositoryProjeto().salvarProjeto(projeto1);
+        RepositoryProjeto.INSTANCE.salvarProjeto(projeto);
+        RepositoryProjeto.INSTANCE.salvarProjeto(projeto1);
     }
 }

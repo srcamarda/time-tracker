@@ -7,8 +7,8 @@ import utility.TipoCargo;
 import java.util.List;
 
 public class PessoaService {
-    public void criarPessoa() {
-
+    public void criarPessoa(Pessoa pessoa) {
+        RepositoryPessoa.INSTANCE.salvarPessoa(pessoa);
     }
 
     public static Pessoa buscarPessoa(String username) {

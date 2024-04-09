@@ -22,9 +22,9 @@ public class MenuExibir {
                 
                 ---- Relatórios de Atividades ----
                 
-                1. Tempo Total Semanal
-                2. Tempo Total Mensal
-                3. Voltar
+                1- Tempo Total Semanal
+                2- Tempo Total Mensal
+                3- Voltar
                 
                 Selecione uma opção ->""");
     }

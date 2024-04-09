@@ -16,6 +16,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public enum RepositoryProjeto {
@@ -44,11 +46,11 @@ public enum RepositoryProjeto {
         Projetos.forEach(this::salvarProjeto);
     }
 
-    public void salvarPessoasProjeto(String idProjeto, List<Pessoa> pessoas) {
+    public void salvarPessoasProjeto(UUID idProjeto, List<Pessoa> pessoas) {
         ArquivoUtil arquivoPessoasProjeto = new ArquivoUtil(ArquivoPaths.PESSOAS_PROJ);
 
         pessoas.forEach(pessoa -> {
-            String pessoaStr = pessoa.getId() + ";" + idProjeto;
+            String pessoaStr = pessoa.getId() + ";" + idProjeto.toString();
             arquivoPessoasProjeto.escreverArquivo(pessoaStr);
         });
     }
@@ -86,7 +88,7 @@ public enum RepositoryProjeto {
                     .stream().map(Conversores::converterParaModel)
                     .toList();
 
-            salvarPessoasProjeto(projeto.getId().toString(), pessoas);
+            salvarPessoasProjeto(projeto.getId(), pessoas);
         }
 
         if (!Objects.isNull(projeto.getTarefasDTO()) && !projeto.getTarefasDTO().isEmpty()) {
@@ -166,9 +168,9 @@ public enum RepositoryProjeto {
         }
     }
 
-    public Projeto buscarProjeto(String id) {
+    public Projeto buscarProjetos(Predicate<Projeto> predicate) {
         return projetos.stream()
-                .filter(projeto -> projeto.getId().toString().equals(id))
+                .filter(predicate)
                 .findFirst().orElse(null);
     }
 

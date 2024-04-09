@@ -12,6 +12,8 @@ public class Main {
 
         //Mockup.init();
 
-        MenuPrincipal.mainMenu();
+//        MenuPrincipal.mainMenu();
+
+        System.out.println(ProjetoService.adicionarPessoa("Portal de Notícias", "julia"));
     }
 }

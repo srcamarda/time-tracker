@@ -1,7 +1,9 @@
 package service;
 
 import dto.PessoaDTO;
+import model.Pessoa;
 import model.Projeto;
+import repository.RepositoryPessoa;
 import repository.RepositoryProjeto;
 import utility.Conversores;
 import utility.TipoCargo;
@@ -9,6 +11,7 @@ import utility.TipoCargo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Predicate;
 
 public class ProjetoService {
 
@@ -32,8 +35,19 @@ public class ProjetoService {
 //        System.out.println(criarProjeto(new Projeto.Builder().pessoasDTO(listaPessoas).titulo(titulo).build()));
 //    }
 
-    public static boolean criarProjeto(Projeto projeto){
+    public static void criarProjeto(Projeto projeto){
+        RepositoryProjeto.INSTANCE.salvarProjeto(projeto);
+    }
 
+    public static boolean adicionarPessoa(String titulo, String username){
+        Predicate<Projeto> predicate = projeto -> projeto.getTitulo().equals(titulo);
+        Projeto projeto = RepositoryProjeto.INSTANCE.buscarProjetos(predicate);
+        if (projeto == null) return false;
+
+        Pessoa pessoa = PessoaService.buscarPessoa(username);
+        if (pessoa == null) return false;
+
+        RepositoryProjeto.INSTANCE.salvarPessoasProjeto(projeto.getId(), List.of(pessoa));
         return true;
     }
 

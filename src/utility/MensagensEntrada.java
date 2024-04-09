@@ -1,6 +1,6 @@
 package utility;
 
-public enum Mensagens {
+public enum MensagensEntrada {
     ERRO_CPF("CPF inválido"),
     ERRO_NOME("Nome inválido"),
     ERRO_USERNAME("Username inválido"),
@@ -14,7 +14,7 @@ public enum Mensagens {
 
     private final String mensagem;
 
-    Mensagens(String mensagem) {
+    MensagensEntrada(String mensagem) {
         this.mensagem = mensagem;
     }
 

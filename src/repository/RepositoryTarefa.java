@@ -5,8 +5,8 @@ import model.Pessoa;
 import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
-import utility.Entradas;
-import utility.Mensagens;
+import utility.ValidadoresEntrada;
+import utility.MensagensEntrada;
 import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 
@@ -59,16 +59,16 @@ public class RepositoryTarefa {
         String[] valores = linha.split(";");
 
         try {
-            String id = Entradas.obterUUIDValidado(valores[0]);
-            String titulo = Entradas.obterTextoValidado(valores[1]);
-            String descricao = Entradas.obterTextoValidado(valores[2]);
-            Tag tag = Entradas.obterTagValidado(valores[3]);
-            String id_pessoa = Entradas.obterUUIDValidado(valores[4]);
+            String id = ValidadoresEntrada.obterUUIDValidado(valores[0]);
+            String titulo = ValidadoresEntrada.obterTextoValidado(valores[1]);
+            String descricao = ValidadoresEntrada.obterTextoValidado(valores[2]);
+            Tag tag = ValidadoresEntrada.obterTagValidado(valores[3]);
+            String id_pessoa = ValidadoresEntrada.obterUUIDValidado(valores[4]);
 
             Pessoa pessoa = PessoaSingleton.INSTANCE.getRepositoryPessoa().buscarPessoa(id_pessoa);
 
             if (Objects.isNull(pessoa)) {
-                System.out.println(Mensagens.ERRO_PESSOA.getMensagem());
+                System.out.println(MensagensEntrada.ERRO_PESSOA.getMensagem());
                 return null;
             }
 
@@ -77,16 +77,16 @@ public class RepositoryTarefa {
             //Caso não tenha data de início, utiliza a atual
             LocalDateTime dataHoraInicio;
             if (!valores[5].isEmpty() && !valores[5].equals("null"))
-                dataHoraInicio = Entradas.obterDataValidada(valores[5]);
+                dataHoraInicio = ValidadoresEntrada.obterDataValidada(valores[5]);
             else
                 dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
             //Permite carregar tarefas em andamento (sem data de término)
             if (valores.length > 6 && !valores[6].isEmpty() && !valores[6].equals("null")) {
-                LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[6]);
+                LocalDateTime dataHoraFim = ValidadoresEntrada.obterDataValidada(valores[6]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
-                    System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
+                    System.out.println(MensagensEntrada.ERRO_DATA_FINAL.getMensagem());
                     return null;
                 }
 

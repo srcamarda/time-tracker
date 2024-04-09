@@ -1,7 +1,7 @@
 package repository;
 
 import model.Pessoa;
-import utility.Entradas;
+import utility.ValidadoresEntrada;
 import utility.TipoCargo;
 import utility.TipoPlano;
 
@@ -50,12 +50,12 @@ public class RepositoryPessoa {
         String[] valores = linha.split(";");
 
         try {
-            String id = Entradas.obterUUIDValidado(valores[0]);
-            String nome = Entradas.obterNomeValidado(valores[2]);
-            String username = Entradas.obterUsernameValidado(valores[1], nome);
-            String cpf = Entradas.obterCpfValidado(valores[3]);
-            TipoCargo cargo = Entradas.obterCargoValidado(valores[4]);
-            TipoPlano plano = Entradas.obterPlanoValidado(valores[5]);
+            String id = ValidadoresEntrada.obterUUIDValidado(valores[0]);
+            String nome = ValidadoresEntrada.obterNomeValidado(valores[2]);
+            String username = ValidadoresEntrada.obterUsernameValidado(valores[1], nome);
+            String cpf = ValidadoresEntrada.obterCpfValidado(valores[3]);
+            TipoCargo cargo = ValidadoresEntrada.obterCargoValidado(valores[4]);
+            TipoPlano plano = ValidadoresEntrada.obterPlanoValidado(valores[5]);
 
             return new Pessoa.Builder()
                     .id(id)

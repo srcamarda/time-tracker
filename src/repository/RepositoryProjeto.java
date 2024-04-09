@@ -7,8 +7,8 @@ import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import utility.Conversores;
-import utility.Entradas;
-import utility.Mensagens;
+import utility.ValidadoresEntrada;
+import utility.MensagensEntrada;
 import utility.Validadores;
 import utility.singleton.PessoaSingleton;
 import utility.singleton.TarefaSingleton;
@@ -106,9 +106,9 @@ public class RepositoryProjeto {
         String[] valores = linha.split(";");
 
         try {
-            String id_projeto = Entradas.obterUUIDValidado(valores[0]);
-            String titulo = Entradas.obterTextoValidado(valores[1]);
-            String descricao = Entradas.obterTextoValidado(valores[2]);
+            String id_projeto = ValidadoresEntrada.obterUUIDValidado(valores[0]);
+            String titulo = ValidadoresEntrada.obterTextoValidado(valores[1]);
+            String descricao = ValidadoresEntrada.obterTextoValidado(valores[2]);
 
             List<Pessoa> pessoasProjeto = buscarPessoasDoProjeto(id_projeto);
             List<Tarefa> tarefasProjeto = buscarTarefasDoProjeto(id_projeto);
@@ -125,16 +125,16 @@ public class RepositoryProjeto {
             //Caso não tenha data de início, utiliza a atual
             LocalDateTime dataHoraInicio;
             if (!valores[3].isEmpty() && !valores[3].equals("null"))
-                dataHoraInicio = Entradas.obterDataValidada(valores[3]);
+                dataHoraInicio = ValidadoresEntrada.obterDataValidada(valores[3]);
             else
                 dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
             //Permite carregar projetos em andamento (sem data de término)
             if (valores.length > 4 && !valores[4].isEmpty() && !valores[4].equals("null")) {
-                LocalDateTime dataHoraFim = Entradas.obterDataValidada(valores[4]);
+                LocalDateTime dataHoraFim = ValidadoresEntrada.obterDataValidada(valores[4]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
-                    System.out.println(Mensagens.ERRO_DATA_FINAL.getMensagem());
+                    System.out.println(MensagensEntrada.ERRO_DATA_FINAL.getMensagem());
                     return null;
                 }
 

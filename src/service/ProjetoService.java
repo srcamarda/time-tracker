@@ -1,57 +1,41 @@
 package service;
 
-import dto.PessoaDTO;
 import model.Pessoa;
 import model.Projeto;
-import repository.RepositoryPessoa;
 import repository.RepositoryProjeto;
 import utility.Conversores;
-import utility.TipoCargo;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.function.Predicate;
 
 public class ProjetoService {
-
-//    public void criarProjetoMenu(){
-//        List<PessoaDTO> listaPessoas = new ArrayList<>();
-//        PessoaSingleton.INSTANCE.getRepositoryPessoa().listarPessoasAptas(TipoCargo.SENIOR);
-//        System.out.println("Escolha uma pessoa do sistema:");
-//        String pessoa = new Scanner(System.in).nextLine();
-//
-//        listaPessoas.add(Conversores.converterParaDTO(PessoaService.buscarPessoas(pessoa).get(0)));
-//
-//        System.out.println(PessoaSingleton.INSTANCE.getRepositoryPessoa().listarPessoasAptas(TipoCargo.JUNIOR));
-//        System.out.println(PessoaSingleton.INSTANCE.getRepositoryPessoa().listarPessoasAptas(TipoCargo.PLENO));
-//
-//        System.out.println("Escolha as pessoas do time:");
-//        String pessoas = new Scanner(System.in).nextLine();
-//
-//        System.out.println("Digite o Titulo do projeto:");
-//        String titulo = new Scanner(System.in).nextLine();
-//
-//        System.out.println(criarProjeto(new Projeto.Builder().pessoasDTO(listaPessoas).titulo(titulo).build()));
-//    }
+    private static final int MAX_PESSOAS_POR_PROJETO = 5;
 
     public static void criarProjeto(Projeto projeto){
         RepositoryProjeto.INSTANCE.salvarProjeto(projeto);
     }
 
     public static boolean adicionarPessoa(String titulo, String username){
+        // Obter projeto e verificar se ele está cheio
         Predicate<Projeto> predicate = projeto -> projeto.getTitulo().equals(titulo);
-        Projeto projeto = RepositoryProjeto.INSTANCE.buscarProjetos(predicate);
-        if (projeto == null) return false;
+        Projeto projeto = RepositoryProjeto.INSTANCE.buscarProjetos(predicate).orElseThrow().get(0);
 
+        if (projeto.getPessoasDTO().size() >= MAX_PESSOAS_POR_PROJETO) return false;
+
+        // Verificar se ela já está no projeto, e obter pessoa caso contrário
+        int count = (int) projeto.getPessoasDTO().stream()
+                .filter(pessoaDTO -> pessoaDTO.username().equalsIgnoreCase(username)).count();
+
+        if (count > 0) return false;
         Pessoa pessoa = PessoaService.buscarPessoa(username);
-        if (pessoa == null) return false;
 
+        // Salvar pessoa no projeto
         RepositoryProjeto.INSTANCE.salvarPessoasProjeto(projeto.getId(), List.of(pessoa));
         return true;
     }
 
-    public static List<Projeto> buscarProjeto(String titulo) {
-        return RepositoryProjeto.INSTANCE.buscarProjetos(titulo.toLowerCase());
+    public static List<Projeto> buscarProjetos(String titulo) {
+        Predicate<Projeto> predicate = projeto -> projeto.getTitulo().trim().toLowerCase().contains(titulo.toLowerCase());
+        return RepositoryProjeto.INSTANCE.buscarProjetos(predicate).orElseThrow();
     }
 }

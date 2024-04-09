@@ -14,6 +14,6 @@ public class Main {
 
 //        MenuPrincipal.mainMenu();
 
-        System.out.println(ProjetoService.adicionarPessoa("Portal de Notícias", "julia"));
+        System.out.println(ProjetoService.adicionarPessoa("App de Monitoramento Fitness", "julia"));
     }
 }

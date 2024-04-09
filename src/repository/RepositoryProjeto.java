@@ -13,10 +13,7 @@ import utility.Validadores;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -168,16 +165,10 @@ public enum RepositoryProjeto {
         }
     }
 
-    public Projeto buscarProjetos(Predicate<Projeto> predicate) {
-        return projetos.stream()
+    public Optional<List<Projeto>> buscarProjetos(Predicate<Projeto> predicate) {
+        return Optional.of(projetos.stream()
                 .filter(predicate)
-                .findFirst().orElse(null);
-    }
-
-    public List<Projeto> buscarProjetos(String titulo) {
-        return projetos.stream()
-                .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     public List<Pessoa> buscarPessoasDoProjeto(String id) {

@@ -1,8 +1,11 @@
-package view;
+package view.mensagens;
 
 public enum MensagensMenu {
     OPCAO_INVALIDA("Opção inválida!"),
-    RETORNA_MENU("Retornando ao menu principal");
+    RETORNA_MENU("Retornando ao menu principal"),
+    SAIR_MENU("Até logo!"),
+    REL_ATIVIDADES("Relatórios de Atividades"),
+    REL_INDICADORES("Relatórios de Indicadores");
 
     private final String mensagem;
 

@@ -1,13 +1,12 @@
 package view;
 
+import controller.MenuAcoes;
+import view.mensagens.MensagensMenu;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-
-    MenuPrincipal() {
-        MenuPessoa menuPessoa;
-    }
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -23,16 +22,16 @@ public class MenuPrincipal {
 
                 switch (menuOption) {
                     case 1:
-                        planilhaDeHoras();
+                        MenuAcoes.planilhaDeHoras();
                         break;
                     case 2:
-                        relatoriosAtividades();
+                        menuRelatoriosAtividades();
                         break;
                     case 3:
-                        relatoriosIndicadores();
+                        menuRelatoriosIndicadores();
                         break;
                     case 4:
-                        System.out.println("Até logo!");
+                        System.out.println(MensagensMenu.SAIR_MENU);
                         break;
                     default:
                         System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -45,8 +44,8 @@ public class MenuPrincipal {
         } while (menuOption != 4);
     }
 
-    private static void relatoriosAtividades() {
-        System.out.println("Relatórios de Atividades");
+    private static void menuRelatoriosAtividades() {
+        System.out.println(MensagensMenu.REL_ATIVIDADES.getMensagem());
         int subMenuOption = 0;
 
         do {
@@ -58,10 +57,10 @@ public class MenuPrincipal {
 
                 switch (subMenuOption) {
                     case 1:
-                        tempoTotalSemanal();
+                        MenuAcoes.tempoTotalSemanal();
                         break;
                     case 2:
-                        tempoTotalMensal();
+                        MenuAcoes.tempoTotalMensal();
                         break;
                     case 3:
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
@@ -76,8 +75,8 @@ public class MenuPrincipal {
         } while (subMenuOption != 3);
     }
 
-    private static void relatoriosIndicadores() {
-        System.out.println("Relatórios de Indicadores");
+    private static void menuRelatoriosIndicadores() {
+        System.out.println(MensagensMenu.REL_INDICADORES.getMensagem());
         int subMenuOption = 0;
 
         do {
@@ -89,13 +88,13 @@ public class MenuPrincipal {
 
                 switch (subMenuOption) {
                     case 1:
-                        mediaTempoPorDia();
+                        MenuAcoes.mediaTempoPorDia();
                         break;
                     case 2:
-                        mediaTempoGeral();
+                        MenuAcoes.mediaTempoGeral();
                         break;
                     case 3:
-                        rankingTempo();
+                        MenuAcoes.rankingTempo();
                         break;
                     case 4:
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
@@ -109,35 +108,5 @@ public class MenuPrincipal {
             }
 
         } while (subMenuOption != 4);
-    }
-
-    private static void planilhaDeHoras() {
-        System.out.println("Opção selecionada: Planilha de Horas");
-        MenuPessoa.planilhaDeHoras();
-    }
-
-    private static void tempoTotalSemanal() {
-        System.out.println("Opção selecionada: Tempo Total Semanal");
-        MenuPessoa.tempoTotalSemanal();
-    }
-
-    private static void tempoTotalMensal() {
-        System.out.println("Opção selecionada: Tempo Total Mensal");
-        MenuPessoa.tempoTotalMensal();
-    }
-
-    private static void mediaTempoPorDia() {
-        System.out.println("Opção selecionada: Média de Tempo por Dia");
-        MenuPessoa.calcularMediaPorDia();
-    }
-
-    private static void mediaTempoGeral() {
-        System.out.println("Opção selecionada: Média de Tempo Geral");
-        MenuPessoa.calcularMediaTempoGeral();
-    }
-
-    private static void rankingTempo() {
-        System.out.println("Opção selecionada: Ranking de Tempo");
-        MenuPessoa.rankingTempo();
     }
 }

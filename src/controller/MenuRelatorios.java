@@ -1,5 +1,4 @@
-package view;
-
+package controller;
 
 import dto.TarefaDTO;
 import model.Pessoa;
@@ -13,13 +12,17 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 
-public class MenuPessoa {
+public class MenuRelatorios {
+
+    static Scanner scanner = new Scanner(System.in);
+
     public static void planilhaDeHoras() {
 
         //Retorna a planilha de horas conforme a pessoa participou.
         System.out.print("Digite o id do usuário: ");
-        String pessoaId = MenuPrincipal.scanner.nextLine();
+        String pessoaId = scanner.nextLine();
         Pessoa pessoa = RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId);
 
         System.out.println("\nPlanilha de horas\n" + "\nUsuário: " + pessoa.getUsername());
@@ -43,7 +46,7 @@ public class MenuPessoa {
     public static void calcularMediaPorDia() {
 
         List<Projeto> projetos = RepositoryProjeto.INSTANCE.carregarProjetos();
-        String pessoaId = MenuPrincipal.scanner.nextLine();
+        String pessoaId = scanner.nextLine();
 
         Duration diferenca;
         Duration tempoTotal = Duration.ZERO;
@@ -78,7 +81,7 @@ public class MenuPessoa {
     public static void calcularMediaTempoGeral() {
 
         List<Projeto> projetos = RepositoryProjeto.INSTANCE.carregarProjetos();
-        String pessoaId = MenuPrincipal.scanner.nextLine();
+        String pessoaId = scanner.nextLine();
         Duration diferenca = Duration.ZERO;
         Duration soma = diferenca;
         int participacoes = 0;
@@ -184,5 +187,4 @@ public class MenuPessoa {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return data.format(formatter);
     }
-
 }

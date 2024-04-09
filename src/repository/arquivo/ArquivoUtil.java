@@ -1,4 +1,4 @@
-package repository;
+package repository.arquivo;
 
 import java.io.File;
 import java.io.FileNotFoundException;

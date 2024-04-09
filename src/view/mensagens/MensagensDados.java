@@ -1,6 +1,6 @@
-package view;
+package view.mensagens;
 
-public enum MensagensEntrada {
+public enum MensagensDados {
     ERRO_CPF("CPF inválido"),
     ERRO_NOME("Nome inválido"),
     ERRO_USERNAME("Username inválido"),
@@ -14,7 +14,7 @@ public enum MensagensEntrada {
 
     private final String mensagem;
 
-    MensagensEntrada(String mensagem) {
+    MensagensDados(String mensagem) {
         this.mensagem = mensagem;
     }
 

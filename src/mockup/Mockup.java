@@ -13,9 +13,6 @@ import repository.RepositoryTarefa;
 import service.PessoaService;
 import utility.Conversores;
 import utility.TipoCargo;
-import utility.singleton.PessoaSingleton;
-import utility.singleton.ProjetoSingleton;
-import utility.singleton.TarefaSingleton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

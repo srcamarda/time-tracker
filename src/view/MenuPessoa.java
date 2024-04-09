@@ -7,9 +7,6 @@ import model.Tarefa;
 import repository.RepositoryPessoa;
 import repository.RepositoryProjeto;
 import repository.RepositoryTarefa;
-import utility.singleton.PessoaSingleton;
-import utility.singleton.ProjetoSingleton;
-import utility.singleton.TarefaSingleton;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

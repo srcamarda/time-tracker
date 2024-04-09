@@ -17,7 +17,7 @@ public class MenuExibir {
                 Selecione uma opção ->""");
     }
 
-    static void RelatoriosAtividadesMenu() {
+    static void relatoriosAtividadesMenu() {
         System.out.println("""
                 
                 ---- Relatórios de Atividades ----
@@ -29,7 +29,7 @@ public class MenuExibir {
                 Selecione uma opção ->""");
     }
 
-    static void RelatoriosIndicadoresMenu() {
+    static void relatoriosIndicadoresMenu() {
         System.out.print("""
                 
                 ---- Relatórios de Indicadores ----"
@@ -38,6 +38,45 @@ public class MenuExibir {
                 2- Média de Tempo Geral
                 3- Ranking de Tempo
                 4- Voltar
+                
+                Selecione uma opção ->""");
+    }
+
+    static void gerenciarPessoasMenu() {
+        System.out.println("""
+                
+                ---- Gerenciar Pessoas ----
+                
+                1- Cadastrar Pessoa
+                2- Remover Pessoa
+                3- Listar Pessoas
+                4- Voltar
+                
+                Selecione uma opção ->""");
+    }
+
+    static void gerenciarProjetosMenu() {
+        System.out.println("""
+                
+                ---- Gerenciar Projetos ----
+                
+                1- Cadastrar Projeto
+                2- Remover Projeto
+                3- Listar Projetos
+                4- Voltar
+                
+                Selecione uma opção ->""");
+    }
+
+    static void gerenciarTarefasMenu() {
+        System.out.println("""
+                
+                ---- Gerenciar Tarefas ----
+                
+                1- Cadastrar Tarefa
+                2- Remover Tarefa
+                2- Listar Tarefas
+                3- Voltar
                 
                 Selecione uma opção ->""");
     }

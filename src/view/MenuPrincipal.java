@@ -53,13 +53,109 @@ public class MenuPrincipal {
         } while (menuOption != 4);
     }
 
-    private static void menuGerenciarTarefas() {
+    private static void menuGerenciarPessoas() {
+        System.out.println(MensagensMenu.GER_PESSOAS.getMensagem());
+        int subMenuOption = 0;
+
+        do {
+            MenuExibir.gerenciarPessoasMenu();
+
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Cadastrar pessoa
+                        MenuAcoes.cadastrarPessoa();
+                        break;
+                    case 2: //Remover pessoa
+                        MenuAcoes.removerPessoa();
+                        break;
+                    case 3: //Listar pessoas
+                        MenuAcoes.listarPessoas();
+                        break;
+                    case 4: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+
+        } while (subMenuOption != 4);
     }
 
     private static void menuGerenciarProjetos() {
+        System.out.println(MensagensMenu.GER_PROJETOS.getMensagem());
+        int subMenuOption = 0;
+
+        do {
+            MenuExibir.gerenciarProjetosMenu();
+
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Cadastrar projeto
+                        MenuAcoes.cadastrarProjeto();
+                        break;
+                    case 2: //Remover projeto
+                        MenuAcoes.removerProjeto();
+                        break;
+                    case 3: //Listar projetos
+                        MenuAcoes.listarProjetos();
+                        break;
+                    case 4: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+
+        } while (subMenuOption != 4);
     }
 
-    private static void menuGerenciarPessoas() {
+    private static void menuGerenciarTarefas() {
+        System.out.println(MensagensMenu.GER_TAREFAS.getMensagem());
+        int subMenuOption = 0;
+
+        do {
+            MenuExibir.gerenciarTarefasMenu();
+
+            try {
+                subMenuOption = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (subMenuOption) {
+                    case 1: //Cadastrar tarefa
+                        MenuAcoes.cadastrarTarefa();
+                        break;
+                    case 2: //Remover tarefa
+                        MenuAcoes.removerTarefa();
+                        break;
+                    case 3: //Listar tarefas
+                        MenuAcoes.listarTarefas();
+                        break;
+                    case 4: //Voltar
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                        break;
+                    default:
+                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                }
+            } catch (InputMismatchException e) {
+                System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                scanner.nextLine();
+            }
+
+        } while (subMenuOption != 4);
     }
 
     private static void menuRelatoriosAtividades() {
@@ -67,7 +163,7 @@ public class MenuPrincipal {
         int subMenuOption = 0;
 
         do {
-            MenuExibir.RelatoriosAtividadesMenu();
+            MenuExibir.relatoriosAtividadesMenu();
 
             try {
                 subMenuOption = scanner.nextInt();
@@ -98,7 +194,7 @@ public class MenuPrincipal {
         int subMenuOption = 0;
 
         do {
-            MenuExibir.RelatoriosIndicadoresMenu();
+            MenuExibir.relatoriosIndicadoresMenu();
 
             try {
                 subMenuOption = scanner.nextInt();

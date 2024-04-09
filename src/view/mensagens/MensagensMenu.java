@@ -5,7 +5,10 @@ public enum MensagensMenu {
     RETORNA_MENU("Retornando ao menu principal"),
     SAIR_MENU("Até logo!"),
     REL_ATIVIDADES("Relatórios de Atividades"),
-    REL_INDICADORES("Relatórios de Indicadores");
+    REL_INDICADORES("Relatórios de Indicadores"),
+    GER_PESSOAS("Gerenciar Pessoas"),
+    GER_PROJETOS("Gerenciar Projetos"),
+    GER_TAREFAS("Gerenciar Tarefas");
 
     private final String mensagem;
 

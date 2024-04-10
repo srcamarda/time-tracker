@@ -10,7 +10,7 @@ import repository.arquivo.ArquivoPaths;
 import repository.arquivo.ArquivoUtil;
 import utility.Conversores;
 import utility.ValidadoresEntrada;
-import view.mensagens.MensagensDados;
+import view.mensagens.MensagensErro;
 import utility.Validadores;
 
 import java.time.LocalDateTime;
@@ -135,7 +135,7 @@ public enum RepositoryProjeto {
                 LocalDateTime dataHoraFim = ValidadoresEntrada.obterDataValidada(valores[4]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
-                    System.out.println(MensagensDados.ERRO_DATA_FINAL.getMensagem());
+                    System.out.println(MensagensErro.ERRO_DATA_FINAL.getMensagem());
                     return null;
                 }
 

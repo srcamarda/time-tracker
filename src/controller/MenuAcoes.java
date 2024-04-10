@@ -115,6 +115,26 @@ public class MenuAcoes {
         //TODO
     }
 
+    public static void adicionarPessoaAProjeto() {
+        try {
+            String titulo = ValidadoresEntrada
+                    .obterTextoValidado(EntradaHelper.obterDado("Digite o titulo do projeto: ", scanner));
+
+            String username = ValidadoresEntrada
+                    .obterTextoValidado(EntradaHelper.obterDado("Digite o username da pessoa: ", scanner));
+
+            boolean pessoaFoiCriada = ProjetoService.adicionarPessoa(titulo, username);
+
+            String mensagem = pessoaFoiCriada
+                    ? "Pessoa vinculada ao projeto com sucesso!"
+                    : "Erro ao criar pessoa, verifique os dados...";
+
+            System.out.println(mensagem);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void listarProjetos() {
         System.out.println(ProjetoService.buscarProjetos(""));
     }

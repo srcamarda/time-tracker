@@ -101,8 +101,17 @@ public class MenuPrincipal {
                     case 2: //Listar projetos
                         MenuAcoes.listarProjetos();
                         break;
-                    case 3: //Voltar
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
+                    case 3: //Adicionar Pessoa a Projeto
+                        MenuAcoes.adicionarPessoaAProjeto();
+                        break;
+                    case 4: //Adicionar Tarefa a Projeto
+                        System.out.println("Todo");
+                        break;
+                    case 5: //Adicionar Tag a Projeto
+                        System.out.println("Todo");
+                        break;
+                    case 6: //Voltar
+                        System.out.println("Todo");
                         break;
                     default:
                         System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -112,7 +121,7 @@ public class MenuPrincipal {
                 scanner.nextLine();
             }
 
-        } while (subMenuOption != 3);
+        } while (subMenuOption != 6);
     }
 
     private static void menuGerenciarTarefas() {

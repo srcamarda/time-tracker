@@ -1,6 +1,7 @@
 package controller;
 
 import model.Pessoa;
+import model.Tag;
 import utility.Conversores;
 
 import java.time.LocalDate;
@@ -123,9 +124,9 @@ public class MenuAcoes {
             String username = ValidadoresEntrada
                     .obterTextoValidado(EntradaHelper.obterDado("Digite o username da pessoa: ", scanner));
 
-            boolean pessoaFoiCriada = ProjetoService.adicionarPessoa(titulo, username);
+            boolean pessoaFoiAdicionada = ProjetoService.adicionarPessoa(titulo, username);
 
-            String mensagem = pessoaFoiCriada
+            String mensagem = pessoaFoiAdicionada
                     ? "Pessoa vinculada ao projeto com sucesso!"
                     : "Erro ao vincular pessoa, verifique os dados...";
 
@@ -143,11 +144,31 @@ public class MenuAcoes {
             String tituloTarefa = ValidadoresEntrada
                     .obterTextoValidado(EntradaHelper.obterDado("Digite o título da tarefa: ", scanner));
 
-            boolean pessoaFoiCriada = ProjetoService.adicionarTarefa(tituloProjeto, tituloTarefa);
+            boolean tarefaFoiAdicionada = ProjetoService.adicionarTarefa(tituloProjeto, tituloTarefa);
 
-            String mensagem = pessoaFoiCriada
+            String mensagem = tarefaFoiAdicionada
                     ? "Tarefa adicionada ao projeto com sucesso!"
                     : "Erro ao adicionar tarefa, verifique os dados...";
+
+            System.out.println(mensagem);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void adicionarTagAProjeto() {
+        try {
+            String titulo = ValidadoresEntrada
+                    .obterTextoValidado(EntradaHelper.obterDado("Digite o título do projeto: ", scanner));
+
+            Tag tituloTarefa = ValidadoresEntrada
+                    .obterTagValidado(EntradaHelper.obterDado("Informe a tag: ", scanner));
+
+            boolean tagFoiAdicionada = ProjetoService.adicionarTag(titulo, tituloTarefa);
+
+            String mensagem = tagFoiAdicionada
+                    ? "Tag adicionada ao projeto com sucesso!"
+                    : "Erro ao adicionar Tag, verifique os dados...";
 
             System.out.println(mensagem);
         } catch (IllegalArgumentException e) {

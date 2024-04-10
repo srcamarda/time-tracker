@@ -108,10 +108,10 @@ public class MenuPrincipal {
                         MenuAcoes.adicionarTarefaAProjeto();
                         break;
                     case 5: //Adicionar Tag a Projeto
-                        System.out.println("Todo");
+                        MenuAcoes.adicionarTagAProjeto();
                         break;
                     case 6: //Voltar
-                        System.out.println("Todo");
+                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
                         System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());

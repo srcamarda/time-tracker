@@ -26,30 +26,30 @@ public class MenuAcoes {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void planilhaDeHoras() {
-        System.out.println("Opção selecionada: Planilha de Horas");
         MenuRelatorios.planilhaDeHoras();
     }
 
     public static void tempoTotalSemanal() {
-        System.out.println("Opção selecionada: Tempo Total Semanal");
-        System.out.print("Digite o username do usuário: ");
-        String pessoaUsername = scanner.nextLine();
-        System.out.println("Digite uma data na semana desejada dd/MM/yyyy: ");
-        LocalDate dataString = Conversores.converterStringParaDate(scanner.nextLine());
-        MenuRelatorios.relatorioSemanal(pessoaUsername, dataString);
+
+        String username = ValidadoresEntrada.obterUsernameValidado
+                (EntradaHelper.obterDado("Digite o username: ", scanner));
+
+        LocalDate dataString = ValidadoresEntrada.obterDataValidada
+                (EntradaHelper.obterDado("Digite uma data na semana desejada dd/MM/yyyy: ", scanner));
+
+        MenuRelatorios.relatorioSemanal(username, dataString);
     }
 
     public static void tempoTotalMensal() {
-        System.out.println("Opção selecionada: Tempo Total Mensal");
-        System.out.print("Digite o username do usuário: ");
-        String pessoaUsername = scanner.nextLine();
-        System.out.println("Digite o número referente ao mês desejado: ");
-        int diaMes = 0;
-        while (diaMes < 1 || diaMes > 12) {
-            diaMes = Integer.parseInt(scanner.nextLine());
-        }
-        LocalDate dataMes = LocalDate.of(2024, diaMes, 1);
-        MenuRelatorios.relatorioMensal(pessoaUsername, dataMes);
+
+        String username = ValidadoresEntrada.obterUsernameValidado
+                (EntradaHelper.obterDado("Digite o username: ", scanner));
+
+        int diaMes = Integer.parseInt(ValidadoresEntrada.obterTextoValidado
+                (EntradaHelper.obterDado("Digite o número referente ao mês desejado: " , scanner)));
+
+        LocalDate dataMes = LocalDate.of(2024,diaMes,1);
+        MenuRelatorios.relatorioMensal(username, dataMes);
     }
 
     public static void mediaTempoPorDia() {
@@ -69,8 +69,6 @@ public class MenuAcoes {
 
     public static void cadastrarPessoa() {
         try {
-            String input;
-
             String nome = ValidadoresEntrada.obterNomeValidado
                     (EntradaHelper.obterDado("Digite o nome: ", scanner));
 

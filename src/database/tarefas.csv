@@ -1,11 +1,15 @@
 id;titulo;descricao;tag;id_pessoa;data_hora_inicio;data_hora_fim
-01c9d5c8-27b2-4b2d-9b60-1f7f24f7a6d8;Desenvolver API;Criar endpoints da API para o projeto X;IMPORTANTE;f47ac10b-58cc-4372-a567-0e02b2c3d479;2024-01-02T09:00;2024-01-30T18:00
-02fec356-f7fb-4aef-9f2a-eaef331b2a2b;Testes Unitários;Desenvolver testes unitários para validação;REVISAO;bfec356e-f7fb-4aef-9f2a-eaef331b2a2b;2024-02-05T10:00;2024-02-25T17:00
-03c56a41-65aa-42ec-a945-5fd21dec0538;Revisão de Código;Revisar código do modulo Y;REVISAO;c56a4180-65aa-42ec-a945-5fd21dec0538;2024-03-10T08:00;2024-03-20T20:00
-04d4ee26-8cf0-11bd-b23e-10b96e4ef00d;UI/UX Design;Desenhar interfaces do usuário para o sistema Z;IMPORTANTE;d4ee26ee-8cf0-11bd-b23e-10b96e4ef00d;2024-04-12T09:00;2024-05-30T18:00
-05aeb6bc-72c9-4a22-8b2b-42e3b67929d6;Documentação Técnica;Escrever documentação dos sistemas desenvolvidos;FINALIZADO;aeb6bc72-c9b7-4a22-8b2b-42e3b67929d6;2024-05-15T08:00;2024-06-10T17:00
-06f2f70a-8bc5-477a-83a3-e6b20b5a7644;Otimização de Performance;Melhorar performance do sistema Q;URGENTE;5f2f70a4-8bc5-477a-83a3-e6b20b5a7644;2024-06-22T08:00;2024-07-12T20:00
-07d946c9-5a83-434a-89b2-6c74a9c2eed9;Implementação de Segurança;Implementar medidas de segurança no projeto W;URGENTE;2d946c9a-5a83-434a-89b2-6c74a9c2eed9;2024-07-05T09:00;2024-08-30T18:00
-08cb2f9a-a487-4db4-945b-34c2aa6c9ec0;Pesquisa de Mercado;Realizar pesquisa de mercado para o produto G;EM_ANDAMENTO;623a5cf1-33f7-4de9-9c04-e1f4ebb0a01e;2024-08-14T08:00;2024-09-05T17:00
-09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4d;Desenvolvimento de Chatbot;Criar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-07T08:00;2024-04-07T08:30
-09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4c;Desenvolvimento de Chatbot 2;Editar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-07T08:00;2024-04-07T09:50
+01c9d5c8-27b2-4b2d-9b60-1f7f24f7a6d8;Desenvolver API;Criar endpoints da API para o projeto X;IMPORTANTE;f47ac10b-58cc-4372-a567-0e02b2c3d479;2024-01-02T09:00;2024-01-02T18:00
+02fec356-f7fb-4aef-9f2a-eaef331b2a2b;Testes Unitários;Desenvolver testes unitários para validação;REVISAO;bfec356e-f7fb-4aef-9f2a-eaef331b2a2b;2024-02-05T10:00;2024-02-05T17:00
+03c56a41-65aa-42ec-a945-5fd21dec0538;Revisão de Código;Revisar código do modulo Y;REVISAO;c56a4180-65aa-42ec-a945-5fd21dec0538;2024-03-10T08:00;2024-03-10T20:00
+04d4ee26-8cf0-11bd-b23e-10b96e4ef00d;UI/UX Design;Desenhar interfaces do usuário para o sistema Z;IMPORTANTE;d4ee26ee-8cf0-11bd-b23e-10b96e4ef00d;2024-04-12T09:00;2024-04-12T18:00
+05aeb6bc-72c9-4a22-8b2b-42e3b67929d6;Documentação Técnica;Escrever documentação dos sistemas desenvolvidos;FINALIZADO;aeb6bc72-c9b7-4a22-8b2b-42e3b67929d6;2024-05-15T08:00;2024-05-15T17:00
+06f2f70a-8bc5-477a-83a3-e6b20b5a7644;Otimização de Performance;Melhorar performance do sistema Q;URGENTE;5f2f70a4-8bc5-477a-83a3-e6b20b5a7644;2024-06-22T08:00;2024-06-22T20:00
+07d946c9-5a83-434a-89b2-6c74a9c2eed9;Implementação de Segurança;Implementar medidas de segurança no projeto W;URGENTE;2d946c9a-5a83-434a-89b2-6c74a9c2eed9;2024-07-05T09:00;2024-07-05T18:00
+08cb2f9a-a487-4db4-945b-34c2aa6c9ec0;Pesquisa de Mercado;Realizar pesquisa de mercado para o produto G;EM_ANDAMENTO;623a5cf1-33f7-4de9-9c04-e1f4ebb0a01e;2024-08-14T08:00;2024-08-14T17:00
+09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4d;Desenvolvimento de Chatbot;Criar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-08T08:00;2024-04-08T08:30
+09bb60b7-2ec8-4c88-8c0a-6a8a3c3d5e4c;Desenvolvimento de Chatbot 2;Editar um chatbot para atendimento ao cliente;EM_ANDAMENTO;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-08T08:35;2024-04-08T09:50
+83389f98-7c73-446a-9f3e-3d45c55cb61a;Estruturar projeto;Teste;URGENTE;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-08T10:00;2024-04-08T10:10
+7f7983d7-4731-48cd-81cc-4dcbef147834;Testar classes;Teste;IMPORTANTE;81a52549-bf2b-4451-bf93-09c288d99e97;2024-04-09T09:00;2024-04-09T10:04
+148a11ec-fe9b-4dac-a636-d8b5249c7b90;Estruturar projeto;Teste;URGENTE;cb2f9a0c-a487-4db4-945b-34c2aa6c9ec0;2024-04-12T10:00;2024-04-12T10:30
+3f35fcd0-5cca-4615-9c80-d4425e605693;Testar classes;Teste;IMPORTANTE;e5311316-cdcd-4408-ad09-ab6339e521db;2024-04-09T19:50;2024-04-09T20:30

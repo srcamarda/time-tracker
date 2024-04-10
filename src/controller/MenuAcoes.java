@@ -100,11 +100,6 @@ public class MenuAcoes {
         MenuRelatorios.calcularMediaTempoGeral();
     }
 
-    public static void rankingTempo() {
-        System.out.println("Opção selecionada: Ranking de Tempo");
-        MenuRelatorios.rankingTempo();
-    }
-
     public static void cadastrarPessoa() {
         try {
             String nome = ValidadoresEntrada.obterNomeValidado

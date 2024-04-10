@@ -37,8 +37,7 @@ public class MenuExibir {
                 
                 1 - Média de Tempo por Dia
                 2 - Média de Tempo Geral
-                3 - Ranking de Tempo
-                4 - Voltar
+                3 - Voltar
                 
                 Selecione uma opção ->""");
     }

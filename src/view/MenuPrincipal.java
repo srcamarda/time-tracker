@@ -150,8 +150,7 @@ public class MenuPrincipal {
                 switch (subMenuOption) {
                     case 1 -> MenuAcoes.mediaTempoPorDia();           // Media de tempo por dia
                     case 2 -> MenuAcoes.mediaTempoGeral();            // Media de tempo geral
-                    case 3 -> MenuAcoes.rankingTempo();               // Ranking de tempo
-                    case 4 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    case 3 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
                     default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
@@ -159,6 +158,6 @@ public class MenuPrincipal {
                 scanner.nextLine();
             }
 
-        } while (subMenuOption != 4);
+        } while (subMenuOption != 3);
     }
 }

@@ -38,10 +38,6 @@ public class MenuRelatorios {
         listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoa.getId().toString());
     }
 
-    public static void rankingTempo() {
-        //Calcular o ranking de tempo
-    }
-
     public static void calcularMediaPorDia() {
         System.out.print("Digite o título do projeto: ");
         String titulo = scanner.nextLine();

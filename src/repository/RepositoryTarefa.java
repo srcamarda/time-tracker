@@ -8,7 +8,7 @@ import repository.arquivo.ArquivoPaths;
 import repository.arquivo.ArquivoUtil;
 import utility.Conversores;
 import utility.ValidadoresEntrada;
-import view.mensagens.MensagensDados;
+import view.mensagens.MensagensErro;
 import utility.Validadores;
 
 import java.time.LocalDateTime;
@@ -69,7 +69,7 @@ public enum RepositoryTarefa {
             Pessoa pessoa = RepositoryPessoa.INSTANCE.buscarPessoa(id_pessoa);
 
             if (Objects.isNull(pessoa)) {
-                System.out.println(MensagensDados.ERRO_PESSOA.getMensagem());
+                System.out.println(MensagensErro.ERRO_PESSOA.getMensagem());
                 return null;
             }
 
@@ -87,7 +87,7 @@ public enum RepositoryTarefa {
                 LocalDateTime dataHoraFim = ValidadoresEntrada.obterDataValidada(valores[6]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
-                    System.out.println(MensagensDados.ERRO_DATA_FINAL.getMensagem());
+                    System.out.println(MensagensErro.ERRO_DATA_FINAL.getMensagem());
                     return null;
                 }
 

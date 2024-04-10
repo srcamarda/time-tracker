@@ -67,13 +67,10 @@ public class MenuPrincipal {
                     case 1: //Cadastrar pessoa
                         MenuAcoes.cadastrarPessoa();
                         break;
-                    case 2: //Remover pessoa
-                        MenuAcoes.removerPessoa();
-                        break;
-                    case 3: //Listar pessoas
+                    case 2: //Listar pessoas
                         MenuAcoes.listarPessoas();
                         break;
-                    case 4: //Voltar
+                    case 3: //Voltar
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
@@ -84,7 +81,7 @@ public class MenuPrincipal {
                 scanner.nextLine();
             }
 
-        } while (subMenuOption != 4);
+        } while (subMenuOption != 3);
     }
 
     private static void menuGerenciarProjetos() {
@@ -101,13 +98,10 @@ public class MenuPrincipal {
                     case 1: //Cadastrar projeto
                         MenuAcoes.cadastrarProjeto();
                         break;
-                    case 2: //Remover projeto
-                        MenuAcoes.removerProjeto();
-                        break;
-                    case 3: //Listar projetos
+                    case 2: //Listar projetos
                         MenuAcoes.listarProjetos();
                         break;
-                    case 4: //Voltar
+                    case 3: //Voltar
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
@@ -118,7 +112,7 @@ public class MenuPrincipal {
                 scanner.nextLine();
             }
 
-        } while (subMenuOption != 4);
+        } while (subMenuOption != 3);
     }
 
     private static void menuGerenciarTarefas() {
@@ -135,13 +129,10 @@ public class MenuPrincipal {
                     case 1: //Cadastrar tarefa
                         MenuAcoes.cadastrarTarefa();
                         break;
-                    case 2: //Remover tarefa
-                        MenuAcoes.removerTarefa();
-                        break;
-                    case 3: //Listar tarefas
+                    case 2: //Listar tarefas
                         MenuAcoes.listarTarefas();
                         break;
-                    case 4: //Voltar
+                    case 3: //Voltar
                         System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
                         break;
                     default:
@@ -152,7 +143,7 @@ public class MenuPrincipal {
                 scanner.nextLine();
             }
 
-        } while (subMenuOption != 4);
+        } while (subMenuOption != 3);
     }
 
     private static void menuRelatoriosAtividades() {

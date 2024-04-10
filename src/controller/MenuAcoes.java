@@ -36,9 +36,11 @@ public class MenuAcoes {
     }
 
     public static void cadastrarPessoa() {
+        //TODO
     }
 
     public static void removerPessoa() {
+        //TODO
     }
 
     public static void listarPessoas() {
@@ -48,9 +50,11 @@ public class MenuAcoes {
     }
 
     public static void cadastrarTarefa() {
+        //TODO
     }
 
     public static void removerTarefa() {
+        //TODO
     }
 
     public static void listarTarefas() {
@@ -58,9 +62,11 @@ public class MenuAcoes {
     }
 
     public static void cadastrarProjeto() {
+        //TODO
     }
 
     public static void removerProjeto() {
+        //TODO
     }
 
     public static void listarProjetos() {

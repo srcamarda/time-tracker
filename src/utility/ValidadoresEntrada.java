@@ -3,8 +3,8 @@ package utility;
 import model.Tag;
 import view.mensagens.MensagensErro;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Random;
 
 public class ValidadoresEntrada {
     public static String obterCpfValidado(String cpf) {
@@ -19,12 +19,9 @@ public class ValidadoresEntrada {
         return nome;
     }
 
-    public static String obterUsernameValidado(String username, String nome) {
+    public static String obterUsernameValidado(String username) {
         if (!Validadores.validaUsername(username)) {
             throw new IllegalArgumentException(MensagensErro.ERRO_USERNAME.getMensagem());
-        } else if (username.isEmpty()) {
-            Random random = new Random();
-            username = nome.replace(" ", "_").toLowerCase() + random.nextInt(999);
         }
         return username;
     }
@@ -36,8 +33,13 @@ public class ValidadoresEntrada {
     }
 
 
-    public static LocalDateTime obterDataValidada(String data) {
+    public static LocalDate obterDataValidada(String data) {
         if (!Validadores.validaData(data))
+            throw new IllegalArgumentException(MensagensErro.ERRO_DATA.getMensagem());
+        return LocalDate.parse(data);
+    }
+    public static LocalDateTime obterDataTimeValidada(String data) {
+        if (!Validadores.validaDataTime(data))
             throw new IllegalArgumentException(MensagensErro.ERRO_DATA.getMensagem());
         return LocalDateTime.parse(data);
     }

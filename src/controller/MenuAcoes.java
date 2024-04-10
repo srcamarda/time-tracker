@@ -5,6 +5,10 @@ import utility.Conversores;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import repository.RepositoryPessoa;
+import service.ProjetoService;
+import service.TarefaService;
+
 public class MenuAcoes {
 
     private static Scanner scanner = new Scanner(System.in);
@@ -41,5 +45,31 @@ public class MenuAcoes {
     public static void rankingTempo() {
         System.out.println("Opção selecionada: Ranking de Tempo");
         MenuRelatorios.rankingTempo();
+    }
+
+    public static void cadastrarPessoa() {
+        //TODO
+    }
+
+    public static void listarPessoas() {
+        System.out.printf("\n%-10s    %-15s", "Nome", "Cargo");
+        RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s",pessoa.getNome(), pessoa.getCargo()));
+        System.out.println();
+    }
+
+    public static void cadastrarTarefa() {
+        //TODO
+    }
+
+    public static void listarTarefas() {
+        System.out.println(TarefaService.buscarTarefas(""));
+    }
+
+    public static void cadastrarProjeto() {
+        //TODO
+    }
+
+    public static void listarProjetos() {
+        System.out.println(ProjetoService.buscarProjeto(""));
     }
 }

@@ -15,9 +15,8 @@ import utility.Validadores;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public enum RepositoryProjeto {
@@ -46,29 +45,29 @@ public enum RepositoryProjeto {
         Projetos.forEach(this::salvarProjeto);
     }
 
-    public void salvarPessoasProjeto(String idProjeto, List<Pessoa> pessoas) {
+    public void salvarPessoasProjeto(UUID idProjeto, List<Pessoa> pessoas) {
         ArquivoUtil arquivoPessoasProjeto = new ArquivoUtil(ArquivoPaths.PESSOAS_PROJ);
 
         pessoas.forEach(pessoa -> {
-            String pessoaStr = pessoa.getId() + ";" + idProjeto;
+            String pessoaStr = pessoa.getId() + ";" + idProjeto.toString();
             arquivoPessoasProjeto.escreverArquivo(pessoaStr);
         });
     }
 
-    public void salvarTarefasProjeto(String idProjeto, List<Tarefa> tarefas) {
+    public void salvarTarefasProjeto(UUID idProjeto, List<Tarefa> tarefas) {
         ArquivoUtil arquivoTarefasProjeto = new ArquivoUtil(ArquivoPaths.TAREFAS_PROJ);
 
         tarefas.forEach(tarefa -> {
-            String tarefaStr = tarefa.getId() + ";" + idProjeto;
+            String tarefaStr = tarefa.getId() + ";" + idProjeto.toString();
             arquivoTarefasProjeto.escreverArquivo(tarefaStr);
         });
     }
 
-    public void salvarTagProjeto(String idProjeto, List<Tag> tags) {
+    public void salvarTagProjeto(UUID idProjeto, List<Tag> tags) {
         ArquivoUtil arquivoTagProjeto = new ArquivoUtil(ArquivoPaths.TAGS_PROJ);
 
         tags.forEach(tag -> {
-            String tagStr = idProjeto + ";" + tag.toString();
+            String tagStr = idProjeto.toString() + ";" + tag.toString();
             arquivoTagProjeto.escreverArquivo(tagStr);
         });
     }
@@ -88,7 +87,7 @@ public enum RepositoryProjeto {
                     .stream().map(Conversores::converterParaModel)
                     .toList();
 
-            salvarPessoasProjeto(projeto.getId().toString(), pessoas);
+            salvarPessoasProjeto(projeto.getId(), pessoas);
         }
 
         if (!Objects.isNull(projeto.getTarefasDTO()) && !projeto.getTarefasDTO().isEmpty()) {
@@ -96,11 +95,11 @@ public enum RepositoryProjeto {
                     .stream().map(Conversores::converterParaModel)
                     .toList();
 
-            salvarTarefasProjeto(projeto.getId().toString(), tarefas);
+            salvarTarefasProjeto(projeto.getId(), tarefas);
         }
 
         if (!Objects.isNull(projeto.getTags()) && !projeto.getTags().isEmpty()) {
-            salvarTagProjeto(projeto.getId().toString(), projeto.getTags());
+            salvarTagProjeto(projeto.getId(), projeto.getTags());
         }
     }
 
@@ -168,16 +167,10 @@ public enum RepositoryProjeto {
         }
     }
 
-    public Projeto buscarProjeto(String id) {
-        return projetos.stream()
-                .filter(projeto -> projeto.getId().toString().equals(id))
-                .findFirst().orElse(null);
-    }
-
-    public List<Projeto> buscarProjetos(String titulo) {
-        return projetos.stream()
-                .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
-                .collect(Collectors.toList());
+    public Optional<List<Projeto>> buscarProjetos(Predicate<Projeto> predicate) {
+        return Optional.of(projetos.stream()
+                .filter(predicate)
+                .collect(Collectors.toList()));
     }
 
     public List<Pessoa> buscarPessoasDoProjeto(String id) {

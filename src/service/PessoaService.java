@@ -9,7 +9,7 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 public class PessoaService {
-    public void criarPessoa(Pessoa pessoa) {
+    public static void criarPessoa(Pessoa pessoa) {
         RepositoryPessoa.INSTANCE.salvarPessoa(pessoa);
     }
 

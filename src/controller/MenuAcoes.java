@@ -119,7 +119,7 @@ public class MenuAcoes {
             PessoaDTO pessoa = Conversores.converterParaDTO
                     (PessoaService.buscarPessoa
                             (ValidadoresEntrada.obterUsernameValidado
-                                    (EntradaHelper.obterDado("Digite o nome da pessoa: ", scanner))));
+                                    (EntradaHelper.obterDado("Digite o username: ", scanner))));
 
             LocalDateTime dataInicio = ValidadoresEntrada.obterDataTimeValidada
                     (EntradaHelper.obterDado("Digite a data de início: ", scanner));
@@ -169,7 +169,7 @@ public class MenuAcoes {
             PessoaDTO pessoa = Conversores.converterParaDTO
                     (PessoaService.buscarPessoa
                             (ValidadoresEntrada.obterUsernameValidado
-                                    (EntradaHelper.obterDado("Digite o nome da responsável: ", scanner))));
+                                    (EntradaHelper.obterDado("Digite o username do responsável: ", scanner))));
 
             List<PessoaDTO> pessoas = new ArrayList<>();
             pessoas.add(pessoa);
@@ -185,7 +185,7 @@ public class MenuAcoes {
             ProjetoService.criarProjeto(projeto);
 
             System.out.println("Projeto criado com sucesso!");
-            
+
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }

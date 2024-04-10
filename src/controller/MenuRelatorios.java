@@ -42,22 +42,21 @@ public class MenuRelatorios {
         Pessoa pessoa = PessoaService.buscarPessoa(username);
         List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
         long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataInicio, dataFim);
-        System.out.println("Tempo utilizado no Projeto do dia " + dataInicio.format(Validadores.formatter) + " ao dia " + dataInicio.format(Validadores.formatter) + " : " + tempoTrabalhado + " minutos\n");
+        if (tempoTrabalhado == 0) {
+            System.out.println("A pessoa não possui nenhum registro de tempo no periodo escolhido.");
+        } else {
+        System.out.println("Tempo trabalhado do dia " + dataInicio.format(Validadores.formatter) + " ao dia " + dataInicio.format(Validadores.formatter) + " : " + tempoTrabalhado + " minutos\n");}
     }
-    private static LocalDate obterSegundaDaSemana(LocalDate data){
-        int valorDiaSemanaTarefa = DayOfWeek.from(data).getValue();
-        int valorSegunda = DayOfWeek.MONDAY.getValue();
-        int diferencaAteSegunda = valorDiaSemanaTarefa - valorSegunda;
-        return data.minusDays(diferencaAteSegunda);
-    }
-    
     public static void relatorioSemanal(String username, LocalDate dataSemana) {
         Pessoa pessoa = PessoaService.buscarPessoa(username);
         List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
         LocalDate dataInicio = obterSegundaDaSemana(dataSemana);
         LocalDate dataFim = dataInicio.plusDays(4);
         long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataInicio, dataFim);
-        System.out.println("Tempo utilizado no Projeto durante a semana: " + tempoTrabalhado + " minutos\n");
+        if (tempoTrabalhado == 0) {
+            System.out.println("A pessoa não possui nenhum registro de tempo na semana.");
+        } else{
+        System.out.println("Tempo trabalhado na semana: " + tempoTrabalhado + " minutos\n");}
     }
 
     public static void relatorioMensal(String username, LocalDate dataMes) {
@@ -65,7 +64,17 @@ public class MenuRelatorios {
         List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
         LocalDate dataFim = dataMes.with(TemporalAdjusters.lastDayOfMonth());
         long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataMes, dataFim);
-        System.out.println("Tempo utilizado no Projeto durante a semana: " + tempoTrabalhado + " minutos\n");
+        if (tempoTrabalhado == 0) {
+            System.out.println("A pessoa não possui nenhum registro de tempo no mês.");
+        } else {
+        System.out.println("Tempo trabalhado no mês: " + tempoTrabalhado + " minutos\n");}
+    }
+
+    private static LocalDate obterSegundaDaSemana(LocalDate data){
+        int valorDiaSemanaTarefa = DayOfWeek.from(data).getValue();
+        int valorSegunda = DayOfWeek.MONDAY.getValue();
+        int diferencaAteSegunda = valorDiaSemanaTarefa - valorSegunda;
+        return data.minusDays(diferencaAteSegunda);
     }
 
     private static long somatorioDeTempoTrabalhado(List<Tarefa> tarefas, LocalDate dataInicio, LocalDate dataFim) {

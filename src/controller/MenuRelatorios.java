@@ -48,7 +48,7 @@ public class MenuRelatorios {
     
     public static void relatorioSemanal(String username, LocalDate dataSemana) {
         Pessoa pessoa = PessoaService.buscarPessoa(username);
-        List<Tarefa> tarefas = TarefaService.buscarTarefa(pessoa.getId());
+        List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
         LocalDate dataInicio = obterSegundaDaSemana(dataSemana);
         LocalDate dataFim = dataInicio.plusDays(4);
         long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataInicio, dataFim);

@@ -9,6 +9,7 @@ import repository.RepositoryProjeto;
 import repository.RepositoryTarefa;
 import service.PessoaService;
 import service.TarefaService;
+import utility.Validadores;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -37,7 +38,11 @@ public class MenuRelatorios {
         listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoaId);
     }
 
-    public static void relatorioNoPeriodo(LocalDate dataInicio, LocalDate dataFim) {
+    public static void relatorioNoPeriodo(String username, LocalDate dataInicio, LocalDate dataFim) {
+        Pessoa pessoa = PessoaService.buscarPessoa(username);
+        List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
+        long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataInicio, dataFim);
+        System.out.println("Tempo utilizado no Projeto do dia " + dataInicio.format(Validadores.formatter) + " ao dia " + dataInicio.format(Validadores.formatter) + " : " + tempoTrabalhado + " minutos\n");
     }
     private static LocalDate obterSegundaDaSemana(LocalDate data){
         int valorDiaSemanaTarefa = DayOfWeek.from(data).getValue();

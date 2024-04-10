@@ -29,13 +29,26 @@ public class MenuAcoes {
         MenuRelatorios.planilhaDeHoras();
     }
 
+    public static void tempoTotalPeriodo() {
+
+        String username = ValidadoresEntrada.obterUsernameValidado
+                (EntradaHelper.obterDado("Digite o username: ", scanner));
+
+        LocalDate dataInicio = ValidadoresEntrada.obterDataValidada
+                (EntradaHelper.obterDado("Digite uma data inicial do periodo desejado (Formato  dd/MM/yyyy): ", scanner));
+
+        LocalDate dataFim = ValidadoresEntrada.obterDataValidada
+                (EntradaHelper.obterDado("Digite uma data final do periodo desejado (Formato  dd/MM/yyyy): ", scanner));
+
+        MenuRelatorios.relatorioNoPeriodo(username, dataInicio, dataFim);
+    }
     public static void tempoTotalSemanal() {
 
         String username = ValidadoresEntrada.obterUsernameValidado
                 (EntradaHelper.obterDado("Digite o username: ", scanner));
 
         LocalDate dataString = ValidadoresEntrada.obterDataValidada
-                (EntradaHelper.obterDado("Digite uma data na semana desejada dd/MM/yyyy: ", scanner));
+                (EntradaHelper.obterDado("Digite uma data na semana desejada (Formato  dd/MM/yyyy): ", scanner));
 
         MenuRelatorios.relatorioSemanal(username, dataString);
     }

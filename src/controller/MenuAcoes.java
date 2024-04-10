@@ -70,6 +70,6 @@ public class MenuAcoes {
     }
 
     public static void listarProjetos() {
-        System.out.println(ProjetoService.buscarProjeto(""));
+        System.out.println(ProjetoService.buscarProjetos(""));
     }
 }

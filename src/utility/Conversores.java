@@ -7,6 +7,10 @@ import model.Pessoa;
 import model.Projeto;
 import model.Tarefa;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Conversores {
 
     public static Pessoa converterParaModel(PessoaDTO pessoaDTO) {
@@ -68,5 +72,15 @@ public class Conversores {
                 tarefa.getDataHoraInicio(),
                 tarefa.getDataHoraFim(),
                 tarefa.getTag());
+    }
+
+    public static LocalDate converterStringParaDate(String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            return LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            System.err.println("Erro ao converter a data: " + e.getMessage());
+            return null;
+        }
     }
 }

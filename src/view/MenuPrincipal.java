@@ -126,7 +126,8 @@ public class MenuPrincipal {
                 switch (subMenuOption) {
                     case 1 -> MenuAcoes.tempoTotalSemanal();          // Tempo total semanal
                     case 2 -> MenuAcoes.tempoTotalMensal();           // Tempo total mensal
-                    case 3 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    case 3 -> MenuAcoes.tempoTotalPeriodo();           // Tempo total no periodo
+                    case 4 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
                     default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {

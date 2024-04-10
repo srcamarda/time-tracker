@@ -24,7 +24,8 @@ public class MenuExibir {
                 
                 1 - Tempo Total Semanal
                 2 - Tempo Total Mensal
-                3 - Voltar
+                3 - Tempo Total em um Periodo
+                4 - Voltar
                 
                 Selecione uma opção ->""");
     }

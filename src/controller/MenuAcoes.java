@@ -5,10 +5,12 @@ import model.Pessoa;
 import model.Projeto;
 import model.Tag;
 import model.Tarefa;
-import utility.Conversores;
+import utility.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,10 +18,6 @@ import java.util.Scanner;
 import service.PessoaService;
 import service.ProjetoService;
 import service.TarefaService;
-import utility.EntradaHelper;
-import utility.TipoCargo;
-import utility.TipoPlano;
-import utility.ValidadoresEntrada;
 
 public class MenuAcoes {
 
@@ -264,4 +262,5 @@ public class MenuAcoes {
     public static void listarProjetos() {
         System.out.println(ProjetoService.buscarProjetos(""));
     }
+
 }

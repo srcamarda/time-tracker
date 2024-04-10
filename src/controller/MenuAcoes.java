@@ -118,7 +118,7 @@ public class MenuAcoes {
     public static void adicionarPessoaAProjeto() {
         try {
             String titulo = ValidadoresEntrada
-                    .obterTextoValidado(EntradaHelper.obterDado("Digite o titulo do projeto: ", scanner));
+                    .obterTextoValidado(EntradaHelper.obterDado("Digite o título do projeto: ", scanner));
 
             String username = ValidadoresEntrada
                     .obterTextoValidado(EntradaHelper.obterDado("Digite o username da pessoa: ", scanner));
@@ -127,7 +127,27 @@ public class MenuAcoes {
 
             String mensagem = pessoaFoiCriada
                     ? "Pessoa vinculada ao projeto com sucesso!"
-                    : "Erro ao criar pessoa, verifique os dados...";
+                    : "Erro ao vincular pessoa, verifique os dados...";
+
+            System.out.println(mensagem);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void adicionarTarefaAProjeto() {
+        try {
+            String tituloProjeto = ValidadoresEntrada
+                    .obterTextoValidado(EntradaHelper.obterDado("Digite o título do projeto: ", scanner));
+
+            String tituloTarefa = ValidadoresEntrada
+                    .obterTextoValidado(EntradaHelper.obterDado("Digite o título da tarefa: ", scanner));
+
+            boolean pessoaFoiCriada = ProjetoService.adicionarTarefa(tituloProjeto, tituloTarefa);
+
+            String mensagem = pessoaFoiCriada
+                    ? "Tarefa adicionada ao projeto com sucesso!"
+                    : "Erro ao adicionar tarefa, verifique os dados...";
 
             System.out.println(mensagem);
         } catch (IllegalArgumentException e) {

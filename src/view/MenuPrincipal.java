@@ -105,7 +105,7 @@ public class MenuPrincipal {
                         MenuAcoes.adicionarPessoaAProjeto();
                         break;
                     case 4: //Adicionar Tarefa a Projeto
-                        System.out.println("Todo");
+                        MenuAcoes.adicionarTarefaAProjeto();
                         break;
                     case 5: //Adicionar Tag a Projeto
                         System.out.println("Todo");

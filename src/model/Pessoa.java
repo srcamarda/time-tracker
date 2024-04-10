@@ -6,6 +6,7 @@ import utility.TipoPlano;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 public class Pessoa {
@@ -116,7 +117,8 @@ public class Pessoa {
             }
 
             if (Objects.isNull(username)){
-                username = nome.replace(" ", "_").toLowerCase();
+                Random random = new Random();
+                username = nome.replace(" ", "_").toLowerCase() + random.nextInt(999);
             }
 
             if (Objects.isNull(plano)){

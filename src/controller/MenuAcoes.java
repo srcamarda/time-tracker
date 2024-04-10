@@ -1,10 +1,21 @@
 package controller;
 
+import model.Pessoa;
 import repository.RepositoryPessoa;
+import service.PessoaService;
 import service.ProjetoService;
 import service.TarefaService;
+import utility.EntradaHelper;
+import utility.TipoCargo;
+import utility.TipoPlano;
+import utility.ValidadoresEntrada;
+
+import java.util.Scanner;
 
 public class MenuAcoes {
+
+    static Scanner scanner = new Scanner(System.in);
+
     public static void planilhaDeHoras() {
         System.out.println("Opção selecionada: Planilha de Horas");
         MenuRelatorios.planilhaDeHoras();
@@ -36,7 +47,39 @@ public class MenuAcoes {
     }
 
     public static void cadastrarPessoa() {
-        //TODO
+        try {
+            String input;
+
+            String nome = ValidadoresEntrada.obterNomeValidado
+                    (EntradaHelper.obterDado("Digite o nome: ", scanner));
+
+            String username = ValidadoresEntrada.obterUsernameValidado
+                    (EntradaHelper.obterDado("Digite o username: ", scanner), nome);
+
+            String cpf = ValidadoresEntrada.obterCpfValidado
+                    (EntradaHelper.obterDado("Digite o cpf: ", scanner));
+
+            TipoCargo cargo = ValidadoresEntrada.obterCargoValidado
+                    (EntradaHelper.obterDado("Digite o cargo: ", scanner));
+
+            TipoPlano plano = ValidadoresEntrada.obterPlanoValidado
+                    (EntradaHelper.obterDado("Digite o plano: ", scanner));
+
+            Pessoa pessoa = new Pessoa.Builder()
+                    .username(username)
+                    .nome(nome)
+                    .cpf(cpf)
+                    .cargo(cargo)
+                    .plano(plano)
+                    .build();
+
+            PessoaService.criarPessoa(pessoa);
+
+            System.out.println("Pessoa cadastrada com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void listarPessoas() {

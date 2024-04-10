@@ -5,8 +5,10 @@ import view.mensagens.MensagensErro;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ValidadoresEntrada {
+
     public static String obterCpfValidado(String cpf) {
         if (!Validadores.validaCPF(cpf))
             throw new IllegalArgumentException(MensagensErro.ERRO_CPF.getMensagem());
@@ -35,7 +37,7 @@ public class ValidadoresEntrada {
     public static LocalDate obterDataValidada(String data) {
         if (!Validadores.validaData(data))
             throw new IllegalArgumentException(MensagensErro.ERRO_DATA.getMensagem());
-        return LocalDate.parse(data);
+        return LocalDate.parse(data, Validadores.formatter);
     }
 
     public static LocalDateTime obterDataTimeValidada(String data) {

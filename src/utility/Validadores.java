@@ -2,12 +2,15 @@ package utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Validadores {
 
     public static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static boolean validaCPF(String cpf) {
         cpf = cpf.replaceAll("[^\\d]", "");
@@ -27,13 +30,13 @@ public class Validadores {
     }
 
     public static boolean validaData(String data) {
-        dateFormat.setLenient(false);
         try {
-            dateFormat.parse(data.trim());
-        } catch (ParseException pe) {
+            LocalDate.parse(data, formatter);
+            return true;
+        } catch (DateTimeParseException e) {
+            System.err.println("Erro ao converter a data: " + e.getMessage());
             return false;
         }
-        return true;
     }
 
     public static boolean validaDataTime(String data) {

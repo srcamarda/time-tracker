@@ -134,7 +134,7 @@ public class MenuPrincipal {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 scanner.nextLine();
             }
-        } while (subMenuOption != 3);
+        } while (subMenuOption != 4);
     }
 
     private static void menuRelatoriosIndicadores() {

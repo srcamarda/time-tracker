@@ -1,6 +1,14 @@
 package controller;
 
+import utility.Conversores;
+
+import java.time.LocalDate;
+import java.util.Scanner;
+
 public class MenuAcoes {
+
+    private static Scanner scanner = new Scanner(System.in);
+
     public static void planilhaDeHoras() {
         System.out.println("Opção selecionada: Planilha de Horas");
         MenuRelatorios.planilhaDeHoras();
@@ -8,12 +16,16 @@ public class MenuAcoes {
 
     public static void tempoTotalSemanal() {
         System.out.println("Opção selecionada: Tempo Total Semanal");
-        MenuRelatorios.tempoTotalSemanal();
+        System.out.print("Digite o username do usuário: ");
+        String pessoaUsername = scanner.nextLine();
+        System.out.println("Digite uma data na semana desejada dd/MM/yyyy: ");
+        LocalDate dataString = Conversores.converterStringParaDate(scanner.nextLine());
+        MenuRelatorios.relatorioSemanal(pessoaUsername, dataString);
     }
 
     public static void tempoTotalMensal() {
         System.out.println("Opção selecionada: Tempo Total Mensal");
-        MenuRelatorios.tempoTotalMensal();
+        MenuRelatorios.relatorioMensal();
     }
 
     public static void mediaTempoPorDia() {

@@ -40,7 +40,7 @@ public class MenuPrincipal {
                         menuGerenciarTarefas();
                         break;
                     case 7: //Sair
-                        System.out.println(MensagensMenu.SAIR_MENU);
+                        System.out.println(MensagensMenu.SAIR_MENU.getMensagem());
                         break;
                     default:
                         System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -50,7 +50,7 @@ public class MenuPrincipal {
                 scanner.nextLine();
             }
 
-        } while (menuOption != 4);
+        } while (menuOption != 7);
     }
 
     private static void menuGerenciarPessoas() {

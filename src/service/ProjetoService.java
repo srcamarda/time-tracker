@@ -3,6 +3,7 @@ package service;
 import model.Pessoa;
 import model.Projeto;
 import model.Tag;
+import model.Tarefa;
 import repository.RepositoryProjeto;
 import utility.TipoPlano;
 
@@ -42,6 +43,19 @@ public class ProjetoService {
         if (projeto.getTags().contains(tag)) return false;
 
         RepositoryProjeto.INSTANCE.salvarTagProjeto(projeto.getId(), List.of(tag));
+        return true;
+    }
+
+    public static boolean adicionarTarefa(String tituloProjeto, String tituloTarefa) {
+        Projeto projeto = buscarProjeto(tituloProjeto);
+
+        int count = (int) projeto.getTarefasDTO().stream()
+                .filter(tarefaDTO -> tarefaDTO.titulo().equalsIgnoreCase(tituloTarefa.trim())).count();
+        if (count > 0) return false;
+
+        Tarefa tarefa = TarefaService.buscarTarefa(tituloTarefa);
+
+        RepositoryProjeto.INSTANCE.salvarTarefasProjeto(projeto.getId(), List.of(tarefa));
         return true;
     }
 

@@ -61,7 +61,10 @@ public class MenuExibir {
                 
                 1 - Cadastrar Projeto
                 2 - Listar Projetos
-                3 - Voltar
+                3 - Adicionar Pessoa a Projeto
+                4 - Adicionar Tarefa a Projeto
+                5 - Adicionar Tag a Projeto
+                6 - Voltar
                 
                 Selecione uma opção ->""");
     }

@@ -21,29 +21,14 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (menuOption) {
-                    case 1: //Planilha de horas
-                        MenuAcoes.planilhaDeHoras();
-                        break;
-                    case 2: //Relatórios de atividades
-                        menuRelatoriosAtividades();
-                        break;
-                    case 3: //Relatórios de indicadores
-                        menuRelatoriosIndicadores();
-                        break;
-                    case 4: //Gerenciar pessoas
-                        menuGerenciarPessoas();
-                        break;
-                    case 5: //Gerenciar projetos
-                        menuGerenciarProjetos();
-                        break;
-                    case 6: //Gerenciar tarefas
-                        menuGerenciarTarefas();
-                        break;
-                    case 7: //Sair
-                        System.out.println(MensagensMenu.SAIR_MENU.getMensagem());
-                        break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                    case 1 -> MenuAcoes.planilhaDeHoras();            // Planilha de horas
+                    case 2 -> menuRelatoriosAtividades();             // Relatórios de atividades
+                    case 3 -> menuRelatoriosIndicadores();            // Relatórios de indicadores
+                    case 4 -> menuGerenciarPessoas();                 // Gerenciar pessoas
+                    case 5 -> menuGerenciarProjetos();                // Gerenciar projetos
+                    case 6 -> menuGerenciarTarefas();                 // Gerenciar tarefas
+                    case 7 -> System.out.println(MensagensMenu.SAIR_MENU.getMensagem());      // Sair
+                    default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -64,17 +49,10 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1: //Cadastrar pessoa
-                        MenuAcoes.cadastrarPessoa();
-                        break;
-                    case 2: //Listar pessoas
-                        MenuAcoes.listarPessoas();
-                        break;
-                    case 3: //Voltar
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
-                        break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                    case 1 -> MenuAcoes.cadastrarPessoa();            // Cadastrar pessoa
+                    case 2 -> MenuAcoes.listarPessoas();              // Listar pessoas
+                    case 3 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -95,26 +73,13 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1: //Cadastrar projeto
-                        MenuAcoes.cadastrarProjeto();
-                        break;
-                    case 2: //Listar projetos
-                        MenuAcoes.listarProjetos();
-                        break;
-                    case 3: //Adicionar Pessoa a Projeto
-                        MenuAcoes.adicionarPessoaAProjeto();
-                        break;
-                    case 4: //Adicionar Tarefa a Projeto
-                        MenuAcoes.adicionarTarefaAProjeto();
-                        break;
-                    case 5: //Adicionar Tag a Projeto
-                        MenuAcoes.adicionarTagAProjeto();
-                        break;
-                    case 6: //Voltar
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
-                        break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                    case 1 -> MenuAcoes.cadastrarProjeto();           // Cadastrar projeto
+                    case 2 -> MenuAcoes.listarProjetos();             // Listar projetos
+                    case 3 -> MenuAcoes.adicionarPessoaAProjeto();    // Adicionar Pessoa a Projeto
+                    case 4 -> MenuAcoes.adicionarTarefaAProjeto();    // Adicionar Tarefa a Projeto
+                    case 5 -> MenuAcoes.adicionarTagAProjeto();       // Adicionar Tag a Projeto
+                    case 6 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -135,17 +100,10 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1: //Cadastrar tarefa
-                        MenuAcoes.cadastrarTarefa();
-                        break;
-                    case 2: //Listar tarefas
-                        MenuAcoes.listarTarefas();
-                        break;
-                    case 3: //Voltar
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
-                        break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                    case 1 -> MenuAcoes.cadastrarTarefa();            // Cadastrar tarefa
+                    case 2 -> MenuAcoes.listarTarefas();              // Listar tarefas
+                    case 3 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -166,17 +124,10 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1: //Tempo total semanal
-                        MenuAcoes.tempoTotalSemanal();
-                        break;
-                    case 2: //Tempo total mensal
-                        MenuAcoes.tempoTotalMensal();
-                        break;
-                    case 3: //Voltar
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
-                        break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                    case 1 -> MenuAcoes.tempoTotalSemanal();          // Tempo total semanal
+                    case 2 -> MenuAcoes.tempoTotalMensal();           // Tempo total mensal
+                    case 3 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
@@ -196,20 +147,11 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (subMenuOption) {
-                    case 1: //Media de tempo por dia
-                        MenuAcoes.mediaTempoPorDia();
-                        break;
-                    case 2: //Media de tempo geral
-                        MenuAcoes.mediaTempoGeral();
-                        break;
-                    case 3: //Ranking de tempo
-                        MenuAcoes.rankingTempo();
-                        break;
-                    case 4: //Voltar
-                        System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());
-                        break;
-                    default:
-                        System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
+                    case 1 -> MenuAcoes.mediaTempoPorDia();           // Media de tempo por dia
+                    case 2 -> MenuAcoes.mediaTempoGeral();            // Media de tempo geral
+                    case 3 -> MenuAcoes.rankingTempo();               // Ranking de tempo
+                    case 4 -> System.out.println(MensagensMenu.RETORNA_MENU.getMensagem());   // Voltar
+                    default -> System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());
                 }
             } catch (InputMismatchException e) {
                 System.out.println(MensagensMenu.OPCAO_INVALIDA.getMensagem());

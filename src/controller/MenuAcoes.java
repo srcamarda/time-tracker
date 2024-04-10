@@ -24,7 +24,11 @@ public class MenuAcoes {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void planilhaDeHoras() {
-        MenuRelatorios.planilhaDeHoras();
+
+        String username = ValidadoresEntrada.obterUsernameValidado
+                (EntradaHelper.obterDado("Digite o username: ", scanner));
+
+        MenuRelatorios.planilhaDeHoras(username);
     }
 
     public static void tempoTotalPeriodo() {

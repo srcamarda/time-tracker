@@ -28,27 +28,14 @@ public class MenuRelatorios {
 
     static Scanner scanner = new Scanner(System.in);
 
-    public static void planilhaDeHoras() {
+    public static void planilhaDeHoras(String username) {
 
-        String pessoaId = "";
-        boolean idValido = false;
+        Pessoa pessoa = PessoaService.buscarPessoa(username);
 
-        while (!idValido) {
-            System.out.print("Digite o id do usuário (UUID): ");
-            pessoaId = scanner.nextLine();
-            idValido = Validadores.validaUUID(pessoaId);
+        System.out.println("\nPlanilha de horas\n" + "\nUsuário: " + username);
 
-            if (!idValido) {
-                System.out.println("ID inválido. Por favor, insira um UUID válido.");
-            }
-        }
-
-        Pessoa pessoa = RepositoryPessoa.INSTANCE.buscarPessoa(pessoaId);
-
-        System.out.println("\nPlanilha de horas\n" + "\nUsuário: " + pessoa.getUsername());
-
-        listaProjetosPlanilha(RepositoryProjeto.INSTANCE.carregarProjetos(), pessoaId);
-        listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoaId);
+        listaProjetosPlanilha(RepositoryProjeto.INSTANCE.carregarProjetos(), pessoa.getId().toString());
+        listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoa.getId().toString());
     }
 
     public static void rankingTempo() {

@@ -54,7 +54,7 @@ public class MenuAcoes {
     }
 
     public static void listarTarefas() {
-        System.out.println(TarefaService.buscarTarefa(""));
+        System.out.println(TarefaService.buscarTarefas(""));
     }
 
     public static void cadastrarProjeto() {

@@ -13,10 +13,8 @@ import utility.Validadores;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public enum RepositoryTarefa {
@@ -125,21 +123,9 @@ public enum RepositoryTarefa {
                 .findFirst().orElse(null);
     }
 
-    public List<Tarefa> buscarTarefas(String titulo) {
-        return tarefas.stream()
-                .filter(tarefa -> tarefa.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    public List<Tarefa> buscarTarefas(UUID pessoaId) {
-        return tarefas.stream()
-                .filter(tarefa -> tarefa.getPessoaDTO().id().equals(pessoaId))
-                .collect(Collectors.toList());
-    }
-
-    public List<Tarefa> buscarTarefas(PessoaDTO pessoaDTO) {
-        return tarefas.stream()
-                .filter(tarefa -> tarefa.getPessoaDTO().nome().equalsIgnoreCase(pessoaDTO.nome()))
-                .collect(Collectors.toList());
+    public Optional<List<Tarefa>> buscarTarefas(Predicate<Tarefa> predicate) {
+        return Optional.of(tarefas.stream()
+                .filter(predicate)
+                .collect(Collectors.toList()));
     }
 }

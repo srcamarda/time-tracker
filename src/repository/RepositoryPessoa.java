@@ -58,7 +58,7 @@ public enum RepositoryPessoa {
         try {
             String id = ValidadoresEntrada.obterUUIDValidado(valores[0]);
             String nome = ValidadoresEntrada.obterNomeValidado(valores[2]);
-            String username = ValidadoresEntrada.obterUsernameValidado(valores[1], nome);
+            String username = ValidadoresEntrada.obterUsernameValidado(valores[1]);
             String cpf = ValidadoresEntrada.obterCpfValidado(valores[3]);
             TipoCargo cargo = ValidadoresEntrada.obterCargoValidado(valores[4]);
             TipoPlano plano = ValidadoresEntrada.obterPlanoValidado(valores[5]);

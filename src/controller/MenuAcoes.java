@@ -39,10 +39,6 @@ public class MenuAcoes {
         //TODO
     }
 
-    public static void removerPessoa() {
-        //TODO
-    }
-
     public static void listarPessoas() {
         System.out.printf("\n%-10s    %-15s", "Nome", "Cargo");
         RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s",pessoa.getNome(), pessoa.getCargo()));
@@ -53,19 +49,11 @@ public class MenuAcoes {
         //TODO
     }
 
-    public static void removerTarefa() {
-        //TODO
-    }
-
     public static void listarTarefas() {
         System.out.println(TarefaService.buscarTarefa(""));
     }
 
     public static void cadastrarProjeto() {
-        //TODO
-    }
-
-    public static void removerProjeto() {
         //TODO
     }
 

@@ -32,12 +32,12 @@ public class ValidadoresEntrada {
         return texto;
     }
 
-
     public static LocalDate obterDataValidada(String data) {
         if (!Validadores.validaData(data))
             throw new IllegalArgumentException(MensagensErro.ERRO_DATA.getMensagem());
         return LocalDate.parse(data);
     }
+
     public static LocalDateTime obterDataTimeValidada(String data) {
         if (!Validadores.validaDataTime(data))
             throw new IllegalArgumentException(MensagensErro.ERRO_DATA.getMensagem());

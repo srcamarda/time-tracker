@@ -135,7 +135,7 @@ public class MenuAcoes {
                     .descricao(descricao)
                     .pessoaDTO(pessoa)
                     .dataHoraInicio(dataInicio)
-                    .dataHoraInicio(dataFinal)
+                    .dataHoraFim(dataFinal)
                     .tag(tag)
                     .build();
 
@@ -184,7 +184,7 @@ public class MenuAcoes {
 
             ProjetoService.criarProjeto(projeto);
 
-            System.out.println("Projeto criado com sucesso!");
+            System.out.println("Projeto cadastrado com sucesso!");
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

@@ -1,9 +1,13 @@
 package controller;
 
+import dto.PessoaDTO;
 import model.Pessoa;
+import model.Tag;
+import model.Tarefa;
 import utility.Conversores;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import repository.RepositoryPessoa;
@@ -98,13 +102,47 @@ public class MenuAcoes {
     }
 
     public static void listarPessoas() {
-        System.out.printf("\n%-10s    %-15s", "Nome", "Cargo");
-        RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s", pessoa.getNome(), pessoa.getCargo()));
-        System.out.println();
+        System.out.println(PessoaService.buscarPessoas(""));
     }
 
     public static void cadastrarTarefa() {
-        //TODO
+        try {
+            String titulo = ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite o título: ", scanner));
+
+            String descricao = ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite a descrição: ", scanner));
+
+            PessoaDTO pessoa = Conversores.converterParaDTO
+                    (PessoaService.buscarPessoa
+                            (ValidadoresEntrada.obterUsernameValidado
+                                    (EntradaHelper.obterDado("Digite o nome da pessoa: ", scanner))));
+
+            LocalDateTime dataInicio = ValidadoresEntrada.obterDataTimeValidada
+                    (EntradaHelper.obterDado("Digite a data de início: ", scanner));
+
+            LocalDateTime dataFinal = ValidadoresEntrada.obterDataTimeValidada
+                    (EntradaHelper.obterDado("Digite a data de final: ", scanner));
+
+            Tag tag = ValidadoresEntrada.obterTagValidado
+                    (EntradaHelper.obterDado("Digite a tag: ", scanner));
+
+            Tarefa tarefa = new Tarefa.Builder()
+                    .titulo(titulo)
+                    .descricao(descricao)
+                    .pessoaDTO(pessoa)
+                    .dataHoraInicio(dataInicio)
+                    .dataHoraInicio(dataFinal)
+                    .tag(tag)
+                    .build();
+
+            TarefaService.criarTarefa(tarefa);
+
+            System.out.println("Tarefa cadastrada com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void listarTarefas() {

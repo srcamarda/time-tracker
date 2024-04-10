@@ -54,11 +54,11 @@ public enum RepositoryProjeto {
         });
     }
 
-    public void salvarTarefasProjeto(String idProjeto, List<Tarefa> tarefas) {
+    public void salvarTarefasProjeto(UUID idProjeto, List<Tarefa> tarefas) {
         ArquivoUtil arquivoTarefasProjeto = new ArquivoUtil(ArquivoPaths.TAREFAS_PROJ);
 
         tarefas.forEach(tarefa -> {
-            String tarefaStr = tarefa.getId() + ";" + idProjeto;
+            String tarefaStr = tarefa.getId() + ";" + idProjeto.toString();
             arquivoTarefasProjeto.escreverArquivo(tarefaStr);
         });
     }
@@ -95,7 +95,7 @@ public enum RepositoryProjeto {
                     .stream().map(Conversores::converterParaModel)
                     .toList();
 
-            salvarTarefasProjeto(projeto.getId().toString(), tarefas);
+            salvarTarefasProjeto(projeto.getId(), tarefas);
         }
 
         if (!Objects.isNull(projeto.getTags()) && !projeto.getTags().isEmpty()) {

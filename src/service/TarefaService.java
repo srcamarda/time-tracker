@@ -15,7 +15,7 @@ public class TarefaService {
     private static final long DURACAO_MINIMA_DA_TAREFA_EM_MINUTOS = 5;
 
     public static boolean criarTarefa(Tarefa tarefa) {
-        List<Tarefa> tarefas = buscarTarefa(tarefa.getPessoaDTO());
+        List<Tarefa> tarefas = buscarTarefas(tarefa.getPessoaDTO());
 
         // Verificar se é tarefa simultânea
         boolean existemTarefasSimultaneas = verificarSeTarefaEhSimultanea(tarefa, tarefas);
@@ -33,16 +33,24 @@ public class TarefaService {
         return true;
     }
 
-    public static List<Tarefa> buscarTarefa(String titulo) {
-        return RepositoryTarefa.INSTANCE.buscarTarefas(titulo.toLowerCase());
+    public static Tarefa buscarTarefa(String titulo) {
+        Predicate<Tarefa> predicate = tarefa -> tarefa.getTitulo().trim().equalsIgnoreCase(titulo.trim());
+        return RepositoryTarefa.INSTANCE.buscarTarefas(predicate).orElseThrow().get(0);
     }
 
-    public static List<Tarefa> buscarTarefa(UUID pessoaId) {
-        return RepositoryTarefa.INSTANCE.buscarTarefas(pessoaId);
+    public static List<Tarefa> buscarTarefas(String titulo) {
+        Predicate<Tarefa> predicate = tarefa -> tarefa.getTitulo().trim().toLowerCase().contains(titulo.toLowerCase().trim());
+        return RepositoryTarefa.INSTANCE.buscarTarefas(predicate).orElseThrow();
     }
 
-    public static List<Tarefa> buscarTarefa(PessoaDTO pessoaDTO) {
-        return RepositoryTarefa.INSTANCE.buscarTarefas(pessoaDTO);
+    public static List<Tarefa> buscarTarefas(UUID pessoaId) {
+        Predicate<Tarefa> predicate = tarefa -> tarefa.getPessoaDTO().id().equals(pessoaId);
+        return RepositoryTarefa.INSTANCE.buscarTarefas(predicate).orElseThrow();
+    }
+
+    public static List<Tarefa> buscarTarefas(PessoaDTO pessoaDTO) {
+        Predicate<Tarefa> predicate = tarefa -> tarefa.getPessoaDTO().equals(pessoaDTO);
+        return RepositoryTarefa.INSTANCE.buscarTarefas(predicate).orElseThrow();
     }
 
     private static long obterDuracaoMaximaPorDia(Tarefa tarefa, List<Tarefa> tarefas) {

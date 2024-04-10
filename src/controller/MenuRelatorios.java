@@ -7,12 +7,18 @@ import model.Tarefa;
 import repository.RepositoryPessoa;
 import repository.RepositoryProjeto;
 import repository.RepositoryTarefa;
+import service.PessoaService;
+import service.TarefaService;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class MenuRelatorios {
 
@@ -31,11 +37,29 @@ public class MenuRelatorios {
         listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoaId);
     }
 
-    public static void tempoTotalSemanal() {
-        //Calcular o tempo total Semanal
+    public static void relatorioNoPeriodo(LocalDate dataInicio, LocalDate dataFim) {
+    }
+    private static LocalDate obterSegundaDaSemana(LocalDate data){
+        int valorDiaSemanaTarefa = DayOfWeek.from(data).getValue();
+        int valorSegunda = DayOfWeek.MONDAY.getValue();
+        int diferencaAteSegunda = valorDiaSemanaTarefa - valorSegunda;
+        return data.minusDays(diferencaAteSegunda);
+    }
+    
+    public static void relatorioSemanal(String username, LocalDate dataSemana) {
+        Pessoa pessoa = PessoaService.buscarPessoa(username);
+        List<Tarefa> tarefas = TarefaService.buscarTarefa(pessoa.getId());
+        LocalDate dataInicio = obterSegundaDaSemana(dataSemana);
+        LocalDate dataFim = dataInicio.plusDays(4);
+        long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataInicio, dataFim);
+        System.out.println("Tempo utilizado no Projeto durante a semana: " + tempoTrabalhado + " minutos\n");
     }
 
-    public static void tempoTotalMensal() {
+    private static long somatorioDeTempoTrabalhado(List<Tarefa> tarefas, LocalDate dataInicio, LocalDate dataFim) {
+        return tarefas.stream().filter(tarefa -> !tarefa.getDataHoraInicio().toLocalDate().isBefore(dataInicio) && !tarefa.getDataHoraInicio().toLocalDate().isAfter(dataFim)).mapToLong(tarefa -> tarefa.getDuracao().toMinutes()).sum();
+    }
+
+    public static void relatorioMensal() {
         //Calcular o tempo total Mensal
     }
 

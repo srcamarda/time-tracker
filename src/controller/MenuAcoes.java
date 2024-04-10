@@ -1,6 +1,11 @@
 package controller;
 
 import model.Pessoa;
+import utility.Conversores;
+
+import java.time.LocalDate;
+import java.util.Scanner;
+
 import repository.RepositoryPessoa;
 import service.PessoaService;
 import service.ProjetoService;
@@ -10,11 +15,9 @@ import utility.TipoCargo;
 import utility.TipoPlano;
 import utility.ValidadoresEntrada;
 
-import java.util.Scanner;
-
 public class MenuAcoes {
 
-    static Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void planilhaDeHoras() {
         System.out.println("Opção selecionada: Planilha de Horas");
@@ -23,12 +26,16 @@ public class MenuAcoes {
 
     public static void tempoTotalSemanal() {
         System.out.println("Opção selecionada: Tempo Total Semanal");
-        MenuRelatorios.tempoTotalSemanal();
+        System.out.print("Digite o username do usuário: ");
+        String pessoaUsername = scanner.nextLine();
+        System.out.println("Digite uma data na semana desejada dd/MM/yyyy: ");
+        LocalDate dataString = Conversores.converterStringParaDate(scanner.nextLine());
+        MenuRelatorios.relatorioSemanal(pessoaUsername, dataString);
     }
 
     public static void tempoTotalMensal() {
         System.out.println("Opção selecionada: Tempo Total Mensal");
-        MenuRelatorios.tempoTotalMensal();
+        MenuRelatorios.relatorioMensal();
     }
 
     public static void mediaTempoPorDia() {
@@ -84,7 +91,7 @@ public class MenuAcoes {
 
     public static void listarPessoas() {
         System.out.printf("\n%-10s    %-15s", "Nome", "Cargo");
-        RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s",pessoa.getNome(), pessoa.getCargo()));
+        RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s", pessoa.getNome(), pessoa.getCargo()));
         System.out.println();
     }
 
@@ -93,7 +100,7 @@ public class MenuAcoes {
     }
 
     public static void listarTarefas() {
-        System.out.println(TarefaService.buscarTarefa(""));
+        System.out.println(TarefaService.buscarTarefas(""));
     }
 
     public static void cadastrarProjeto() {
@@ -101,6 +108,6 @@ public class MenuAcoes {
     }
 
     public static void listarProjetos() {
-        System.out.println(ProjetoService.buscarProjeto(""));
+        System.out.println(ProjetoService.buscarProjetos(""));
     }
 }

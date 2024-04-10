@@ -1,10 +1,8 @@
 package model;
 
-import dto.TarefaDTO;
 import utility.TipoCargo;
 import utility.TipoPlano;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
@@ -30,6 +28,7 @@ public class Pessoa {
     public UUID getId() {
         return id;
     }
+
     public String getUsername() {
         return username;
     }
@@ -96,6 +95,7 @@ public class Pessoa {
             this.nome = nome;
             return this;
         }
+
         public Builder plano(TipoPlano plano) {
             this.plano = plano;
             return this;
@@ -106,7 +106,7 @@ public class Pessoa {
             return this;
         }
 
-        public  Builder cpf(String cpf) {
+        public Builder cpf(String cpf) {
             this.cpf = cpf;
             return this;
         }
@@ -116,16 +116,16 @@ public class Pessoa {
                 id = UUID.randomUUID();
             }
 
-            if (Objects.isNull(username)){
+            if (Objects.isNull(username)) {
                 Random random = new Random();
                 username = nome.replace(" ", "_").toLowerCase() + random.nextInt(999);
             }
 
-            if (Objects.isNull(plano)){
+            if (Objects.isNull(plano)) {
                 plano = TipoPlano.FREE;
             }
 
-            if (Objects.isNull(cargo)){
+            if (Objects.isNull(cargo)) {
                 cargo = TipoCargo.SEM_CARGO;
             }
 

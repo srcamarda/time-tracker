@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import repository.RepositoryPessoa;
 import service.PessoaService;
 import service.ProjetoService;
 import service.TarefaService;
@@ -153,7 +152,7 @@ public class MenuAcoes {
     }
 
     public static void cadastrarProjeto() {
-        try{
+        try {
             String titulo = ValidadoresEntrada.obterTextoValidado
                     (EntradaHelper.obterDado("Digite o título: ", scanner));
 

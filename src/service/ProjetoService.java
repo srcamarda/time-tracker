@@ -5,7 +5,6 @@ import model.Projeto;
 import model.Tag;
 import model.Tarefa;
 import repository.RepositoryProjeto;
-import utility.TipoPlano;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -13,11 +12,11 @@ import java.util.function.Predicate;
 public class ProjetoService {
     private static final int MAX_PESSOAS_POR_PROJETO = 5;
 
-    public static void criarProjeto(Projeto projeto){
+    public static void criarProjeto(Projeto projeto) {
         RepositoryProjeto.INSTANCE.salvarProjeto(projeto);
     }
 
-    public static boolean adicionarPessoa(String titulo, String username){
+    public static boolean adicionarPessoa(String titulo, String username) {
         // Obter projeto e verificar se ele está cheio
         Projeto projeto = buscarProjeto(titulo);
 

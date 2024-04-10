@@ -5,7 +5,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 public class Validadores {
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+    public static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     public static boolean validaCPF(String cpf) {
         cpf = cpf.replaceAll("[^\\d]", "");
         return cpf.length() == 11 && !cpf.matches("^(\\d)\\1{10}$");
@@ -27,6 +30,16 @@ public class Validadores {
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(data.trim());
+        } catch (ParseException pe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validaDataTime(String data) {
+        dateTimeFormat.setLenient(false);
+        try {
+            dateTimeFormat.parse(data.trim());
         } catch (ParseException pe) {
             return false;
         }

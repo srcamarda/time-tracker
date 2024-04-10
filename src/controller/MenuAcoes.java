@@ -1,10 +1,16 @@
 package controller;
 
+import dto.PessoaDTO;
 import model.Pessoa;
+import model.Projeto;
 import model.Tag;
+import model.Tarefa;
 import utility.Conversores;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import repository.RepositoryPessoa;
@@ -43,7 +49,7 @@ public class MenuAcoes {
         while (diaMes < 1 || diaMes > 12) {
             diaMes = Integer.parseInt(scanner.nextLine());
         }
-        LocalDate dataMes = LocalDate.of(2024,diaMes,1);
+        LocalDate dataMes = LocalDate.of(2024, diaMes, 1);
         MenuRelatorios.relatorioMensal(pessoaUsername, dataMes);
     }
 
@@ -70,7 +76,7 @@ public class MenuAcoes {
                     (EntradaHelper.obterDado("Digite o nome: ", scanner));
 
             String username = ValidadoresEntrada.obterUsernameValidado
-                    (EntradaHelper.obterDado("Digite o username: ", scanner), nome);
+                    (EntradaHelper.obterDado("Digite o username: ", scanner));
 
             String cpf = ValidadoresEntrada.obterCpfValidado
                     (EntradaHelper.obterDado("Digite o cpf: ", scanner));
@@ -99,13 +105,47 @@ public class MenuAcoes {
     }
 
     public static void listarPessoas() {
-        System.out.printf("\n%-10s    %-15s", "Nome", "Cargo");
-        RepositoryPessoa.INSTANCE.getPessoas().forEach(pessoa -> System.out.printf("\n%-15s    %-15s", pessoa.getNome(), pessoa.getCargo()));
-        System.out.println();
+        System.out.println(PessoaService.buscarPessoas(""));
     }
 
     public static void cadastrarTarefa() {
-        //TODO
+        try {
+            String titulo = ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite o título: ", scanner));
+
+            String descricao = ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite a descrição: ", scanner));
+
+            PessoaDTO pessoa = Conversores.converterParaDTO
+                    (PessoaService.buscarPessoa
+                            (ValidadoresEntrada.obterUsernameValidado
+                                    (EntradaHelper.obterDado("Digite o username: ", scanner))));
+
+            LocalDateTime dataInicio = ValidadoresEntrada.obterDataTimeValidada
+                    (EntradaHelper.obterDado("Digite a data de início: ", scanner));
+
+            LocalDateTime dataFinal = ValidadoresEntrada.obterDataTimeValidada
+                    (EntradaHelper.obterDado("Digite a data de final: ", scanner));
+
+            Tag tag = ValidadoresEntrada.obterTagValidado
+                    (EntradaHelper.obterDado("Digite a tag: ", scanner));
+
+            Tarefa tarefa = new Tarefa.Builder()
+                    .titulo(titulo)
+                    .descricao(descricao)
+                    .pessoaDTO(pessoa)
+                    .dataHoraInicio(dataInicio)
+                    .dataHoraInicio(dataFinal)
+                    .tag(tag)
+                    .build();
+
+            TarefaService.criarTarefa(tarefa);
+
+            System.out.println("Tarefa cadastrada com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void listarTarefas() {
@@ -113,7 +153,42 @@ public class MenuAcoes {
     }
 
     public static void cadastrarProjeto() {
-        //TODO
+        try{
+            String titulo = ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite o título: ", scanner));
+
+            String descricao = ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite a descrição: ", scanner));
+
+            LocalDateTime dataInicio = ValidadoresEntrada.obterDataTimeValidada
+                    (EntradaHelper.obterDado("Digite a data de início: ", scanner));
+
+            LocalDateTime dataFinal = ValidadoresEntrada.obterDataTimeValidada
+                    (EntradaHelper.obterDado("Digite a data de final: ", scanner));
+
+            PessoaDTO pessoa = Conversores.converterParaDTO
+                    (PessoaService.buscarPessoa
+                            (ValidadoresEntrada.obterUsernameValidado
+                                    (EntradaHelper.obterDado("Digite o username do responsável: ", scanner))));
+
+            List<PessoaDTO> pessoas = new ArrayList<>();
+            pessoas.add(pessoa);
+
+            Projeto projeto = new Projeto.Builder()
+                    .titulo(titulo)
+                    .descricao(descricao)
+                    .pessoasDTO(pessoas)
+                    .dataHoraInicio(dataInicio)
+                    .dataHoraFim(dataFinal)
+                    .build();
+
+            ProjetoService.criarProjeto(projeto);
+
+            System.out.println("Projeto criado com sucesso!");
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void adicionarPessoaAProjeto() {
@@ -122,7 +197,7 @@ public class MenuAcoes {
                     .obterTextoValidado(EntradaHelper.obterDado("Digite o título do projeto: ", scanner));
 
             String username = ValidadoresEntrada
-                    .obterTextoValidado(EntradaHelper.obterDado("Digite o username da pessoa: ", scanner));
+                    .obterUsernameValidado(EntradaHelper.obterDado("Digite o username da pessoa: ", scanner));
 
             boolean pessoaFoiAdicionada = ProjetoService.adicionarPessoa(titulo, username);
 

@@ -78,13 +78,13 @@ public enum RepositoryTarefa {
             //Caso não tenha data de início, utiliza a atual
             LocalDateTime dataHoraInicio;
             if (!valores[5].isEmpty() && !valores[5].equals("null"))
-                dataHoraInicio = ValidadoresEntrada.obterDataValidada(valores[5]);
+                dataHoraInicio = ValidadoresEntrada.obterDataTimeValidada(valores[5]);
             else
                 dataHoraInicio = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
 
             //Permite carregar tarefas em andamento (sem data de término)
             if (valores.length > 6 && !valores[6].isEmpty() && !valores[6].equals("null")) {
-                LocalDateTime dataHoraFim = ValidadoresEntrada.obterDataValidada(valores[6]);
+                LocalDateTime dataHoraFim = ValidadoresEntrada.obterDataTimeValidada(valores[6]);
 
                 if (!Validadores.validaDataFinal(dataHoraInicio, dataHoraFim)) {
                     System.out.println(MensagensErro.ERRO_DATA_FINAL.getMensagem());

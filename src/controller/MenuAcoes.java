@@ -29,7 +29,15 @@ public class MenuAcoes {
 
     public static void tempoTotalMensal() {
         System.out.println("Opção selecionada: Tempo Total Mensal");
-        MenuRelatorios.relatorioMensal();
+        System.out.print("Digite o username do usuário: ");
+        String pessoaUsername = scanner.nextLine();
+        System.out.println("Digite o número referente ao mês desejado: ");
+        int diaMes = 0;
+        while (diaMes < 1 || diaMes > 12) {
+            diaMes = Integer.parseInt(scanner.nextLine());
+        }
+        LocalDate dataMes = LocalDate.of(2024,diaMes,1);
+        MenuRelatorios.relatorioMensal(pessoaUsername, dataMes);
     }
 
     public static void mediaTempoPorDia() {

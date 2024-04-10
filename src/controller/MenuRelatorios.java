@@ -48,19 +48,23 @@ public class MenuRelatorios {
     
     public static void relatorioSemanal(String username, LocalDate dataSemana) {
         Pessoa pessoa = PessoaService.buscarPessoa(username);
-        List<Tarefa> tarefas = TarefaService.buscarTarefa(pessoa.getId());
+        List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
         LocalDate dataInicio = obterSegundaDaSemana(dataSemana);
         LocalDate dataFim = dataInicio.plusDays(4);
         long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataInicio, dataFim);
         System.out.println("Tempo utilizado no Projeto durante a semana: " + tempoTrabalhado + " minutos\n");
     }
 
-    private static long somatorioDeTempoTrabalhado(List<Tarefa> tarefas, LocalDate dataInicio, LocalDate dataFim) {
-        return tarefas.stream().filter(tarefa -> !tarefa.getDataHoraInicio().toLocalDate().isBefore(dataInicio) && !tarefa.getDataHoraInicio().toLocalDate().isAfter(dataFim)).mapToLong(tarefa -> tarefa.getDuracao().toMinutes()).sum();
+    public static void relatorioMensal(String username, LocalDate dataMes) {
+        Pessoa pessoa = PessoaService.buscarPessoa(username);
+        List<Tarefa> tarefas = TarefaService.buscarTarefas(pessoa.getId());
+        LocalDate dataFim = dataMes.with(TemporalAdjusters.lastDayOfMonth());
+        long tempoTrabalhado = somatorioDeTempoTrabalhado(tarefas, dataMes, dataFim);
+        System.out.println("Tempo utilizado no Projeto durante a semana: " + tempoTrabalhado + " minutos\n");
     }
 
-    public static void relatorioMensal() {
-        //Calcular o tempo total Mensal
+    private static long somatorioDeTempoTrabalhado(List<Tarefa> tarefas, LocalDate dataInicio, LocalDate dataFim) {
+        return tarefas.stream().filter(tarefa -> !tarefa.getDataHoraInicio().toLocalDate().isBefore(dataInicio) && !tarefa.getDataHoraInicio().toLocalDate().isAfter(dataFim)).mapToLong(tarefa -> tarefa.getDuracao().toMinutes()).sum();
     }
 
     public static void rankingTempo() {

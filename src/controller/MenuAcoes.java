@@ -29,38 +29,61 @@ public class MenuAcoes {
 
     public static void tempoTotalPeriodo() {
 
-        String username = ValidadoresEntrada.obterUsernameValidado
-                (EntradaHelper.obterDado("Digite o username: ", scanner));
+        try {
 
-        LocalDate dataInicio = ValidadoresEntrada.obterDataValidada
-                (EntradaHelper.obterDado("Digite uma data inicial do periodo desejado (Formato  dd/MM/yyyy): ", scanner));
+            String username = ValidadoresEntrada.obterUsernameValidado
+                    (EntradaHelper.obterDado("Digite o username: ", scanner));
 
-        LocalDate dataFim = ValidadoresEntrada.obterDataValidada
-                (EntradaHelper.obterDado("Digite uma data final do periodo desejado (Formato  dd/MM/yyyy): ", scanner));
+            LocalDate dataInicio = ValidadoresEntrada.obterDataValidada
+                    (EntradaHelper.obterDado("Digite uma data inicial do periodo desejado (Formato  dd/MM/yyyy): ", scanner));
 
-        MenuRelatorios.relatorioNoPeriodo(username, dataInicio, dataFim);
+            LocalDate dataFim = ValidadoresEntrada.obterDataValidada
+                    (EntradaHelper.obterDado("Digite uma data final do periodo desejado (Formato  dd/MM/yyyy): ", scanner));
+
+            MenuRelatorios.relatorioNoPeriodo(username, dataInicio, dataFim);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
     public static void tempoTotalSemanal() {
 
-        String username = ValidadoresEntrada.obterUsernameValidado
-                (EntradaHelper.obterDado("Digite o username: ", scanner));
+        try {
 
-        LocalDate dataString = ValidadoresEntrada.obterDataValidada
-                (EntradaHelper.obterDado("Digite uma data na semana desejada (Formato  dd/MM/yyyy): ", scanner));
+            String username = ValidadoresEntrada.obterUsernameValidado
+                    (EntradaHelper.obterDado("Digite o username: ", scanner));
 
-        MenuRelatorios.relatorioSemanal(username, dataString);
+            LocalDate dataString = ValidadoresEntrada.obterDataValidada
+                    (EntradaHelper.obterDado("Digite uma data na semana desejada (Formato  dd/MM/yyyy): ", scanner));
+
+            MenuRelatorios.relatorioSemanal(username, dataString);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void tempoTotalMensal() {
 
-        String username = ValidadoresEntrada.obterUsernameValidado
-                (EntradaHelper.obterDado("Digite o username: ", scanner));
+        try {
 
-        int diaMes = Integer.parseInt(ValidadoresEntrada.obterTextoValidado
-                (EntradaHelper.obterDado("Digite o número referente ao mês desejado: " , scanner)));
+            String username = ValidadoresEntrada.obterUsernameValidado
+                    (EntradaHelper.obterDado("Digite o username: ", scanner));
 
-        LocalDate dataMes = LocalDate.of(2024,diaMes,1);
-        MenuRelatorios.relatorioMensal(username, dataMes);
+            int diaMes = Integer.parseInt(ValidadoresEntrada.obterTextoValidado
+                    (EntradaHelper.obterDado("Digite o número referente ao mês desejado: ", scanner)));
+
+            if (diaMes < 1 || diaMes > 12) {
+                System.out.println("Mês Inválido.");
+                return;
+            }
+
+            LocalDate dataMes = LocalDate.of(2024, diaMes, 1);
+            MenuRelatorios.relatorioMensal(username, dataMes);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Mês Inválido.");
+        }
     }
 
     public static void mediaTempoPorDia() {

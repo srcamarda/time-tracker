@@ -51,14 +51,6 @@ public class MenuRelatorios {
         listaTarefasPlanilha(RepositoryTarefa.INSTANCE.carregarTarefas(), pessoaId);
     }
 
-    public static void tempoTotalSemanal() {
-        //Calcular o tempo total Semanal
-    }
-
-    public static void tempoTotalMensal() {
-        //Calcular o tempo total Mensal
-    }
-
     public static void rankingTempo() {
         //Calcular o ranking de tempo
     }

@@ -34,7 +34,6 @@ public class Validadores {
             LocalDate.parse(data, formatter);
             return true;
         } catch (DateTimeParseException e) {
-            System.err.println("Erro ao converter a data: " + e.getMessage());
             return false;
         }
     }

@@ -1,3 +1,5 @@
+package com.dev.tptimetracker;
+
 import com.dev.tptimetracker.view.MenuPrincipal;
 
 public class Main {

@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.dev</groupId>
-	<artifactId>tp-time-tracker</artifactId>
+	<artifactId>time-tracker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tp-time-tracker</name>
-	<description>tp-time-tracker</description>
+	<name>time-tracker</name>
+	<description>time-tracker</description>
 	<properties>
 		<java.version>22</java.version>
 	</properties>

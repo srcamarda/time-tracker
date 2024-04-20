@@ -1,15 +1,15 @@
 package com.dev.timetracker.repository;
 
 import com.dev.timetracker.model.Pessoa;
+import com.dev.timetracker.utility.AppConfig;
 import com.dev.timetracker.utility.TipoCargo;
 import com.dev.timetracker.utility.TipoPlano;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @Repository
 @EnableAutoConfiguration
 public enum RepositoryPessoa {
-    INSTANCE(new JdbcTemplate());
+
+    INSTANCE;
 
     private static final String SELECT_ALL = "SELECT * FROM users order by 1";
     private static final String SELECT = "SELECT * FROM users WHERE username = ?";
@@ -28,11 +29,15 @@ public enum RepositoryPessoa {
 
     private final JdbcTemplate jdbcTemplate;
 
+    final AppConfig appConfig = new AppConfig();
+    final DataSource dataSource = appConfig.dataSource();
+
     @Getter
     private List<Pessoa> pessoas;
 
-    RepositoryPessoa(JdbcTemplate jdbcTemplate) {;
-        this.jdbcTemplate = jdbcTemplate;
+    RepositoryPessoa() {;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.getUsers();
     }
 
     public void getUsers() {
@@ -66,9 +71,8 @@ public enum RepositoryPessoa {
         Object[] attr = new Object[]{
                 user.getNome(),
                 user.getCpf(),
-                user.getCargo(),
-                user.getPlano(),
-                user.getUsername()
+                user.getCargo().toString(),
+                user.getPlano().toString()
         };
         return jdbcTemplate.update(UPDATE, attr) > 0;
     }
@@ -78,8 +82,8 @@ public enum RepositoryPessoa {
                 user.getUsername(),
                 user.getNome(),
                 user.getCpf(),
-                user.getCargo(),
-                user.getPlano()
+                user.getCargo().toString(),
+                user.getPlano().toString()
         };
         jdbcTemplate.update(INSERT, attr);
         pessoas.add(user);

@@ -1,4 +1,5 @@
 package com.dev.timetracker.entity;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.dev.timetracker.dto.DTORegisterUser;
 import com.dev.timetracker.utility.category.Role;

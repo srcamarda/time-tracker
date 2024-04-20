@@ -1,85 +1,88 @@
 package com.dev.timetracker.repository;
 
 import com.dev.timetracker.model.Pessoa;
-import com.dev.timetracker.repository.arquivo.ArquivoPaths;
-import com.dev.timetracker.repository.arquivo.ArquivoUtil;
-import com.dev.timetracker.utility.ValidadoresEntrada;
 import com.dev.timetracker.utility.TipoCargo;
 import com.dev.timetracker.utility.TipoPlano;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Repository
+@EnableAutoConfiguration
 public enum RepositoryPessoa {
-    INSTANCE;
+    INSTANCE(new JdbcTemplate());
 
-    final ArquivoUtil arquivo;
-    final List<Pessoa> pessoas;
+    private static final String SELECT_ALL = "SELECT * FROM users order by 1";
+    private static final String SELECT = "SELECT * FROM users WHERE username = ?";
+    private static final String INSERT = "INSERT INTO users (username, full_name, cpf, role, plan) VALUES (?, ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE users SET full_name = ?, cpf = ?, role = ?, plan = ? WHERE username = ?";
+    private static final String DELETE = "DELETE FROM users WHERE username = ?";
 
-    RepositoryPessoa() {
-        arquivo = new ArquivoUtil(ArquivoPaths.PESSOAS);
-        pessoas = carregarPessoas();
+    private final JdbcTemplate jdbcTemplate;
+
+    @Getter
+    private List<Pessoa> pessoas;
+
+    RepositoryPessoa(JdbcTemplate jdbcTemplate) {;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Pessoa> carregarPessoas() {
-        List<String> pessoasStr = arquivo.lerArquivo();
-        List<Pessoa> pessoas = new ArrayList<>();
-        pessoasStr.stream().skip(1)
-                .map((this::pessoaParser))
-                .filter(Objects::nonNull)
-                .forEach(pessoas::add);
-
-        return pessoas;
+    public void getUsers() {
+        pessoas = jdbcTemplate.query(SELECT_ALL, (rs, _) -> new Pessoa.Builder()
+                .username(rs.getString("username"))
+                .nome(rs.getString("full_name"))
+                .cpf(rs.getString("cpf"))
+                .cargo(TipoCargo.valueOf(rs.getString("role")))
+                .plano(TipoPlano.valueOf(rs.getString("plan")))
+                .build());
     }
 
-    public void salvarPessoas(List<Pessoa> pessoas) {
-        pessoas.forEach(this::salvarPessoa);
+    public Pessoa searchUser(String username) {
+        return jdbcTemplate.query(SELECT, (rs, _) -> new Pessoa.Builder()
+                .username(rs.getString("username"))
+                .nome(rs.getString("full_name"))
+                .cpf(rs.getString("cpf"))
+                .cargo(TipoCargo.valueOf(rs.getString("role")))
+                .plano(TipoPlano.valueOf(rs.getString("plan")))
+                .build())
+                .stream()
+                .findFirst()
+                .orElse(null);
     }
 
-    public void salvarPessoa(Pessoa pessoa) {
-        String pessoaStr = pessoa.getId() + ";"
-                + pessoa.getUsername() + ";"
-                + pessoa.getNome() + ";"
-                + pessoa.getCpf() + ";"
-                + pessoa.getCargo().toString() + ";"
-                + pessoa.getPlano().toString();
-
-        arquivo.escreverArquivo(pessoaStr);
-        pessoas.add(pessoa);
+    public boolean deleteUser(String username) {
+        return jdbcTemplate.update(DELETE, username) > 0;
     }
 
-    public Pessoa pessoaParser(String linha) {
-        String[] valores = linha.split(";");
-
-        try {
-            String id = ValidadoresEntrada.obterUUIDValidado(valores[0]);
-            String nome = ValidadoresEntrada.obterNomeValidado(valores[2]);
-            String username = ValidadoresEntrada.obterUsernameValidado(valores[1]);
-            String cpf = ValidadoresEntrada.obterCpfValidado(valores[3]);
-            TipoCargo cargo = ValidadoresEntrada.obterCargoValidado(valores[4]);
-            TipoPlano plano = ValidadoresEntrada.obterPlanoValidado(valores[5]);
-
-            return new Pessoa.Builder()
-                    .id(id)
-                    .username(username)
-                    .nome(nome)
-                    .cpf(cpf)
-                    .cargo(cargo)
-                    .plano(plano)
-                    .build();
-
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+    public boolean updateUser(Pessoa user) {
+        Object[] attr = new Object[]{
+                user.getNome(),
+                user.getCpf(),
+                user.getCargo(),
+                user.getPlano(),
+                user.getUsername()
+        };
+        return jdbcTemplate.update(UPDATE, attr) > 0;
     }
 
-    public List<Pessoa> getPessoas() {
-        return pessoas;
+    public void salvarPessoa(Pessoa user) {
+        Object[] attr = new Object[]{
+                user.getUsername(),
+                user.getNome(),
+                user.getCpf(),
+                user.getCargo(),
+                user.getPlano()
+        };
+        jdbcTemplate.update(INSERT, attr);
+        pessoas.add(user);
     }
 
     public Pessoa buscarPessoa(String id) {

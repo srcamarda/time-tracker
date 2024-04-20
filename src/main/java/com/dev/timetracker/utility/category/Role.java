@@ -1,4 +1,4 @@
-package com.dev.timetracker.utility;
+package com.dev.timetracker.utility.category;
 
 public enum Role {
     JUNIOR,

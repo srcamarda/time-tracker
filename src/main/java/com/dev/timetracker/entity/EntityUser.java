@@ -1,8 +1,8 @@
 package com.dev.timetracker.entity;
 
 import com.dev.timetracker.dto.DTORegisterUser;
-import com.dev.timetracker.utility.Role;
-import com.dev.timetracker.utility.Plan;
+import com.dev.timetracker.utility.category.Role;
+import com.dev.timetracker.utility.category.Plan;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

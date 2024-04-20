@@ -1,18 +1,3 @@
-create table users (
-	username varchar(30) primary key not null,
-	full_name varchar(100),
-	email varchar(50),
-	cpf varchar(20),
-	role varchar(20),
-	plan varchar(20),
-	addr_cep varchar(20),
-	addr_country varchar(20),
-	addr_state varchar(30),
-	addr_city varchar(30),
-	addr_street varchar(60),
-	addr_number integer
-);
-
 create index users_username on users(username);
 create index users_cpf on users(cpf);
 

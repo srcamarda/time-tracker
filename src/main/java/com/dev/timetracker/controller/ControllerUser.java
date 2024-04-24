@@ -2,6 +2,7 @@ package com.dev.timetracker.controller;
 
 import com.dev.timetracker.dto.DTOListUser;
 import com.dev.timetracker.dto.DTORegisterUser;
+import com.dev.timetracker.dto.DTOUpdateUser;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
@@ -28,5 +29,12 @@ public class ControllerUser {
     @GetMapping
     public Page<DTOListUser> listar(@PageableDefault(size = 10, sort ={"name"}) Pageable pageable) {
         return userRepository.findAllByActiveTrue(pageable).map(DTOListUser::new);
+    }
+
+    @PutMapping
+    @Transactional
+    public void update(@RequestBody @Valid DTOUpdateUser data){
+        var user = userRepository.getReferenceById(data.id());
+        user.update(data);
     }
 }

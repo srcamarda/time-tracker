@@ -1,4 +1,5 @@
 package com.dev.timetracker.entity;
+import com.dev.timetracker.dto.DTOUpdateUser;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.dev.timetracker.dto.DTORegisterUser;
@@ -42,6 +43,21 @@ public class EntityUser {
         this.plan = data.plan();
         this.role = data.role();
         }
+
+    public void update(DTOUpdateUser data) {
+        if(data.username()!= null) {
+            this.username = data.username();
+        }
+        if(data.name()!= null) {
+            this.name = data.name();
+        }
+        if(data.plan()!= null) {
+            this.plan = data.plan();
+        }
+        if(data.role()!= null) {
+            this.role = data.role();
+        }
+    }
 }
 
 

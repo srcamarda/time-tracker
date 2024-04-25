@@ -25,7 +25,7 @@ public class EntityTask {
     private String description;
     @Enumerated(EnumType.STRING)
     private Tag tag;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private EntityUser id_user;
     private Timestamp start_time;

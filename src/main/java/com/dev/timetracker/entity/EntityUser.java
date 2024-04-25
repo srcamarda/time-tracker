@@ -57,6 +57,13 @@ public class EntityUser {
             this.role = data.role();
         }
     }
+    public void activate() {
+        this.active = true;
+    }
+    public void inactivate() {
+        this.active = false;
+    }
+
 }
 
 

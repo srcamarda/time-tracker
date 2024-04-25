@@ -35,11 +35,27 @@ public class ControllerUser {
     public List<DTOListUser> listAll(@PageableDefault( sort ={"name"}) Pageable pageable) {
         return userRepository.findAllByActiveTrue(pageable).map(DTOListUser::new).getContent();
     }
-
     @PutMapping
     @Transactional
     public void update(@RequestBody @Valid DTOUpdateUser data){
         var user = userRepository.getReferenceById(data.id());
         user.update(data);
+    }
+    @PutMapping("/activate/{id}")
+    @Transactional
+    public void activate(@PathVariable Long id){
+        var user = userRepository.getReferenceById(id);
+        user.activate();
+    }
+    @PutMapping("/inactivate/{id}")
+    @Transactional
+    public void inactivate(@PathVariable Long id){
+        var user = userRepository.getReferenceById(id);
+        user.inactivate();
+    }
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void delete(@PathVariable Long id){
+        userRepository.deleteById(id);
     }
 }

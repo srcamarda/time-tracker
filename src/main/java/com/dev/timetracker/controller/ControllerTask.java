@@ -33,12 +33,12 @@ public class ControllerTask {
     }
 
     @GetMapping
-    public List<DTOListTask> list(@PageableDefault(size = 5, sort = {"title"}) Pageable pageable) {
+    public List<DTOListTask> list(@PageableDefault(size = 5, sort = {"id"}) Pageable pageable) {
         return repositoryTask.findAllByActiveTrue(pageable).map(DTOListTask::new).getContent();
     }
 
     @GetMapping("all")
-    public List<DTOListTask> listAll(@PageableDefault(sort = {"title"}) Pageable pageable) {
+    public List<DTOListTask> listAll(@PageableDefault(sort = {"id"}) Pageable pageable) {
         return repositoryTask.findAllByActiveTrue(pageable).map(DTOListTask::new).getContent();
     }
 

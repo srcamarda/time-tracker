@@ -47,7 +47,7 @@ public class ControllerUser {
     }
 
     @GetMapping("{id}/tasks")
-    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"title"}) Pageable pageable) {
+    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
         EntityUser user = repositoryUser.getReferenceById(id);
         return repositoryTask.findAllByIdUserAndActiveTrue(user, pageable).map(DTOListTask::new).getContent();
     }

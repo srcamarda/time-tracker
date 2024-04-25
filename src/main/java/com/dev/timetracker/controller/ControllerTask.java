@@ -27,6 +27,11 @@ public class ControllerTask {
         repositoryTask.save(new EntityTask(data));
     }
 
+    @GetMapping("{id}")
+    public DTOListTask get(@PathVariable Long id) {
+        return new DTOListTask(repositoryTask.getReferenceById(id));
+    }
+
     @GetMapping
     public List<DTOListTask> list(@PageableDefault(size = 5, sort ={"title"}) Pageable pageable) {
         return repositoryTask.findAllByActiveTrue(pageable).map(DTOListTask::new).getContent();

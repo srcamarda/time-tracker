@@ -27,6 +27,11 @@ public class ControllerUser {
         userRepository.save(new EntityUser(data));
     }
 
+    @GetMapping("{id}")
+    public DTOListUser get(@PathVariable Long id) {
+        return new DTOListUser(userRepository.getReferenceById(id));
+    }
+
     @GetMapping
     public List<DTOListUser> list(@PageableDefault(size = 5, sort ={"name"}) Pageable pageable) {
         return userRepository.findAllByActiveTrue(pageable).map(DTOListUser::new).getContent();

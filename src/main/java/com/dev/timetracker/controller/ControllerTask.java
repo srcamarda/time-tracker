@@ -29,7 +29,7 @@ public class ControllerTask {
 
     @GetMapping("{id}")
     public DTOListTask get(@PathVariable Long id) {
-        return new DTOListTask(repositoryTask.getReferenceById(id));
+        return new DTOListTask(repositoryTask.findByIdAndActiveTrue(id));
     }
 
     @GetMapping
@@ -38,8 +38,8 @@ public class ControllerTask {
     }
 
     @GetMapping("all")
-    public List<EntityTask> listAll(@PageableDefault(sort ={"title"}) Pageable pageable) {
-        return repositoryTask.findAllByActiveTrue(pageable).getContent();
+    public List<DTOListTask> listAll(@PageableDefault(sort ={"title"}) Pageable pageable) {
+        return repositoryTask.findAllByActiveTrue(pageable).map(DTOListTask::new).getContent();
     }
 
 //    @GetMapping("{id_user}")

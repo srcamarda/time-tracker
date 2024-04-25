@@ -29,7 +29,7 @@ public class ControllerUser {
 
     @GetMapping("{id}")
     public DTOListUser get(@PathVariable Long id) {
-        return new DTOListUser(userRepository.getReferenceById(id));
+        return new DTOListUser(userRepository.findByIdAndActiveTrue(id));
     }
 
     @GetMapping

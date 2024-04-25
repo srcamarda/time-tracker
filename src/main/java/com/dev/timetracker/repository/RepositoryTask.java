@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepositoryTask extends JpaRepository<EntityTask, Long> {
     Page<EntityTask> findAllByActiveTrue(Pageable pageable);
+    EntityTask findByIdAndActiveTrue(Long id);
     //Page<EntityTask> findAllById_userAndActiveTrue(Long id_user, Pageable pageable);
 }

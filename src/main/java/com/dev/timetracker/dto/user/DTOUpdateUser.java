@@ -13,10 +13,10 @@ public record DTOUpdateUser(
         @Email
         String email,
         Role role,
-        String addr_zip,
-        String addr_country,
-        String addr_state,
-        String addr_city,
-        String addr_street,
-        Integer addr_number) {
+        String addrZip,
+        String addrCountry,
+        String addrState,
+        String addrCity,
+        String addrStreet,
+        Integer addrNumber) {
 }

@@ -42,14 +42,14 @@ public class ControllerTask {
         return repositoryTask.findAllByActiveTrue(pageable).map(DTOListTask::new).getContent();
     }
 
-//    @GetMapping("{id_user}")
-//    public List<DTOListTask> listByUser(@PageableDefault(size = 5, sort ={"title"}) Pageable pageable, @PathVariable Long id_user) {
-//        return repositoryTask.findAllById_userAndActiveTrue(id_user, pageable).map(DTOListTask::new).getContent();
+//    @GetMapping("{idUser}")
+//    public List<DTOListTask> listByUser(@PageableDefault(size = 5, sort ={"title"}) Pageable pageable, @PathVariable Long idUser) {
+//        return repositoryTask.findAllById_userAndActiveTrue(idUser, pageable).map(DTOListTask::new).getContent();
 //    }
 //
-//    @GetMapping("all/{id_user}")
-//    public List<DTOListTask> listAllByUser(@PageableDefault(sort ={"title"}) Pageable pageable, @PathVariable Long id_user) {
-//        return repositoryTask.findAllById_userAndActiveTrue(id_user, pageable).map(DTOListTask::new).getContent();
+//    @GetMapping("all/{idUser}")
+//    public List<DTOListTask> listAllByUser(@PageableDefault(sort ={"title"}) Pageable pageable, @PathVariable Long idUser) {
+//        return repositoryTask.findAllById_userAndActiveTrue(idUser, pageable).map(DTOListTask::new).getContent();
 //    }
 
     @PutMapping

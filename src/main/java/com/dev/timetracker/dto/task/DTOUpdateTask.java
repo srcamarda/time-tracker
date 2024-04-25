@@ -13,7 +13,7 @@ public record DTOUpdateTask(
     String title,
     String description,
     Tag tag,
-    EntityUser id_user,
-    Timestamp start_time,
-    Timestamp end_time) {
+    EntityUser idUser,
+    Timestamp startTime,
+    Timestamp endTime) {
 }

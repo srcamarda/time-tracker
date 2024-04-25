@@ -27,9 +27,9 @@ public class EntityTask {
     private Tag tag;
     @ManyToOne
     @JoinColumn(name = "id_user", referencedColumnName = "id")
-    private EntityUser id_user;
-    private Timestamp start_time;
-    private Timestamp end_time;
+    private EntityUser idUser;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private Boolean active;
 
     public EntityTask(DTOCreateTask data) {
@@ -37,9 +37,9 @@ public class EntityTask {
         this.title = data.title();
         this.description = data.description();
         this.tag = data.tag();
-        this.id_user = data.id_user();
-        this.start_time = data.start_time();
-        this.end_time = data.end_time();
+        this.idUser = data.idUser();
+        this.startTime = data.startTime();
+        this.endTime = data.endTime();
     }
 
     public void update(DTOUpdateTask data) {
@@ -52,14 +52,14 @@ public class EntityTask {
         if (data.tag() != null) {
             this.tag = data.tag();
         }
-        if (data.id_user() != null) {
-            this.id_user = data.id_user();
+        if (data.idUser() != null) {
+            this.idUser = data.idUser();
         }
-        if (data.start_time() != null) {
-            this.start_time = data.start_time();
+        if (data.startTime() != null) {
+            this.startTime = data.startTime();
         }
-        if (data.end_time() != null) {
-            this.end_time = data.end_time();
+        if (data.endTime() != null) {
+            this.endTime = data.endTime();
         }
     }
 

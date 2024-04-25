@@ -15,8 +15,8 @@ public record DTOCreateTask(
         String description,
         Tag tag,
         @NotNull
-        EntityUser id_user,
+        EntityUser idUser,
         @NotNull
-        Timestamp start_time,
-        Timestamp end_time) {
+        Timestamp startTime,
+        Timestamp endTime) {
 }

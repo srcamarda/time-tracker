@@ -26,12 +26,12 @@ public class EntityUser {
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private String addr_zip;
-    private String addr_country;
-    private String addr_state;
-    private String addr_city;
-    private String addr_street;
-    private Integer addr_number;
+    private String addrZip;
+    private String addrCountry;
+    private String addrState;
+    private String addrCity;
+    private String addrStreet;
+    private Integer addrNumber;
     private Boolean active;
 
     public EntityUser(DTOCreateUser data) {
@@ -41,12 +41,12 @@ public class EntityUser {
         this.cpf = data.cpf();
         this.email = data.email();
         this.role = data.role();
-        this.addr_zip = data.addr_zip();
-        this.addr_country = data.addr_country();
-        this.addr_state = data.addr_state();
-        this.addr_city = data.addr_city();
-        this.addr_street = data.addr_street();
-        this.addr_number = data.addr_number();
+        this.addrZip = data.addrZip();
+        this.addrCountry = data.addrCountry();
+        this.addrState = data.addrState();
+        this.addrCity = data.addrCity();
+        this.addrStreet = data.addrStreet();
+        this.addrNumber = data.addrNumber();
     }
 
     public void update(DTOUpdateUser data) {
@@ -62,23 +62,23 @@ public class EntityUser {
         if (data.role() != null) {
             this.role = data.role();
         }
-        if (data.addr_zip() != null) {
-            this.addr_zip = data.addr_zip();
+        if (data.addrZip() != null) {
+            this.addrZip = data.addrZip();
         }
-        if (data.addr_country() != null) {
-            this.addr_country = data.addr_country();
+        if (data.addrCountry() != null) {
+            this.addrCountry = data.addrCountry();
         }
-        if (data.addr_state() != null) {
-            this.addr_state = data.addr_state();
+        if (data.addrState() != null) {
+            this.addrState = data.addrState();
         }
-        if (data.addr_city() != null) {
-            this.addr_city = data.addr_city();
+        if (data.addrCity() != null) {
+            this.addrCity = data.addrCity();
         }
-        if (data.addr_street() != null) {
-            this.addr_street = data.addr_street();
+        if (data.addrStreet() != null) {
+            this.addrStreet = data.addrStreet();
         }
-        if (data.addr_number() != null) {
-            this.addr_number = data.addr_number();
+        if (data.addrNumber() != null) {
+            this.addrNumber = data.addrNumber();
         }
     }
 

@@ -12,9 +12,9 @@ public record DTOListTask(
         String title,
         String description,
         Tag tag,
-        EntityUser id_user,
-        Timestamp start_time,
-        Timestamp end_time,
+        EntityUser idUser,
+        Timestamp startTime,
+        Timestamp endTime,
         Boolean active) {
 
     public DTOListTask(EntityTask task) {
@@ -23,9 +23,9 @@ public record DTOListTask(
                 task.getTitle(),
                 task.getDescription(),
                 task.getTag(),
-                task.getId_user(),
-                task.getStart_time(),
-                task.getEnd_time(),
+                task.getIdUser(),
+                task.getStartTime(),
+                task.getEndTime(),
                 task.getActive());
     }
 }

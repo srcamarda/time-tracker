@@ -1,19 +1,15 @@
-package com.dev.timetracker.dto;
+package com.dev.timetracker.dto.user;
 
 import com.dev.timetracker.utility.category.Plan;
 import com.dev.timetracker.utility.category.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.br.CPF;
 
 public record DTOUpdateUser(
 
+        @NotNull
         Long id,
-        @NotBlank
         String username,
-        @NotBlank
         String name,
-        @NotNull
         Plan plan,
-        @NotNull
         Role role) {}

@@ -1,22 +1,23 @@
-package com.dev.timetracker.dto;
+package com.dev.timetracker.dto.user;
 
 import com.dev.timetracker.utility.category.Plan;
 import com.dev.timetracker.utility.category.Role;
+import com.dev.timetracker.entity.EntityUser;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.br.CPF;
 
-public record DTORegisterUser(
+
+public record DTOListUser(
 
         Long id,
         @NotBlank
-        String username,
-        @NotBlank
         String name,
-        @CPF
-        String cpf,
         @NotNull
         Plan plan,
         @NotNull
-        Role role) {}
+        Role role) {
+
+        public DTOListUser(EntityUser user){
+                this(user.getId(),user.getName(),user.getPlan(),user.getRole());
+        }
+}

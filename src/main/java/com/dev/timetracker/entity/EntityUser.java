@@ -1,8 +1,7 @@
 package com.dev.timetracker.entity;
-import com.dev.timetracker.dto.DTOUpdateUser;
-import org.hibernate.validator.constraints.br.CPF;
+import com.dev.timetracker.dto.user.DTOUpdateUser;
 
-import com.dev.timetracker.dto.DTORegisterUser;
+import com.dev.timetracker.dto.user.DTOCreateUser;
 import com.dev.timetracker.utility.category.Role;
 import com.dev.timetracker.utility.category.Plan;
 import jakarta.persistence.*;
@@ -35,7 +34,7 @@ public class EntityUser {
 
     private Boolean active;
 
-    public EntityUser(DTORegisterUser data) {
+    public EntityUser(DTOCreateUser data) {
         this.active = true;
         this.username = data.username();
         this.name = data.name();

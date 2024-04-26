@@ -14,8 +14,7 @@ public record DTOListTask(
         Tag tag,
         DTOListUser idUser,
         Timestamp startTime,
-        Timestamp endTime,
-        Boolean active) {
+        Timestamp endTime) {
 
     public DTOListTask(EntityTask task) {
         this(
@@ -25,7 +24,6 @@ public record DTOListTask(
                 task.getTag(),
                 new DTOListUser(task.getIdUser()),
                 task.getStartTime(),
-                task.getEndTime(),
-                task.getActive());
+                task.getEndTime());
     }
 }

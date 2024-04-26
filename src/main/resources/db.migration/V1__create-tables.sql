@@ -1,17 +1,18 @@
 CREATE TABLE users(
-    id           bigserial primary key,
-    username     varchar(30) not null,
-    name         varchar(100),
-    email        varchar(50),
-    cpf          varchar(14),
-    role         varchar(20),
-    addr_zip     varchar(10),
-    addr_country varchar(60),
-    addr_state   varchar(60),
-    addr_city    varchar(60),
-    addr_street  varchar(100),
-    addr_number  integer,
-    active       boolean
+    id            bigserial primary key,
+    username      varchar(30) not null,
+    name          varchar(100),
+    email         varchar(50),
+    cpf           varchar(14),
+    role          varchar(20),
+    addr_zip      varchar(10),
+    addr_country  varchar(60),
+    addr_state    varchar(60),
+    addr_city     varchar(60),
+    addr_street   varchar(100),
+    addr_district varchar(60),
+    addr_number   integer,
+    active        boolean
 );
 
 create index users_username on users (username);

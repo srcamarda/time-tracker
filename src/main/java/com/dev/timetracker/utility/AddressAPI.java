@@ -1,4 +1,4 @@
-package com.dev.timetracker.utility.category;
+package com.dev.timetracker.utility;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;

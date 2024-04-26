@@ -3,7 +3,7 @@ package com.dev.timetracker.entity;
 import com.dev.timetracker.dto.user.DTOUpdateUser;
 
 import com.dev.timetracker.dto.user.DTOCreateUser;
-import com.dev.timetracker.utility.category.AddressAPI;
+import com.dev.timetracker.utility.AddressAPI;
 import com.dev.timetracker.utility.category.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -2,7 +2,6 @@ package com.dev.timetracker.entity;
 
 import com.dev.timetracker.dto.project.DTOCreateProject;
 import com.dev.timetracker.dto.project.DTOUpdateProject;
-import com.dev.timetracker.dto.task.DTOUpdateTask;
 import com.dev.timetracker.utility.category.Tag;
 import jakarta.persistence.*;
 import lombok.*;

@@ -56,15 +56,15 @@ public class ControllerProject {
         return repositoryProject.findAllByActiveTrue(pageable).map(DTOListProject::new).getContent();
     }
 
-//    @GetMapping("{id}/users")
-//    public List<DTOListUser> listUsers(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
-//        return repositoryProject.findUsersById(id, pageable).map(DTOListUser::new).getContent();
-//    }
+    @GetMapping("{id}/users")
+    public List<DTOListUser> listUsers(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
+        return repositoryProject.getReferenceById(id).getUsers().stream().map(DTOListUser::new).toList();
+    }
 
-//    @GetMapping("{id}/tasks")
-//    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
-//        return repositoryProject.findTasksById(id, pageable).map(DTOListTask::new).getContent();
-//    }
+    @GetMapping("{id}/tasks")
+    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
+        return repositoryProject.getReferenceById(id).getTasks().stream().map(DTOListTask::new).toList();
+    }
 
     @PutMapping
     @Transactional

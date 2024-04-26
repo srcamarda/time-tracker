@@ -3,8 +3,16 @@ package com.dev.timetracker.controller;
 import com.dev.timetracker.dto.project.DTOCreateProject;
 import com.dev.timetracker.dto.project.DTOListProject;
 import com.dev.timetracker.dto.project.DTOUpdateProject;
+import com.dev.timetracker.dto.task.DTOListTask;
+import com.dev.timetracker.dto.task.DTOUpdateTask;
+import com.dev.timetracker.dto.user.DTOListUser;
+import com.dev.timetracker.dto.user.DTOUpdateUser;
 import com.dev.timetracker.entity.EntityProject;
+import com.dev.timetracker.entity.EntityTask;
+import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
+import com.dev.timetracker.repository.RepositoryTask;
+import com.dev.timetracker.repository.RepositoryUser;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +28,10 @@ public class ControllerProject {
 
     @Autowired
     private RepositoryProject repositoryProject;
+    @Autowired
+    private RepositoryUser repositoryUser;
+    @Autowired
+    private RepositoryTask repositoryTask;
 
     @PostMapping
     @Transactional
@@ -29,7 +41,7 @@ public class ControllerProject {
 
     @GetMapping({"{id}"})
     public DTOListProject get(@PathVariable Long id) {
-        return new DTOListProject(repositoryProject.getReferenceById(id));
+        return new DTOListProject(repositoryProject.findByIdAndActiveTrue(id));
     }
 
     @GetMapping
@@ -42,12 +54,36 @@ public class ControllerProject {
         return repositoryProject.findAllByActiveTrue(pageable).map(DTOListProject::new).getContent();
     }
 
+//    @GetMapping("{id}/users")
+//    public List<DTOListUser> listUsers(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
+//        return repositoryProject.findUsersById(id, pageable).map(DTOListUser::new).getContent();
+//    }
+
+//    @GetMapping("{id}/tasks")
+//    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
+//        return repositoryProject.findTasksById(id, pageable).map(DTOListTask::new).getContent();
+//    }
+
     @PutMapping
     @Transactional
     public void update(@RequestBody @Valid DTOUpdateProject data) {
         var project = repositoryProject.getReferenceById(data.id());
         project.update(data);
     }
+
+//    @PutMapping("{id}/users/add")
+//    @Transactional
+//    public void addUserToProject(@PathVariable Long id, @RequestBody DTOUpdateUser user) {
+//        EntityUser entityUser = repositoryUser.getReferenceById(user.id());
+//        repositoryProject.addUserToProject(id, entityUser);
+//    }
+
+//    @PutMapping("{id}/tasks/add")
+//    @Transactional
+//    public void addTaskToProject(@PathVariable Long id, @RequestBody DTOUpdateTask task) {
+//        EntityTask entityTask = repositoryTask.getReferenceById(task.id());
+//        repositoryProject.addTaskToProject(id, entityTask);
+//    }
 
     @PutMapping("/activate/{id}")
     @Transactional

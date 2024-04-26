@@ -13,6 +13,7 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
+import com.dev.timetracker.utility.category.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("projects")
@@ -71,19 +73,37 @@ public class ControllerProject {
         project.update(data);
     }
 
-//    @PutMapping("{id}/users/add")
-//    @Transactional
-//    public void addUserToProject(@PathVariable Long id, @RequestBody DTOUpdateUser user) {
-//        EntityUser entityUser = repositoryUser.getReferenceById(user.id());
-//        repositoryProject.addUserToProject(id, entityUser);
-//    }
+    @PutMapping("{id}/users")
+    @Transactional
+    public void addUserToProject(@PathVariable Long id, @RequestBody DTOUpdateUser user) {
+        EntityUser entityUser = repositoryUser.getReferenceById(user.id());
+        EntityProject project = repositoryProject.getReferenceById(id);
+        Set<EntityUser> users = project.getUsers();
+        users.add(entityUser);
+        project.setUsers(users);
+        repositoryProject.save(project);
+    }
 
-//    @PutMapping("{id}/tasks/add")
-//    @Transactional
-//    public void addTaskToProject(@PathVariable Long id, @RequestBody DTOUpdateTask task) {
-//        EntityTask entityTask = repositoryTask.getReferenceById(task.id());
-//        repositoryProject.addTaskToProject(id, entityTask);
-//    }
+    @PutMapping("{id}/tasks")
+    @Transactional
+    public void addTaskToProject(@PathVariable Long id, @RequestBody DTOUpdateTask task) {
+        EntityTask entityTask = repositoryTask.getReferenceById(task.id());
+        EntityProject project = repositoryProject.getReferenceById(id);
+        Set<EntityTask> tasks = project.getTasks();
+        tasks.add(entityTask);
+        project.setTasks(tasks);
+        repositoryProject.save(project);
+    }
+
+    @PutMapping("{id}/tags")
+    @Transactional
+    public void addTagToProject(@PathVariable Long id, @RequestBody Tag tag) {
+        EntityProject project = repositoryProject.getReferenceById(id);
+        Set<Tag> tags = project.getTags();
+        tags.add(tag);
+        project.setTags(tags);
+        repositoryProject.save(project);
+    }
 
     @PutMapping("/activate/{id}")
     @Transactional

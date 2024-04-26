@@ -1,7 +1,7 @@
 package com.dev.timetracker.dto.task;
 
+import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.entity.EntityTask;
-import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.utility.category.Tag;
 
 import java.sql.Timestamp;
@@ -12,7 +12,7 @@ public record DTOListTask(
         String title,
         String description,
         Tag tag,
-        EntityUser idUser,
+        DTOListUser idUser,
         Timestamp startTime,
         Timestamp endTime,
         Boolean active) {
@@ -23,7 +23,7 @@ public record DTOListTask(
                 task.getTitle(),
                 task.getDescription(),
                 task.getTag(),
-                task.getIdUser(),
+                new DTOListUser(task.getIdUser()),
                 task.getStartTime(),
                 task.getEndTime(),
                 task.getActive());

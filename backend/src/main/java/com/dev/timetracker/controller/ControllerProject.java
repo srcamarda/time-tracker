@@ -73,24 +73,24 @@ public class ControllerProject {
         project.update(data);
     }
 
-    @PutMapping("{id}/users")
+    @PutMapping("{id}/users/{idUser}")
     @Transactional
-    public void addUserToProject(@PathVariable Long id, @RequestBody DTOUpdateUser user) {
-        EntityUser entityUser = repositoryUser.getReferenceById(user.id());
-        EntityProject project = repositoryProject.getReferenceById(id);
+    public void addUserToProject(@PathVariable Long id, @PathVariable Long idUser) {
+        var project = repositoryProject.getReferenceById(id);
+        var user = repositoryUser.getReferenceById(idUser);
         Set<EntityUser> users = project.getUsers();
-        users.add(entityUser);
+        users.add(user);
         project.setUsers(users);
         repositoryProject.save(project);
     }
 
-    @PutMapping("{id}/tasks")
+    @PutMapping("{id}/tasks/{idTask}")
     @Transactional
-    public void addTaskToProject(@PathVariable Long id, @RequestBody DTOUpdateTask task) {
-        EntityTask entityTask = repositoryTask.getReferenceById(task.id());
-        EntityProject project = repositoryProject.getReferenceById(id);
+    public void addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
+        var project = repositoryProject.getReferenceById(id);
+        var task = repositoryTask.getReferenceById(idTask);
         Set<EntityTask> tasks = project.getTasks();
-        tasks.add(entityTask);
+        tasks.add(task);
         project.setTasks(tasks);
         repositoryProject.save(project);
     }
@@ -98,7 +98,7 @@ public class ControllerProject {
     @PutMapping("{id}/tags")
     @Transactional
     public void addTagToProject(@PathVariable Long id, @RequestParam("tag") Tag tag) {
-        EntityProject project = repositoryProject.getReferenceById(id);
+        var project = repositoryProject.getReferenceById(id);
         Set<Tag> tags = project.getTags();
         tags.add(tag);
         project.setTags(tags);
@@ -123,5 +123,33 @@ public class ControllerProject {
     @Transactional
     public void delete(@PathVariable Long id) {
         repositoryProject.deleteById(id);
+    }
+
+    @DeleteMapping("{id}/users/{idUser}")
+    @Transactional
+    public void deleteUserFromProject(@PathVariable Long id, @PathVariable Long idUser) {
+        var project = repositoryProject.getReferenceById(id);
+        var user = repositoryUser.getReferenceById(idUser);
+        project.getUsers().remove(user);
+        repositoryProject.save(project);
+    }
+
+    @DeleteMapping("{id}/tasks/{idTask}")
+    @Transactional
+    public void deleteTaskFromProject(@PathVariable Long id, @PathVariable Long idTask) {
+        var project = repositoryProject.getReferenceById(id);
+        var task = repositoryTask.getReferenceById(idTask);
+        project.getTasks().remove(task);
+        repositoryProject.save(project);
+    }
+
+    @DeleteMapping("{id}/tags")
+    @Transactional
+    public void deleteTagFromProject(@PathVariable Long id, @RequestParam("tag") Tag tag) {
+        var project = repositoryProject.getReferenceById(id);
+        Set<Tag> tags = project.getTags();
+        tags.remove(tag);
+        project.setTags(tags);
+        repositoryProject.save(project);
     }
 }

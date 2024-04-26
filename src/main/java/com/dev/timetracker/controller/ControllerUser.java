@@ -28,7 +28,7 @@ public class ControllerUser {
     @PostMapping
     @Transactional
     public void register(@RequestBody @Valid DTOCreateUser data) {
-        repositoryUser.save(new EntityUser(data));
+        repositoryUser.save(new EntityUser(data)); //TODO: Do not break the user creation if the ViaCEP API call fails
     }
 
     @GetMapping("{id}")

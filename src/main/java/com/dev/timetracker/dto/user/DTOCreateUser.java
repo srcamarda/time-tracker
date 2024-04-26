@@ -25,5 +25,6 @@ public record DTOCreateUser(
         String addrState,
         String addrCity,
         String addrStreet,
+        String addrDistrict,
         Integer addrNumber) {
 }

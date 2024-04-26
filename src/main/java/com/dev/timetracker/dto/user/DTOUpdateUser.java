@@ -18,5 +18,6 @@ public record DTOUpdateUser(
         String addrState,
         String addrCity,
         String addrStreet,
+        String addrDistrict,
         Integer addrNumber) {
 }

@@ -3,6 +3,7 @@ package com.dev.timetracker.entity;
 import com.dev.timetracker.dto.user.DTOUpdateUser;
 
 import com.dev.timetracker.dto.user.DTOCreateUser;
+import com.dev.timetracker.utility.category.AddressAPI;
 import com.dev.timetracker.utility.category.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,7 @@ public class EntityUser {
     private String addrState;
     private String addrCity;
     private String addrStreet;
+    private String addrDistrict;
     private Integer addrNumber;
     private Boolean active;
 
@@ -41,11 +43,17 @@ public class EntityUser {
         this.cpf = data.cpf();
         this.email = data.email();
         this.role = data.role();
-        this.addrZip = data.addrZip();
-        this.addrCountry = data.addrCountry();
-        this.addrState = data.addrState();
-        this.addrCity = data.addrCity();
-        this.addrStreet = data.addrStreet();
+
+        if (data.addrZip() != null) {
+            AddressAPI addressAPI = new AddressAPI(data.addrZip());
+            this.addrZip = data.addrZip();
+            this.addrCountry = addressAPI.getAddrCountry();
+            this.addrState = addressAPI.getAddrState();
+            this.addrCity = addressAPI.getAddrCity();
+            this.addrStreet = addressAPI.getAddrStreet();
+            this.addrDistrict = addressAPI.getAddrDistrict();
+        }
+
         this.addrNumber = data.addrNumber();
     }
 
@@ -76,6 +84,9 @@ public class EntityUser {
         }
         if (data.addrStreet() != null) {
             this.addrStreet = data.addrStreet();
+        }
+        if (data.addrDistrict() != null) {
+            this.addrDistrict = data.addrDistrict();
         }
         if (data.addrNumber() != null) {
             this.addrNumber = data.addrNumber();

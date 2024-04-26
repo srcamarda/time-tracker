@@ -5,10 +5,7 @@ import com.dev.timetracker.dto.project.DTOUpdateProject;
 import com.dev.timetracker.dto.task.DTOUpdateTask;
 import com.dev.timetracker.utility.category.Tag;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Set;
@@ -29,18 +26,21 @@ public class EntityProject {
     private Timestamp endTime;
     private Boolean active;
 
+    @Setter
     @ManyToMany
     @JoinTable(name = "project_users",
             joinColumns = @JoinColumn(name = "id_project", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_user", referencedColumnName = "id"))
     private Set<EntityUser> users;
 
+    @Setter
     @ManyToMany
     @JoinTable(name = "project_tasks",
             joinColumns = @JoinColumn(name = "id_project", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "id_task", referencedColumnName = "id"))
     private Set<EntityTask> tasks;
 
+    @Setter
     @ElementCollection
     @CollectionTable(name = "project_tags", joinColumns = @JoinColumn(name = "id_project"))
     @Column(name = "tag")

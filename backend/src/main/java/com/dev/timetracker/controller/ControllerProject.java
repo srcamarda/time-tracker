@@ -97,7 +97,7 @@ public class ControllerProject {
 
     @PutMapping("{id}/tags")
     @Transactional
-    public void addTagToProject(@PathVariable Long id, @RequestBody Tag tag) {
+    public void addTagToProject(@PathVariable Long id, @RequestParam("tag") Tag tag) {
         EntityProject project = repositoryProject.getReferenceById(id);
         Set<Tag> tags = project.getTags();
         tags.add(tag);

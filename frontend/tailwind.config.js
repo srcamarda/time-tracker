@@ -20,6 +20,7 @@ module.exports = {
       colors: {
         white: "var(--white)",
         peach: "var(--peach)",
+        melon: "var(--melon)",
         dum: "var(--dum)",
         "dim-gray": "var(--dim-gray)",
         "davys-gray": "var(--davys-gray)",
@@ -45,6 +46,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      screens: {
+        xs: "400px"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

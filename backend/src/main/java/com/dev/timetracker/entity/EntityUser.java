@@ -21,8 +21,10 @@ public class EntityUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String username;
     private String name;
+    @Column(unique = true)
     private String cpf;
     private String email;
     @Enumerated(EnumType.STRING)
@@ -45,15 +47,17 @@ public class EntityUser {
         this.role = data.role();
 
         if (data.addrZip() != null) {
-            AddressAPI addressAPI = new AddressAPI(data.addrZip());
             this.addrZip = data.addrZip();
-            this.addrCountry = addressAPI.getAddrCountry();
-            this.addrState = addressAPI.getAddrState();
-            this.addrCity = addressAPI.getAddrCity();
-            this.addrStreet = addressAPI.getAddrStreet();
-            this.addrDistrict = addressAPI.getAddrDistrict();
-        }
 
+            try {
+                AddressAPI addressAPI = new AddressAPI(data.addrZip());
+                this.addrCountry = addressAPI.getAddrCountry();
+                this.addrState = addressAPI.getAddrState();
+                this.addrCity = addressAPI.getAddrCity();
+                this.addrStreet = addressAPI.getAddrStreet();
+                this.addrDistrict = addressAPI.getAddrDistrict();
+            } catch (Exception _) {}
+        }
         this.addrNumber = data.addrNumber();
     }
 

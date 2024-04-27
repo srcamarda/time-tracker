@@ -7,6 +7,8 @@ import com.dev.timetracker.dto.user.DTOUpdateUser;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
+import com.dev.timetracker.utility.UniqueException;
+import com.dev.timetracker.utility.ValidationErrorHandler;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,19 @@ public class ControllerUser {
     private RepositoryUser repositoryUser;
     @Autowired
     private RepositoryTask repositoryTask;
+    @Autowired
+    private ValidationErrorHandler validationErrorHandler;
 
     @PostMapping
     @Transactional
     public void register(@RequestBody @Valid DTOCreateUser data) {
-        repositoryUser.save(new EntityUser(data)); //TODO: Do not break the user creation if the ViaCEP API call fails
+        if (repositoryUser.existsByUsername(data.username()))
+            throw new UniqueException("Username already exists", "username");
+
+        if (repositoryUser.existsByCpf(data.cpf()))
+            throw new UniqueException("Cpf already exists", "cpf");
+
+        repositoryUser.save(new EntityUser(data));
     }
 
     @GetMapping("{id}")

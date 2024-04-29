@@ -1,5 +1,7 @@
 package com.dev.timetracker.controller;
 
+import com.dev.timetracker.dto.report.DTOTimeWork;
+import com.dev.timetracker.dto.report.DTOUserTime;
 import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.dto.user.DTOCreateUser;
@@ -7,6 +9,7 @@ import com.dev.timetracker.dto.user.DTOUpdateUser;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
+import com.dev.timetracker.service.RelatorioService;
 import com.dev.timetracker.utility.UniqueException;
 import com.dev.timetracker.utility.ValidationErrorHandler;
 import jakarta.transaction.Transactional;
@@ -14,8 +17,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +34,8 @@ public class ControllerUser {
     private RepositoryTask repositoryTask;
     @Autowired
     private ValidationErrorHandler validationErrorHandler;
+    @Autowired
+    private RelatorioService relatorioService;
 
     @PostMapping
     @Transactional
@@ -60,6 +68,18 @@ public class ControllerUser {
     public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
         EntityUser user = repositoryUser.getReferenceById(id);
         return repositoryTask.findAllByIdUserAndActiveTrue(user, pageable).map(DTOListTask::new).getContent();
+    }
+    @GetMapping("/{userId}/work-report")
+    public ResponseEntity<List<DTOTimeWork>> getWorkReportForUser(
+            @PathVariable Long userId,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        List<DTOTimeWork> report = relatorioService.calculateWorkForUser(userId, startDate, endDate);
+        if (report.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(report);
     }
 
     @PutMapping

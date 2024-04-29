@@ -1,59 +1,63 @@
-CREATE TABLE users(
-    id            bigserial primary key,
-    username      varchar(30) not null,
-    name          varchar(100),
-    email         varchar(50),
-    cpf           varchar(14),
-    role          varchar(20),
-    addr_zip      varchar(10),
-    addr_country  varchar(60),
-    addr_state    varchar(60),
-    addr_city     varchar(60),
-    addr_street   varchar(100),
-    addr_district varchar(60),
-    addr_number   integer,
-    active        boolean
+CREATE TABLE users (
+                       id            BIGSERIAL PRIMARY KEY,
+                       username      VARCHAR(30) NOT NULL,
+                       name          VARCHAR(100),
+                       email         VARCHAR(50),
+                       cpf           VARCHAR(14),
+                       role          VARCHAR(20),
+                       addr_zip      VARCHAR(10),
+                       addr_country  VARCHAR(60),
+                       addr_state    VARCHAR(60),
+                       addr_city     VARCHAR(60),
+                       addr_street   VARCHAR(100),
+                       addr_district VARCHAR(60),
+                       addr_number   INTEGER,
+                       active        BOOLEAN
 );
 
-create index users_username on users (username);
-create index users_active on users (active);
+CREATE INDEX users_username ON users (username);
+CREATE INDEX users_active ON users (active);
 
-create table tasks(
-    id          bigserial primary key,
-    title       varchar(50) not null,
-    description varchar(200),
-    tag         varchar(30),
-    id_user     bigint references users (id),
-    start_time  timestamp,
-    end_time    timestamp,
-    active      boolean
+CREATE TABLE projects (
+                          id          BIGSERIAL PRIMARY KEY,
+                          title       VARCHAR(50) NOT NULL,
+                          description VARCHAR(200),
+                          start_time  TIMESTAMP,
+                          end_time    TIMESTAMP,
+                          active      BOOLEAN
 );
 
-create index tasks_tag on tasks (tag);
-create index tasks_active on tasks (active);
+CREATE INDEX projects_active ON projects (active);
 
-create table projects(
-    id          bigserial primary key,
-    title       varchar(50) not null,
-    description varchar(200),
-    start_time  timestamp,
-    end_time    timestamp,
-    active      boolean
+CREATE TABLE tasks (
+                       id          BIGSERIAL PRIMARY KEY,
+                       title       VARCHAR(50) NOT NULL,
+                       description VARCHAR(200),
+                       tag         VARCHAR(30),
+                       id_user     BIGINT REFERENCES users (id),
+                       start_time  TIMESTAMP,
+                       end_time    TIMESTAMP,
+                       active      BOOLEAN,
+                       id_project  BIGINT REFERENCES projects(id)
 );
 
-create index projects_active on projects (active);
+CREATE INDEX tasks_tag ON tasks (tag);
+CREATE INDEX tasks_active ON tasks (active);
 
-create table project_users(
-    id_project bigint references projects (id),
-    id_user    bigint references users (id)
+CREATE TABLE project_users (
+                               id_project BIGINT REFERENCES projects (id),
+                               id_user    BIGINT REFERENCES users (id),
+                               PRIMARY KEY (id_project, id_user)
 );
 
-create table project_tasks(
-    id_project bigint references projects (id),
-    id_task    bigint references tasks (id)
+CREATE TABLE project_tasks (
+                               id_project BIGINT REFERENCES projects (id),
+                               id_task    BIGINT REFERENCES tasks (id),
+                               PRIMARY KEY (id_project, id_task)
 );
 
-create table project_tags(
-    id_project bigint references projects (id),
-    tag        varchar(30)
+CREATE TABLE project_tags (
+                              id_project BIGINT REFERENCES projects (id),
+                              tag        VARCHAR(30),
+                              PRIMARY KEY (id_project, tag)
 );

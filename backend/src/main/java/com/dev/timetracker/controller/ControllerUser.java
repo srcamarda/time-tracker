@@ -1,5 +1,6 @@
 package com.dev.timetracker.controller;
 
+import com.dev.timetracker.dto.report.DTOProjectTime;
 import com.dev.timetracker.dto.report.DTOTimeWork;
 import com.dev.timetracker.dto.report.DTOUserTime;
 import com.dev.timetracker.dto.task.DTOListTask;
@@ -69,6 +70,13 @@ public class ControllerUser {
         EntityUser user = repositoryUser.getReferenceById(id);
         return repositoryTask.findAllByIdUserAndActiveTrue(user, pageable).map(DTOListTask::new).getContent();
     }
+
+    @GetMapping("/{userId}/hours")
+    public ResponseEntity<List<DTOProjectTime>> getHoursWorkedForUser(@PathVariable Long userId) {
+        List<DTOProjectTime> hoursWorked = relatorioService.hoursWorkedByUserAllProjects(userId);
+        return ResponseEntity.ok(hoursWorked);
+    }
+
     @GetMapping("/{userId}/work-report")
     public ResponseEntity<List<DTOTimeWork>> getWorkReportForUser(
             @PathVariable Long userId,

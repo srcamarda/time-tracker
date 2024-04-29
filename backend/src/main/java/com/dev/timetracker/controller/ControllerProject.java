@@ -19,8 +19,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
@@ -72,8 +74,13 @@ public class ControllerProject {
     }
 
     @GetMapping("{id}/tasks")
-    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
-        return repositoryProject.getReferenceById(id).getTasks().stream().map(DTOListTask::new).toList();
+    public ResponseEntity<List<DTOListTask>> listTasks(@PathVariable Long id) {
+        List<EntityTask> tasks = repositoryTask.findByProjectIdAndActiveTrue(id);
+        if (tasks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<DTOListTask> dtoTasks = tasks.stream().map(DTOListTask::new).collect(Collectors.toList());
+        return ResponseEntity.ok(dtoTasks);
     }
 
     @GetMapping("/{projetoId}/users/report")
@@ -102,13 +109,14 @@ public class ControllerProject {
 
     @PutMapping("{id}/tasks/{idTask}")
     @Transactional
-    public void addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
-        var project = repositoryProject.getReferenceById(id);
-        var task = repositoryTask.getReferenceById(idTask);
-        Set<EntityTask> tasks = project.getTasks();
-        tasks.add(task);
-        project.setTasks(tasks);
-        repositoryProject.save(project);
+    public ResponseEntity<Void> addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
+        EntityProject project = repositoryProject.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
+        EntityTask task = repositoryTask.findById(idTask)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
+        task.setProject(project);
+        repositoryTask.save(task);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("{id}/tags")

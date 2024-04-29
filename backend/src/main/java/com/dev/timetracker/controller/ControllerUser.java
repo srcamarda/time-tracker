@@ -3,7 +3,6 @@ package com.dev.timetracker.controller;
 import com.dev.timetracker.dto.report.DTOAverageTime;
 import com.dev.timetracker.dto.report.DTOProjectTime;
 import com.dev.timetracker.dto.report.DTOTimeWork;
-import com.dev.timetracker.dto.report.DTOUserTime;
 import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.dto.user.DTOCreateUser;
@@ -13,7 +12,6 @@ import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
 import com.dev.timetracker.service.RelatorioService;
 import com.dev.timetracker.utility.UniqueException;
-import com.dev.timetracker.utility.ValidationErrorHandler;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +32,6 @@ public class ControllerUser {
     private RepositoryUser repositoryUser;
     @Autowired
     private RepositoryTask repositoryTask;
-    @Autowired
-    private ValidationErrorHandler validationErrorHandler;
     @Autowired
     private RelatorioService relatorioService;
 

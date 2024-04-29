@@ -11,15 +11,16 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
 import com.dev.timetracker.service.ReportService;
-import com.dev.timetracker.utility.UniqueException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,14 +38,15 @@ public class ControllerUser {
 
     @PostMapping
     @Transactional
-    public void register(@RequestBody @Valid DTOCreateUser data) {
+    public ResponseEntity<Void> register(@RequestBody @Valid DTOCreateUser data) {
         if (repositoryUser.existsByUsername(data.username()))
-            throw new UniqueException("Username already exists", "username");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
 
         if (repositoryUser.existsByCpf(data.cpf()))
-            throw new UniqueException("Cpf already exists", "cpf");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cpf already exists");
 
         repositoryUser.save(new EntityUser(data));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("{id}")

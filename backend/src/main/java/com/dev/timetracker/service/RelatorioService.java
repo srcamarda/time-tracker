@@ -33,8 +33,8 @@ public class RelatorioService {
         Map<EntityUser, Long> userTimeMap = new HashMap<>();
 
         for (EntityTask task : tasks) {
-            long duration = TimeUnit.MILLISECONDS.toHours(task.getEndTime().getTime() - task.getStartTime().getTime());
-            userTimeMap.merge(task.getIdUser(), duration, Long::sum);
+            long hours = calculateTaskHours(task);
+            userTimeMap.merge(task.getIdUser(), hours, Long::sum);
         }
 
         return userTimeMap.entrySet().stream()
@@ -52,9 +52,7 @@ public class RelatorioService {
 
         List<DTOTimeWork> report = new ArrayList<>();
         for (EntityTask task : tasks) {
-            long duration = task.getEndTime().getTime() - task.getStartTime().getTime();
-            long hours = TimeUnit.MILLISECONDS.toHours(duration);
-
+            long hours = calculateTaskHours(task);
             DTOTimeWork dto = new DTOTimeWork(task.getProject().getTitle(), task.getTitle(), hours);
             report.add(dto);
         }

@@ -66,7 +66,6 @@ public class ControllerTask {
     @DeleteMapping("{id}")
     @Transactional
     public void delete(@PathVariable Long id) {
-        var task = repositoryTask.getReferenceById(id);
-        task.inactivate();
+        repositoryTask.deleteById(id);
     }
 }

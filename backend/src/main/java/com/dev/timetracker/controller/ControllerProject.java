@@ -102,14 +102,13 @@ public class ControllerProject {
 
     @PutMapping("{id}/tasks/{idTask}")
     @Transactional
-    public ResponseEntity<Void> addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
-        EntityProject project = repositoryProject.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
-        EntityTask task = repositoryTask.findById(idTask)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
-        task.setProject(project);
-        repositoryTask.save(task);
-        return ResponseEntity.ok().build();
+    public void addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
+        var project = repositoryProject.getReferenceById(id);
+        var task = repositoryTask.getReferenceById(idTask);
+        Set<EntityTask> tasks = project.getTasks();
+        tasks.add(task);
+        project.setTasks(tasks);
+        repositoryProject.save(project);
     }
 
     @PutMapping("{id}/tags")

@@ -68,14 +68,10 @@ public class ControllerProject {
     }
 
     @GetMapping("{id}/tasks")
-    public ResponseEntity<List<DTOListTask>> listTasks(@PathVariable Long id) {
-        List<EntityTask> tasks = repositoryTask.findByProjectIdAndActiveTrue(id);
-        if (tasks.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        List<DTOListTask> dtoTasks = tasks.stream().map(DTOListTask::new).collect(Collectors.toList());
-        return ResponseEntity.ok(dtoTasks);
+    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
+        return repositoryProject.getReferenceById(id).getTasks().stream().map(DTOListTask::new).toList();
     }
+
     @GetMapping("/{projetoId}/users/report")
     public ResponseEntity<List<DTOUserTime>> getRankingUsuariosNoProjeto(@PathVariable Long projetoId) {
         List<DTOUserTime> ranking = reportService.calculateUserTimeRankingForProject(projetoId);

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --white: #FFFFFF;
+    
+    --peach: #FFBFA0;
+    --melon: #FBAF98;
+    --dum: #E1CDB8;
+
+    --dim-gray: #616163;
+    --davys-gray: #49494B;
+
+    --cerise: #DE3A60;
+    --sunglow: #FACD52;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    font-family: 'Poppins', sans-serif;
+  }
+  body {
+    @apply bg-dum text-davys-gray;
+    font-family: 'Poppins', sans-serif;
+  }
+}

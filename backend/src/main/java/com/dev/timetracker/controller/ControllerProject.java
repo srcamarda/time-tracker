@@ -12,7 +12,7 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
-import com.dev.timetracker.service.RelatorioService;
+import com.dev.timetracker.service.ReportService;
 import com.dev.timetracker.utility.category.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ public class ControllerProject {
     @Autowired
     private RepositoryTask repositoryTask;
     @Autowired
-    private RelatorioService reportService;
+    private ReportService reportService;
 
     @PostMapping
     @Transactional

@@ -10,7 +10,7 @@ import com.dev.timetracker.dto.user.DTOUpdateUser;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
-import com.dev.timetracker.service.RelatorioService;
+import com.dev.timetracker.service.ReportService;
 import com.dev.timetracker.utility.UniqueException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -33,7 +33,7 @@ public class ControllerUser {
     @Autowired
     private RepositoryTask repositoryTask;
     @Autowired
-    private RelatorioService relatorioService;
+    private ReportService reportService;
 
     @PostMapping
     @Transactional
@@ -70,13 +70,13 @@ public class ControllerUser {
 
     @GetMapping("/{userId}/hours")
     public ResponseEntity<List<DTOProjectTime>> getHoursWorkedForUser(@PathVariable Long userId) {
-        List<DTOProjectTime> hoursWorked = relatorioService.hoursWorkedByUserAllProjects(userId);
+        List<DTOProjectTime> hoursWorked = reportService.hoursWorkedByUserAllProjects(userId);
         return ResponseEntity.ok(hoursWorked);
     }
 
     @GetMapping("/{userId}/average-task-time")
     public ResponseEntity<DTOAverageTime> getAverageTaskTime(@PathVariable Long userId) {
-        DTOAverageTime averageTime = relatorioService.hoursWorkedByUserAverageTime(userId);
+        DTOAverageTime averageTime = reportService.hoursWorkedByUserAverageTime(userId);
         return ResponseEntity.ok(averageTime);
     }
 
@@ -86,7 +86,7 @@ public class ControllerUser {
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        List<DTOTimeWork> report = relatorioService.calculateWorkForUser(userId, startDate, endDate);
+        List<DTOTimeWork> report = reportService.calculateWorkForUser(userId, startDate, endDate);
         if (report.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

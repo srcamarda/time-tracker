@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
-public class RelatorioService {
+public class ReportService {
 
     @Autowired
     private RepositoryTask repositoryTask;

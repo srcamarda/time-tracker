@@ -1,5 +1,6 @@
 package com.dev.timetracker.controller;
 
+import com.dev.timetracker.dto.report.DTOAverageTime;
 import com.dev.timetracker.dto.report.DTOProjectTime;
 import com.dev.timetracker.dto.report.DTOTimeWork;
 import com.dev.timetracker.dto.report.DTOUserTime;
@@ -75,6 +76,12 @@ public class ControllerUser {
     public ResponseEntity<List<DTOProjectTime>> getHoursWorkedForUser(@PathVariable Long userId) {
         List<DTOProjectTime> hoursWorked = relatorioService.hoursWorkedByUserAllProjects(userId);
         return ResponseEntity.ok(hoursWorked);
+    }
+
+    @GetMapping("/{userId}/average-task-time")
+    public ResponseEntity<DTOAverageTime> getAverageTaskTime(@PathVariable Long userId) {
+        DTOAverageTime averageTime = relatorioService.hoursWorkedByUserAverageTime(userId);
+        return ResponseEntity.ok(averageTime);
     }
 
     @GetMapping("/{userId}/work-report")

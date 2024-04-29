@@ -1,5 +1,6 @@
 package com.dev.timetracker.service;
 
+import com.dev.timetracker.dto.report.DTOAverageTime;
 import com.dev.timetracker.dto.report.DTOProjectTime;
 import com.dev.timetracker.dto.report.DTOTimeWork;
 import com.dev.timetracker.dto.report.DTOUserTime;
@@ -77,6 +78,21 @@ public class RelatorioService {
             result.add(new DTOProjectTime(project.getTitle(), hoursWorked));
         }
         return result;
+    }
+
+    public DTOAverageTime hoursWorkedByUserAverageTime(Long userId) {
+        EntityUser user = repositoryUser.getReferenceById(userId);
+        Page<EntityTask> tasks = repositoryTask.findAllByIdUserAndActiveTrue(user, Pageable.unpaged());
+        long totalHours = 0;
+        long quantity = tasks.getContent().size();
+
+        for (EntityTask task : tasks) {
+            totalHours += calculateTaskHours(task);
+        }
+
+        double averageHours = (double) totalHours/ quantity;
+
+        return new DTOAverageTime(quantity, totalHours, averageHours);
     }
 
     private long calculateTaskHours(EntityTask task) {

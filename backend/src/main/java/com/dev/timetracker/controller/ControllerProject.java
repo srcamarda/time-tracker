@@ -3,6 +3,7 @@ package com.dev.timetracker.controller;
 import com.dev.timetracker.dto.project.DTOCreateProject;
 import com.dev.timetracker.dto.project.DTOListProject;
 import com.dev.timetracker.dto.project.DTOUpdateProject;
+import com.dev.timetracker.dto.report.DTOUserTime;
 import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.entity.EntityProject;
@@ -11,16 +12,21 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
+import com.dev.timetracker.service.RelatorioService;
 import com.dev.timetracker.utility.category.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("projects")
@@ -32,6 +38,8 @@ public class ControllerProject {
     private RepositoryUser repositoryUser;
     @Autowired
     private RepositoryTask repositoryTask;
+    @Autowired
+    private RelatorioService reportService;
 
     @PostMapping
     @Transactional
@@ -60,8 +68,18 @@ public class ControllerProject {
     }
 
     @GetMapping("{id}/tasks")
-    public List<DTOListTask> listTasks(@PathVariable Long id, @PageableDefault(sort = {"id"}) Pageable pageable) {
-        return repositoryProject.getReferenceById(id).getTasks().stream().map(DTOListTask::new).toList();
+    public ResponseEntity<List<DTOListTask>> listTasks(@PathVariable Long id) {
+        List<EntityTask> tasks = repositoryTask.findByProjectIdAndActiveTrue(id);
+        if (tasks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<DTOListTask> dtoTasks = tasks.stream().map(DTOListTask::new).collect(Collectors.toList());
+        return ResponseEntity.ok(dtoTasks);
+    }
+    @GetMapping("/{projetoId}/users/report")
+    public ResponseEntity<List<DTOUserTime>> getRankingUsuariosNoProjeto(@PathVariable Long projetoId) {
+        List<DTOUserTime> ranking = reportService.calculateUserTimeRankingForProject(projetoId);
+        return ResponseEntity.ok(ranking);
     }
 
     @PutMapping
@@ -84,13 +102,14 @@ public class ControllerProject {
 
     @PutMapping("{id}/tasks/{idTask}")
     @Transactional
-    public void addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
-        var project = repositoryProject.getReferenceById(id);
-        var task = repositoryTask.getReferenceById(idTask);
-        Set<EntityTask> tasks = project.getTasks();
-        tasks.add(task);
-        project.setTasks(tasks);
-        repositoryProject.save(project);
+    public ResponseEntity<Void> addTaskToProject(@PathVariable Long id, @PathVariable Long idTask) {
+        EntityProject project = repositoryProject.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found"));
+        EntityTask task = repositoryTask.findById(idTask)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found"));
+        task.setProject(project);
+        repositoryTask.save(task);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("{id}/tags")

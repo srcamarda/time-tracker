@@ -146,6 +146,15 @@ public class ControllerProject {
     @DeleteMapping("{id}")
     @Transactional
     public void delete(@PathVariable Long id) {
+        EntityProject project = repositoryProject.getReferenceById(id);
+
+        //Remove reference from related tasks
+        Set<EntityTask> tasks = project.getTasks();
+        tasks.forEach(task -> {
+            task.setProject(null);
+            repositoryTask.save(task);
+        });
+
         repositoryProject.deleteById(id);
     }
 

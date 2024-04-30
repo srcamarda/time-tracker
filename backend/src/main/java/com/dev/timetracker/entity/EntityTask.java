@@ -23,14 +23,13 @@ public class EntityTask {
     private String description;
     @Enumerated(EnumType.STRING)
     private Tag tag;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private EntityUser idUser;
     private Timestamp startTime;
     private Timestamp endTime;
     private Boolean active;
-
-    @ManyToOne // Adicionando a relação com Project
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_project", referencedColumnName = "id")
     private EntityProject project;
 

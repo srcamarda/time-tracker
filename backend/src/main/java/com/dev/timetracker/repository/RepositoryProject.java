@@ -11,4 +11,5 @@ public interface RepositoryProject extends JpaRepository<EntityProject, Long> {
     Page<EntityProject> findAllByActiveTrue(Pageable pageable);
     EntityProject findByIdAndActiveTrue(Long id);
     List<EntityProject> findByUsersId(Long userId);
+    List<EntityProject> findByTasksId(Long taskId);
 }

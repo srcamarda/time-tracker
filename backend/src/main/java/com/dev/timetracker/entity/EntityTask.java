@@ -4,15 +4,13 @@ import com.dev.timetracker.dto.task.DTOCreateTask;
 import com.dev.timetracker.dto.task.DTOUpdateTask;
 import com.dev.timetracker.utility.category.Tag;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 
 @Table(name = "tasks")
 @Entity(name = "Task")
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,12 +23,15 @@ public class EntityTask {
     private String description;
     @Enumerated(EnumType.STRING)
     private Tag tag;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     private EntityUser idUser;
     private Timestamp startTime;
     private Timestamp endTime;
     private Boolean active;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "id_project", referencedColumnName = "id")
+    private EntityProject project;
 
     public EntityTask(DTOCreateTask data) {
         this.active = true;

@@ -3,7 +3,9 @@ package com.dev.timetracker.controller;
 import com.dev.timetracker.dto.task.DTOCreateTask;
 import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.task.DTOUpdateTask;
+import com.dev.timetracker.entity.EntityProject;
 import com.dev.timetracker.entity.EntityTask;
+import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -20,6 +22,8 @@ public class ControllerTask {
 
     @Autowired
     private RepositoryTask repositoryTask;
+    @Autowired
+    private RepositoryProject repositoryProject;
 
     @PostMapping
     @Transactional
@@ -45,28 +49,36 @@ public class ControllerTask {
     @PutMapping
     @Transactional
     public void update(@RequestBody @Valid DTOUpdateTask data) {
-        var task = repositoryTask.getReferenceById(data.id());
+        EntityTask task = repositoryTask.getReferenceById(data.id());
         task.update(data);
     }
 
     @PutMapping("/activate/{id}")
     @Transactional
     public void activate(@PathVariable Long id) {
-        var task = repositoryTask.getReferenceById(id);
+        EntityTask task = repositoryTask.getReferenceById(id);
         task.activate();
     }
 
     @PutMapping("/inactivate/{id}")
     @Transactional
     public void inactivate(@PathVariable Long id) {
-        var task = repositoryTask.getReferenceById(id);
+        EntityTask task = repositoryTask.getReferenceById(id);
         task.inactivate();
     }
 
     @DeleteMapping("{id}")
     @Transactional
     public void delete(@PathVariable Long id) {
-        var task = repositoryTask.getReferenceById(id);
-        task.inactivate();
+        EntityTask task = repositoryTask.getReferenceById(id);
+
+        //Remove task from related projects
+        List<EntityProject> projects = repositoryProject.findByTasksId(id);
+        projects.forEach(project -> {
+            project.getTasks().remove(task);
+            repositoryProject.save(project);
+        });
+
+        repositoryTask.deleteById(id);
     }
 }

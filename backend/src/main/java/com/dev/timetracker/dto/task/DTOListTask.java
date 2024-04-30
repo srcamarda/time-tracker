@@ -12,7 +12,7 @@ public record DTOListTask(
         String title,
         String description,
         Tag tag,
-        DTOListUser idUser,
+        String username,
         Timestamp startTime,
         Timestamp endTime) {
 
@@ -22,7 +22,7 @@ public record DTOListTask(
                 task.getTitle(),
                 task.getDescription(),
                 task.getTag(),
-                new DTOListUser(task.getIdUser()),
+                task.getIdUser().getUsername(),
                 task.getStartTime(),
                 task.getEndTime());
     }

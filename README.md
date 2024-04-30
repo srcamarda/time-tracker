@@ -3,17 +3,26 @@ Esse é um sistema de controle de tempo em Java, inspirado no Clockify, que perm
 Este sistema oferece funcionalidades essenciais para monitorar o tempo gasto em diferentes tarefas, ajudando na organização e na análise do desempenho.
 
 ## Funcionalidades
-### Planilha de Horas
-- Lista o total de horas dedicadas a cada atividade em um determinado período de tempo.
-### Relatórios de Atividades
-*   Apresenta totais de horas dedicadas às atividades em diferentes períodos, incluindo:
-    *   Tempo total semanal
-    *   Tempo total mensal
-### Relatórios de Indicadores
-*   Fornece insights sobre o desempenho do usuário, incluindo:
-    *   Média de tempo gasto por dia
-    *   Média de tempo gasto geral
-    *   Ranking de tempo dedicado às atividades
+- Cadastro de usuários, atividades e projetos
+- Cadastro do tempo utilizado em atividades
+- Visualização de tarefas e projetos por usuário
+- Visualização de projetos por usuário
+- Visualização de usuários do projeto
+### Relatórios
+- Tempo trabalhado por usuário
+- Tempo trabalhado por projeto
+- Tempo trabalhado em um período
+- Média de tempo em tarefas
+
+### Requisitos
+- Java JDK 22
+- PostgreSQL 16
+- (Opcional) Git
+- (Opcional) Insomia 
 
 ## Como Usar
-Para executar o projeto, é necessário ter o JDK em sua máquina. Você pode clonar ou baixar o código-fonte do repositório e importá-lo para a sua IDE de preferência. Em seguida, execute a classe main, que irá iniciar o programa, e siga as instruções na tela para interagir com as funcionalidades.
+- Clone ou faça o download do código-fonte do repositório e importe-o para a sua IDE de preferência.
+- Execute o PostgresSQL e crie um banco de nome "time-tracker". Atualize o arquivo application.properties caso necessário.
+- Execute a classe TimeTrackerApplication, que irá iniciar o programa e o servidor web TomCat integrado.
+- Para utilizar de forma simples os endpoints, importe na aplicação Insomnia o arquivo JSON presente no diretório insomnia.
+- Utilize os mapeamentos disponíveis de POST, GET, PUT e DELETE para interagir com a aplicação.

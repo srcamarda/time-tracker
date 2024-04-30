@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 export function Dashboard() {
   return (
     <>
-      <div className="max-w-7xl px-4 py-12">
+      <div className="max-w-7xl px-4 py-12 mx-auto">
         <Header />
 
         <h2 className="text-xl font-bold text-dim-gray my-4">Projetos</h2>

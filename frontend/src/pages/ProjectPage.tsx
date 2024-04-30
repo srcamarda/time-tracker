@@ -7,7 +7,7 @@ export function ProjectPage() {
 
   return (
     <>
-      <div className="max-w-7xl px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-12">
         <Header />
 
         <Link to={'/dashboard'} className="mt-4 inline-block hover:underline">← Voltar a página inicial</Link>

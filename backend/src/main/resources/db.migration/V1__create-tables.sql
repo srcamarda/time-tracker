@@ -13,7 +13,6 @@ CREATE TABLE users
     addr_street   VARCHAR(100),
     addr_district VARCHAR(60),
     addr_number   INTEGER,
-    password      VARCHAR(100),
     active        BOOLEAN
 );
 
@@ -68,11 +67,3 @@ CREATE TABLE project_tags
     tag        VARCHAR(30),
     PRIMARY KEY (id_project, tag)
 );
-
-CREATE TABLE user_roles
-(
-    username  VARCHAR(30) REFERENCES users (username),
-    role VARCHAR(30) NOT NULL
-);
-
-CREATE UNIQUE INDEX username_roles ON user_roles (username, role);

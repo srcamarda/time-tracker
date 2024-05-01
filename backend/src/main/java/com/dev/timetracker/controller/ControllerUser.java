@@ -41,7 +41,7 @@ public class ControllerUser {
     @Autowired
     private ReportService reportService;
 
-    @PostMapping
+    @PostMapping("/register")
     @Transactional
     public ResponseEntity<Void> register(@RequestBody @Valid DTOCreateUser data) {
         if (repositoryUser.existsByUsername(data.username()))

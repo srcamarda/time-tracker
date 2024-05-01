@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -22,18 +22,25 @@ public class SecurityConfig {
     @Qualifier("dataSource")
     private DataSource dataSource;
 
-    protected PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Bean
+    @SuppressWarnings("deprecation")
+    public static NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .authorizeHttpRequests((authz) -> authz
-                        .anyRequest().authenticated()
-                )
-                .formLogin(withDefaults())
-                .httpBasic(withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                //.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(new AntPathRequestMatcher("/users/register")).permitAll()
+                        .anyRequest().authenticated())
+                //.formLogin(AbstractHttpConfigurer::disable)
+                //.formLogin(form -> form.loginPage("/users/login"))
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
@@ -42,7 +49,7 @@ public class SecurityConfig {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("SELECT username, password, active FROM users WHERE username=?")
-                .authoritiesByUsernameQuery("SELECT username, role FROM user_roles WHERE username=?");
+                .usersByUsernameQuery("SELECT username, cpf, active FROM users WHERE username=?")
+                .authoritiesByUsernameQuery("SELECT username, role FROM users WHERE username=?");
     }
 }

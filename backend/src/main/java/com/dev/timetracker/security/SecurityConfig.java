@@ -22,7 +22,6 @@ public class SecurityConfig {
     @Qualifier("dataSource")
     private DataSource dataSource;
 
-    @Bean
     protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -44,6 +43,6 @@ public class SecurityConfig {
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("SELECT username, password, active FROM users WHERE username=?")
-                .authoritiesByUsernameQuery("SELECT username, authority FROM authorities WHERE username=?");
+                .authoritiesByUsernameQuery("SELECT username, role FROM user_roles WHERE username=?");
     }
 }

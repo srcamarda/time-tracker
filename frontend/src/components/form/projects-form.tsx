@@ -32,7 +32,7 @@ export function ProjectsForm() {
         <Button
           type="button"
           variant="outline"
-          className="mt-6 border-peach font-bold text-peach duration-300 hover:bg-melon hover:text-white"
+          className="mt-6 border-peach font-bold text-peach duration-300 hover:bg-melon hover:text-white max-xs:col-span-2"
         >
           Cancelar
         </Button>
@@ -40,7 +40,7 @@ export function ProjectsForm() {
 
       <Button
         type="submit"
-        className="bg-peach font-bold text-white hover:bg-melon xs:mt-6"
+        className="bg-peach font-bold text-white hover:bg-melon max-xs:col-span-2 xs:mt-6"
       >
         Salvar
       </Button>

@@ -6,6 +6,7 @@ import com.dev.timetracker.dto.report.DTOTimeWork;
 import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.dto.user.DTOCreateUser;
+import com.dev.timetracker.dto.user.DTOLoginUser;
 import com.dev.timetracker.dto.user.DTOUpdateUser;
 import com.dev.timetracker.entity.EntityProject;
 import com.dev.timetracker.entity.EntityTask;
@@ -22,6 +23,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -41,7 +44,21 @@ public class ControllerUser {
     @Autowired
     private ReportService reportService;
 
-    @PostMapping("/register")
+    //TODO: Testing custom login. Will return the user credentials if successful (should use to authenticate the other requests)
+    @PostMapping("login")
+    public ResponseEntity<DTOLoginUser> login(@RequestBody @Valid DTOLoginUser data) {
+        EntityUser user = repositoryUser.findByUsernameAndActiveTrue(data.username());
+        if (user == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+
+        if (!user.getCpf().equals(data.cpf()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect cpf");
+
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getCpf(), null)); //TODO: Test, is this doing anything?
+        return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("register")
     @Transactional
     public ResponseEntity<Void> register(@RequestBody @Valid DTOCreateUser data) {
         if (repositoryUser.existsByUsername(data.username()))

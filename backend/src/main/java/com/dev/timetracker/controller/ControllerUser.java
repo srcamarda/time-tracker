@@ -23,8 +23,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -44,7 +42,6 @@ public class ControllerUser {
     @Autowired
     private ReportService reportService;
 
-    //TODO: Testing custom login. Will return the user credentials if successful (should use to authenticate the other requests)
     @PostMapping("login")
     public ResponseEntity<DTOLoginUser> login(@RequestBody @Valid DTOLoginUser data) {
         EntityUser user = repositoryUser.findByUsernameAndActiveTrue(data.username());
@@ -54,7 +51,6 @@ public class ControllerUser {
         if (!user.getCpf().equals(data.cpf()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Incorrect cpf");
 
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getCpf(), null)); //TODO: Test, is this doing anything?
         return ResponseEntity.ok(data);
     }
 

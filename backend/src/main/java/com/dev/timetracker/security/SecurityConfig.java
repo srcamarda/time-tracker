@@ -18,9 +18,8 @@ import javax.sql.DataSource;
 
 /**
  * Authentication will be made using username/cpf
- * Nothing encrypted, just dummy password (NoOpPasswordEncoder allows that)
- * Needs understanding about session authentication. For now every request needs to receive username/cpf auth
- * The method being tested is calling the users/login endpoint, which will return the user credentials back if successful. Then it will be used to authenticate the other requests
+ * The frontend should post users/login endpoint, which will return the user credentials back if successful
+ * The validated credential should then be used to authenticate the other requests
  */
 
 @Configuration
@@ -42,11 +41,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/users/register", "/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/users/register")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/users/login")).permitAll()
                         .anyRequest().authenticated())
-                .formLogin(AbstractHttpConfigurer::disable) //TODO: Understand better all this formLogin settings
-                .formLogin(Customizer.withDefaults())
+                .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
@@ -57,6 +55,6 @@ public class SecurityConfig {
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("SELECT username, cpf, active FROM users WHERE username=?")
-                .authoritiesByUsernameQuery("SELECT username, role FROM users WHERE username=?"); //TODO: Actually define security based on roles. Does nothing as it is
+                .authoritiesByUsernameQuery("SELECT username, role FROM users WHERE username=?"); //TODO: Actually define security based on roles.
     }
 }

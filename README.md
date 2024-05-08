@@ -26,3 +26,4 @@ Este sistema oferece funcionalidades essenciais para monitorar o tempo gasto em 
 - Execute a classe TimeTrackerApplication, que irá iniciar o programa e o servidor web TomCat integrado.
 - Para utilizar de forma simples os endpoints, importe na aplicação Insomnia o arquivo JSON presente no diretório insomnia.
 - Utilize os mapeamentos disponíveis de POST, GET, PUT e DELETE para interagir com a aplicação.
+- Os endpoints /register e /login podem ser acessados sem autenticação. Para os demais, devem ser utilizados username e CPF (Basic Auth).

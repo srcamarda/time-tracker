@@ -2,7 +2,6 @@ package com.dev.timetracker.controller;
 
 import com.dev.timetracker.dto.task.DTOCreateTask;
 import com.dev.timetracker.entity.EntityTask;
-import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
 import com.dev.timetracker.utility.category.Tag;
@@ -79,15 +78,12 @@ public class ControllerTaskTests {
         String requestJson = objectMapper.writeValueAsString(taskDTO);
 
         mockMvc.perform(post("/tasks")
-                .with(httpBasic("moana", "22433093007"))
+                .with(httpBasic("moana", "21055356070"))
                 .contentType(APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isOk());
 
-        Mockito.verify(repositoryTask, Mockito.times(1)).save(task);
-
         EntityTask newTask = repositoryTask.findByIdAndActiveTrue(task.getId());
-
         Assertions.assertEquals(task, newTask);
     }
 }

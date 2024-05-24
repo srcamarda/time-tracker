@@ -8,6 +8,7 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
+import com.dev.timetracker.service.ReportService;
 import com.dev.timetracker.utility.category.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -52,6 +53,9 @@ public class ControllerUserTests {
 
     @MockBean
     private RepositoryProject repositoryProject;
+
+    @MockBean
+    private ReportService reportService;
 
     @InjectMocks
     private ControllerUser controllerUser;
@@ -228,11 +232,13 @@ public class ControllerUserTests {
 
         Mockito.when(repositoryUser.findByIdAndActiveTrue(user.getId())).thenReturn(user);
 
+        String responseJson = objectMapper.writeValueAsString(new DTOListUser(user));
+
         //When user is found, it should be returned
         mockMvc.perform(get("/users/" + user.getId())
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(new DTOListUser(user))));
+                .andExpect(content().json(responseJson));
     }
 
     @Test
@@ -242,16 +248,18 @@ public class ControllerUserTests {
 
         Mockito.when(repositoryUser.findAllByActiveTrue(Mockito.any(Pageable.class))).thenReturn(users);
 
+        String responseJson = objectMapper.writeValueAsString(users.map(DTOListUser::new).getContent());
+
         //When users are found, they should be returned
         mockMvc.perform(get("/users")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(users.map(DTOListUser::new).getContent())));
+                .andExpect(content().json(responseJson));
 
         mockMvc.perform(get("/users/all")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(users.map(DTOListUser::new).getContent())));
+                .andExpect(content().json(responseJson));
     }
 
     @Test
@@ -274,11 +282,13 @@ public class ControllerUserTests {
 
         Mockito.when(repositoryUser.getReferenceById(user.getId())).thenReturn(userMock);
 
-        //When user is updated, it should return ok
+        String responseJson = objectMapper.writeValueAsString(updateDTO);
+
+                //When user is updated, it should return ok
         mockMvc.perform(put("/users")
                         .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070"))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateDTO)))
+                        .content(responseJson))
                 .andExpect(status().isOk());
 
         //Update user must be called 1 time
@@ -317,8 +327,8 @@ public class ControllerUserTests {
     public void deleteShouldDeleteUser() throws Exception {
 
         Mockito.when(repositoryUser.getReferenceById(userMock.getId())).thenReturn(userMock);
-        //Mockito.when(repositoryTask.fin)
-        //Mockito.when(repositoryUser.deleteById(userMock.getId())).
+        Mockito.when(repositoryTask.findAllByIdUser(userMock)).thenReturn(List.of());
+        Mockito.when(repositoryProject.findByUsersId(userMock.getId())).thenReturn(List.of());
 
         //When user is deleted, it should return ok
         mockMvc.perform(delete("/users/" + userMock.getId())
@@ -327,5 +337,9 @@ public class ControllerUserTests {
 
         //Delete user must be called 1 time
         Mockito.verify(repositoryUser, Mockito.times(1)).deleteById(userMock.getId());
+
+        //TODO: Verify if tasks and projects are deleted
+        Mockito.verify(repositoryTask, Mockito.times(0)).save(Mockito.any());
+        Mockito.verify(repositoryProject, Mockito.times(0)).save(Mockito.any());
     }
 }

@@ -86,4 +86,22 @@ public class ControllerTaskTests {
         EntityTask newTask = repositoryTask.findByIdAndActiveTrue(task.getId());
         Assertions.assertEquals(task, newTask);
     }
+
+    @Test
+    public void shouldUpdateTask() throws Exception {
+
+        Mockito.when(repositoryTask.findByIdAndActiveTrue(task.getId())).thenReturn(task);
+
+        String requestJson = objectMapper.writeValueAsString(taskDTO);
+
+        task.setEndTime(Timestamp.valueOf(LocalDateTime.now()));
+
+        mockMvc.perform(put("/tasks")
+                        .with(httpBasic("moana", "21055356070"))
+                        .contentType(APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk());
+
+
+    }
 }

@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.dev.timetracker.controller.ControllerMocks.*;
+import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -60,7 +61,7 @@ public class ControllerTaskTests {
         String requestJson = objectMapper.writeValueAsString(taskDTO);
 
         mockMvc.perform(post("/tasks")
-                        .with(httpBasic("moana", "21055356070"))
+                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());
@@ -79,7 +80,7 @@ public class ControllerTaskTests {
         task.setEndTime(Timestamp.valueOf(LocalDateTime.now()));
 
         mockMvc.perform(put("/tasks")
-                        .with(httpBasic("moana", "21055356070"))
+                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());

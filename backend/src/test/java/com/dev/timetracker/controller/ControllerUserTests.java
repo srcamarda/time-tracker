@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static com.dev.timetracker.controller.ControllerMocks.*;
+import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -62,6 +63,8 @@ public class ControllerUserTests {
     @BeforeAll
     public static void initializeTestMocks() {
         userMocks();
+        taskMocks();
+        projectMocks();
     }
 
     @Test
@@ -172,7 +175,7 @@ public class ControllerUserTests {
 
         //When user is found, it should be returned
         mockMvc.perform(get("/users/" + user.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -188,12 +191,12 @@ public class ControllerUserTests {
 
         //When users are found, they should be returned
         mockMvc.perform(get("/users")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
         mockMvc.perform(get("/users/all")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -222,7 +225,7 @@ public class ControllerUserTests {
 
         //When user is updated, it should return ok
         mockMvc.perform(put("/users")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070"))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(responseJson))
                 .andExpect(status().isOk());
@@ -238,7 +241,7 @@ public class ControllerUserTests {
 
         //When user is activated, it should return ok
         mockMvc.perform(put("/users/activate/" + userMock.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
                 .andExpect(status().isOk());
 
         //Activate user must be called 1 time
@@ -252,7 +255,7 @@ public class ControllerUserTests {
 
         //When user is inactivated, it should return ok
         mockMvc.perform(put("/users/inactivate/" + userMock.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
                 .andExpect(status().isOk());
 
         //Inactivate user must be called 1 time
@@ -262,20 +265,31 @@ public class ControllerUserTests {
     @Test
     public void deleteShouldDeleteUser() throws Exception {
 
-        Mockito.when(repositoryUser.getReferenceById(userMock.getId())).thenReturn(userMock);
-        Mockito.when(repositoryTask.findAllByIdUser(userMock)).thenReturn(List.of());
-        Mockito.when(repositoryProject.findByUsersId(userMock.getId())).thenReturn(List.of());
+        Mockito.when(repositoryUser.getReferenceById(user.getId())).thenReturn(user);
+        Mockito.when(repositoryTask.findAllByIdUser(user)).thenReturn(List.of(taskMock));
+        Mockito.when(repositoryProject.findByUsersId(user.getId())).thenReturn(List.of(projectMock));
 
         //When user is deleted, it should return ok
-        mockMvc.perform(delete("/users/" + userMock.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+        mockMvc.perform(delete("/users/" + user.getId())
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
                 .andExpect(status().isOk());
 
-        //Delete user must be called 1 time
-        Mockito.verify(repositoryUser, Mockito.times(1)).deleteById(userMock.getId());
-
-        //TODO: Verify if tasks and projects are deleted
-        Mockito.verify(repositoryTask, Mockito.times(0)).save(Mockito.any());
-        Mockito.verify(repositoryProject, Mockito.times(0)).save(Mockito.any());
+        //Check functions that must be called
+        Mockito.verify(repositoryUser, Mockito.times(1)).deleteById(user.getId());
+        Mockito.verify(repositoryTask, Mockito.times(1)).save(Mockito.any());
+        Mockito.verify(repositoryProject, Mockito.times(1)).save(Mockito.any());
     }
+
+//    @Test
+//    public void listTasksShouldReturnTasks() throws Exception {
+//
+//        Mockito.when(repositoryUser.getReferenceById(user.getId())).thenReturn(user);
+//        Mockito.when(repositoryTask.findAllByIdUser(userMock)).thenReturn(List.of(taskMock));
+//
+//        //When user is found, tasks should be returned
+//        mockMvc.perform(get("/users/" + userMock.getId() + "/tasks")
+//                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(objectMapper.writeValueAsString(List.of(taskDTO))));
+//    }
 }

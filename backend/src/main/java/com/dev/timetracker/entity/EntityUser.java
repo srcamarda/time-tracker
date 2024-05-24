@@ -6,14 +6,12 @@ import com.dev.timetracker.dto.user.DTOCreateUser;
 import com.dev.timetracker.utility.AddressAPI;
 import com.dev.timetracker.utility.category.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "users")
 @Entity(name = "User")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

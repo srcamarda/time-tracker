@@ -1,6 +1,7 @@
 package com.dev.timetracker.controller;
 
 import com.dev.timetracker.dto.user.DTOCreateUser;
+import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.dto.user.DTOLoginUser;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryUser;
@@ -8,11 +9,10 @@ import com.dev.timetracker.utility.category.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +20,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,10 +49,10 @@ public class ControllerUserTests {
     static EntityUser user;
 
     @BeforeAll
-    public static void startTestUser() {
+    public static void initializeTestUser() {
 
         userDTO = new DTOCreateUser(
-                null,
+                1L,
                 "tsilveira",
                 "Thiago Silveira",
                 "tsilveira@hotmail.com",
@@ -71,6 +72,7 @@ public class ControllerUserTests {
         );
 
         user = new EntityUser(userDTO);
+        user.setId(1L);
     }
 
     @Test
@@ -148,7 +150,8 @@ public class ControllerUserTests {
         mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(status().reason(containsString("User not found")));
     }
 
     @Test
@@ -156,10 +159,10 @@ public class ControllerUserTests {
 
         DTOLoginUser loginDTO2 = new DTOLoginUser(
                 userDTO.username(),
-                "16213093711"
+                "63311986016"
         );
 
-        Mockito.when(repositoryUser.findByUsernameAndActiveTrue(loginDTO.username())).thenReturn(user);
+        Mockito.when(repositoryUser.findByUsernameAndActiveTrue(userDTO.username())).thenReturn(user);
 
         String requestJson = objectMapper.writeValueAsString(loginDTO2);
 
@@ -167,6 +170,19 @@ public class ControllerUserTests {
         mockMvc.perform(post("/users/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(status().reason(containsString("Incorrect cpf")));
+    }
+
+    @Test
+    public void getShouldReturnUser() throws Exception {
+
+        Mockito.when(repositoryUser.findByIdAndActiveTrue(user.getId())).thenReturn(user);
+
+        //When user is found, it should be returned
+        mockMvc.perform(get("/users/" + user.getId())
+                .with(SecurityMockMvcRequestPostProcessors.httpBasic("moana", "21055356070")))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(new DTOListUser(user))));
     }
 }

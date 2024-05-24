@@ -12,6 +12,7 @@ import java.util.Set;
 @Table(name = "projects")
 @Entity(name = "Project")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

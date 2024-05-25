@@ -20,7 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.dev.timetracker.Mocks.MocksForTest.*;
+import static com.dev.timetracker.mocks.MocksForTest.*;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;

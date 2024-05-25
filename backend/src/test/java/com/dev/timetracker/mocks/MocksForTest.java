@@ -1,4 +1,4 @@
-package com.dev.timetracker.Mocks;
+package com.dev.timetracker.mocks;
 
 import com.dev.timetracker.dto.project.DTOCreateProject;
 import com.dev.timetracker.dto.task.DTOCreateTask;

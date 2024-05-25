@@ -1,4 +1,4 @@
-package com.dev.timetracker.controller;
+package com.dev.timetracker.Mocks;
 
 import com.dev.timetracker.dto.project.DTOCreateProject;
 import com.dev.timetracker.dto.task.DTOCreateTask;
@@ -12,32 +12,39 @@ import com.dev.timetracker.utility.category.Tag;
 import org.mockito.Mockito;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Set;
 
-public class ControllerMocks {
 
-    static DTOCreateUser userDTO;
-    static DTOCreateUser userDTO2;
-    static DTOLoginUser loginDTO;
-    static EntityUser user;
-    static EntityUser user2;
-    static EntityUser userMock;
+public class MocksForTest {
 
-    static DTOCreateTask taskDTO;
-    static DTOCreateTask taskDTO2;
-    static EntityTask task;
-    static EntityTask task2;
-    static EntityTask taskMock;
+    public static DTOCreateUser userDTO;
+    public static DTOCreateUser userDTO2;
+    public static DTOLoginUser loginDTO;
+    public static EntityUser user;
+    public static EntityUser user2;
+    public static EntityUser userMock;
 
-    static DTOCreateProject projectDTO;
-    static DTOCreateProject projectDTO2;
-    static EntityProject project;
-    static EntityProject project2;
-    static EntityProject projectMock;
+    public static DTOCreateTask taskDTO;
+    public static DTOCreateTask taskDTO2;
+    public static EntityTask task;
+    public static EntityTask task2;
+    public static EntityTask taskMock;
+
+    public static DTOCreateProject projectDTO;
+    public static DTOCreateProject projectDTO2;
+    public static EntityProject project;
+    public static EntityProject project2;
+    public static EntityProject projectMock;
+
+    public static LocalDate startDate;
+    public static LocalDate endDate;
+    public static Timestamp startTimestamp;
+    public static Timestamp endTimestamp;
 
     public static void userMocks() {
-
         userDTO = new DTOCreateUser(
                 1L,
                 "tsilveira",
@@ -51,7 +58,8 @@ public class ControllerMocks {
                 null,
                 null,
                 null,
-                null);
+                null
+        );
 
         userDTO2 = new DTOCreateUser(
                 2L,
@@ -66,7 +74,8 @@ public class ControllerMocks {
                 null,
                 null,
                 null,
-                null);
+                null
+        );
 
         loginDTO = new DTOLoginUser(
                 userDTO.username(),
@@ -86,7 +95,6 @@ public class ControllerMocks {
     }
 
     public static void taskMocks() {
-
         taskDTO = new DTOCreateTask(
                 1L,
                 "Creditos",
@@ -94,7 +102,7 @@ public class ControllerMocks {
                 Tag.URGENT,
                 user,
                 Timestamp.valueOf(LocalDateTime.now()),
-                null
+                Timestamp.valueOf(LocalDateTime.now().plusHours(2))
         );
 
         taskDTO2 = new DTOCreateTask(
@@ -102,9 +110,9 @@ public class ControllerMocks {
                 "Legenda",
                 "Finalizar legendas em PT",
                 Tag.IMPORTANT,
-                user,
+                user2,
                 Timestamp.valueOf(LocalDateTime.now()),
-                null
+                Timestamp.valueOf(LocalDateTime.now().plusHours(1))
         );
 
         task = new EntityTask(taskDTO);
@@ -113,6 +121,12 @@ public class ControllerMocks {
         task.setId(1L);
         task2.setId(2L);
 
+        task.setActive(true);
+        task2.setActive(true);
+
+        task.setProject(project);
+        task2.setProject(project);
+
         taskMock = Mockito.mock(EntityTask.class);
         taskMock.setId(task.getId());
         taskMock.setTitle(task.getTitle());
@@ -120,6 +134,8 @@ public class ControllerMocks {
     }
 
     public static void projectMocks() {
+        userMocks();
+        taskMocks();
 
         Set<EntityUser> setUsers = Set.of(user, user2);
         Set<EntityTask> setTasks = Set.of(task, task2);
@@ -139,7 +155,7 @@ public class ControllerMocks {
         projectDTO2 = new DTOCreateProject(
                 2L,
                 "Moana 2",
-                "O inimigo agora e outro",
+                "O inimigo agora é outro",
                 Timestamp.valueOf(LocalDateTime.now()),
                 null,
                 setUsers,
@@ -158,4 +174,12 @@ public class ControllerMocks {
         projectMock.setTitle(project.getTitle());
         projectMock.setDescription(project.getDescription());
     }
+
+    public static void initializeVariables() {
+        startDate = LocalDate.of(2021, 5, 1);
+        endDate = LocalDate.of(2021, 5, 2);
+        startTimestamp = Timestamp.valueOf(startDate.atStartOfDay());
+        endTimestamp = Timestamp.valueOf(endDate.atTime(LocalTime.MAX));
+    }
+
 }

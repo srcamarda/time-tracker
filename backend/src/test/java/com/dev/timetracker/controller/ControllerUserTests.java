@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static com.dev.timetracker.controller.ControllerMocks.*;
+import static com.dev.timetracker.Mocks.MocksForTest.*;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

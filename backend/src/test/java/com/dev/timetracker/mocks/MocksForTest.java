@@ -125,7 +125,7 @@ public class MocksForTest {
         task2.setActive(true);
 
         task.setProject(project);
-        task2.setProject(project);
+        task2.setProject(project2);
 
         taskMock = Mockito.mock(EntityTask.class);
         taskMock.setId(task.getId());

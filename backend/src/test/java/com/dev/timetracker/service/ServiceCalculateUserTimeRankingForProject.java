@@ -1,7 +1,9 @@
 package com.dev.timetracker.service;
+
 import com.dev.timetracker.dto.report.DTOUserTime;
 import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.repository.RepositoryTask;
+import com.dev.timetracker.repository.RepositoryUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.dev.timetracker.mocks.MocksForTest.*;
@@ -32,11 +33,10 @@ public class ServiceCalculateUserTimeRankingForProject {
         taskMocks();
     }
 
-
     @Test
     void calculateUserTimeRankingForProject_ShouldReturnSortedRanking() {
         // Arrange
-        List<EntityTask> tasks = Arrays.asList(task, task2);
+        List<EntityTask> tasks = List.of(task, task2);
         when(repositoryTask.findAllByProjectIdAndActiveTrue(1L)).thenReturn(tasks);
 
         // Act
@@ -52,28 +52,36 @@ public class ServiceCalculateUserTimeRankingForProject {
         );
 
         verify(repositoryTask, times(1)).findAllByProjectIdAndActiveTrue(1L);
+        verifyNoMoreInteractions(repositoryTask);
     }
 
     @Test
-    void calculateUserTimeRankingForProject_ShouldIgnoreInactiveTasks() {
+    void calculateUserTimeRankingForProject_ShouldReturnEmptyListWhenNoTasks() {
         // Arrange
-        // Modificar task para ser inativa
-        task.setActive(false);
-
-        // Lista de tarefas inclui apenas a task ativa
-        List<EntityTask> tasks = List.of(task2);
-        when(repositoryTask.findAllByProjectIdAndActiveTrue(1L)).thenReturn(tasks);
+        when(repositoryTask.findAllByProjectIdAndActiveTrue(1L)).thenReturn(List.of());
 
         // Act
         List<DTOUserTime> result = reportService.calculateUserTimeRankingForProject(1L);
 
         // Assert
-        assertAll("result",
-                () -> assertEquals(1, result.size(), "Tamanho da lista"),
-                () -> assertEquals("Joao Batista", result.get(0).userName(), "Nome do usuário"),
-                () -> assertEquals(1, result.get(0).totalHours(), "Total de horas do usuário")
-        );
+        assertEquals(0, result.size(), "Lista vazia quando não há tarefas");
 
         verify(repositoryTask, times(1)).findAllByProjectIdAndActiveTrue(1L);
+        verifyNoMoreInteractions(repositoryTask);
+    }
+
+    @Test
+    void calculateUserTimeRankingForProject_ShouldReturnEmptyListForNonExistentProject() {
+        // Arrange
+        when(repositoryTask.findAllByProjectIdAndActiveTrue(999L)).thenReturn(List.of());
+
+        // Act
+        List<DTOUserTime> result = reportService.calculateUserTimeRankingForProject(999L);
+
+        // Assert
+        assertEquals(0, result.size(), "Lista vazia quando o projeto não existe");
+
+        verify(repositoryTask, times(1)).findAllByProjectIdAndActiveTrue(999L);
+        verifyNoMoreInteractions(repositoryTask);
     }
 }

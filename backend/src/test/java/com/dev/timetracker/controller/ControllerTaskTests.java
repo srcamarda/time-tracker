@@ -1,5 +1,6 @@
 package com.dev.timetracker.controller;
 
+import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.task.DTOUpdateTask;
 import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.repository.RepositoryProject;
@@ -17,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,7 +29,7 @@ import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
 
@@ -74,6 +78,52 @@ public class ControllerTaskTests {
 
         EntityTask newTask = repositoryTask.findByIdAndActiveTrue(task.getId());
         Assertions.assertEquals(task, newTask);
+    }
+
+    @Test
+    public void getShouldReturnTask() throws Exception {
+
+        Mockito.when(repositoryTask.findByIdAndActiveTrue(task.getId())).thenReturn(task);
+
+        String responseJson = objectMapper.writeValueAsString(new DTOListTask(task));
+
+        mockMvc.perform(get("/tasks/" + task.getId())
+                        .with(httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+
+    }
+
+    @Test
+    public void listShouldReturnTask() throws Exception {
+
+        Page<EntityTask> tasks = new PageImpl<>(List.of(task, task2));
+
+        Mockito.when(repositoryTask.findAllByActiveTrue(Mockito.any(Pageable.class))).thenReturn(tasks);
+
+        String responseJson = objectMapper.writeValueAsString(tasks.map(DTOListTask::new).getContent());
+
+        mockMvc.perform(get("/tasks").
+                with(httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+
+    }
+
+    @Test
+    public void listAllShouldReturnTasks() throws Exception {
+
+        Page<EntityTask> tasks = new PageImpl<>(List.of(task, task2));
+
+        Mockito.when(repositoryTask.findAllByActiveTrue(Mockito.any(Pageable.class))).thenReturn(tasks);
+
+        String responseJson = objectMapper.writeValueAsString(tasks.map(DTOListTask::new).getContent());
+
+        mockMvc.perform(get("/tasks/all").
+                        with(httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+
     }
 
     @Test

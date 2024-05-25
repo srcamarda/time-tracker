@@ -14,7 +14,12 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static com.dev.timetracker.mocks.MocksForTest.*;
+import static com.dev.timetracker.mocks.ProjectMocks.project2;
+import static com.dev.timetracker.mocks.ProjectMocks.projectMocks;
+import static com.dev.timetracker.mocks.TaskMocks.*;
+import static com.dev.timetracker.mocks.UserMocks.user;
+import static com.dev.timetracker.mocks.UserMocks.userMocks;
+import static com.dev.timetracker.mocks.VariablesMocks.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;

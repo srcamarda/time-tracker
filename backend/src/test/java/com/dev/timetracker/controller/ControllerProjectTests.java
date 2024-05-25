@@ -1,7 +1,6 @@
 package com.dev.timetracker.controller;
 
 import com.dev.timetracker.entity.EntityProject;
-import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
@@ -22,7 +21,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static com.dev.timetracker.mocks.MocksForTest.*;
+import static com.dev.timetracker.mocks.ProjectMocks.*;
+import static com.dev.timetracker.mocks.TaskMocks.taskMock;
+import static com.dev.timetracker.mocks.TaskMocks.taskMocks;
+import static com.dev.timetracker.mocks.UserMocks.userMocks;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;

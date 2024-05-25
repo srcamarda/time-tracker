@@ -3,7 +3,6 @@ package com.dev.timetracker.service;
 import com.dev.timetracker.dto.report.DTOUserTime;
 import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.repository.RepositoryTask;
-import com.dev.timetracker.repository.RepositoryUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static com.dev.timetracker.mocks.MocksForTest.*;
+import static com.dev.timetracker.mocks.ProjectMocks.projectMocks;
+import static com.dev.timetracker.mocks.TaskMocks.*;
+import static com.dev.timetracker.mocks.UserMocks.userMocks;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 

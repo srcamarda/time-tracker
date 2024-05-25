@@ -33,7 +33,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static com.dev.timetracker.mocks.MocksForTest.*;
+import static com.dev.timetracker.mocks.ProjectMocks.projectMock;
+import static com.dev.timetracker.mocks.ProjectMocks.projectMocks;
+import static com.dev.timetracker.mocks.TaskMocks.*;
+import static com.dev.timetracker.mocks.UserMocks.*;
+import static com.dev.timetracker.mocks.VariablesMocks.*;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.eq;

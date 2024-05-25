@@ -1,8 +1,13 @@
 package com.dev.timetracker.controller;
 
+import com.dev.timetracker.dto.report.DTOAverageTime;
+import com.dev.timetracker.dto.report.DTOProjectTime;
+import com.dev.timetracker.dto.report.DTOTimeWork;
+import com.dev.timetracker.dto.task.DTOListTask;
 import com.dev.timetracker.dto.user.DTOListUser;
 import com.dev.timetracker.dto.user.DTOLoginUser;
 import com.dev.timetracker.dto.user.DTOUpdateUser;
+import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
@@ -28,9 +33,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static com.dev.timetracker.Mocks.MocksForTest.*;
+import static com.dev.timetracker.mocks.MocksForTest.*;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -280,16 +286,85 @@ public class ControllerUserTests {
         Mockito.verify(repositoryProject, Mockito.times(1)).save(Mockito.any());
     }
 
-//    @Test
-//    public void listTasksShouldReturnTasks() throws Exception {
-//
-//        Mockito.when(repositoryUser.getReferenceById(user.getId())).thenReturn(user);
-//        Mockito.when(repositoryTask.findAllByIdUser(userMock)).thenReturn(List.of(taskMock));
-//
-//        //When user is found, tasks should be returned
-//        mockMvc.perform(get("/users/" + userMock.getId() + "/tasks")
-//                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(List.of(taskDTO))));
-//    }
+    @Test
+    public void listTasksShouldReturnTasks() throws Exception {
+
+        Page<EntityTask> tasks = new PageImpl<>(List.of(task, task2));
+
+        Mockito.when(repositoryUser.getReferenceById(user.getId())).thenReturn(user);
+        Mockito.when(repositoryTask.findAllByIdUserAndActiveTrue(eq(user), Mockito.any(Pageable.class))).thenReturn(tasks);
+
+        String responseJson = objectMapper.writeValueAsString(tasks.map(DTOListTask::new).getContent());
+
+        //When tasks are found for the user, they should be returned
+        mockMvc.perform(get("/users/" + user.getId() + "/tasks")
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void getWorkHoursShouldReturnWorkHours() throws Exception {
+
+
+        DTOProjectTime projectTime = new DTOProjectTime("Moana", 100L);
+
+        Mockito.when(reportService.hoursWorkedByUserAllProjects(user.getId())).thenReturn(List.of(projectTime));
+
+        String responseJson = objectMapper.writeValueAsString(List.of(projectTime));
+
+        //Should return the hours worked by the user
+        mockMvc.perform(get("/users/" + user.getId() + "/hours")
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void getAverageTimeShouldReturnAverageTime() throws Exception {
+
+        DTOAverageTime averageTime = new DTOAverageTime(2L, 20L, 10.0);
+
+        Mockito.when(reportService.hoursWorkedByUserAverageTime(user.getId())).thenReturn(averageTime);
+
+        String responseJson = objectMapper.writeValueAsString(averageTime);
+
+        //Should return the average time worked by the user
+        mockMvc.perform(get("/users/" + user.getId() + "/average-task-time")
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void getWorkReportShouldReturnWorkReport() throws Exception {
+
+        DTOTimeWork timeWork = new DTOTimeWork("Moana", "Creditos", 32L);
+        DTOTimeWork timeWork2 = new DTOTimeWork("Moana", "Legenda", 28L);
+
+        Mockito.when(reportService.calculateWorkForUser(user.getId(), startDate, endDate)).thenReturn(List.of(timeWork, timeWork2));
+
+        String responseJson = objectMapper.writeValueAsString(List.of(timeWork, timeWork2));
+
+        //Should return the hours worked by the user in tasks
+        mockMvc.perform(get("/users/" + user.getId() + "/work-report")
+                        .param("startDate", startDate.toString())
+                        .param("endDate", endDate.toString())
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isOk())
+                .andExpect(content().json(responseJson));
+    }
+
+    @Test
+    public void getWorkReportShouldReturnNoContent() throws Exception {
+
+        Mockito.when(reportService.calculateWorkForUser(user.getId(), startDate, endDate)).thenReturn(List.of());
+
+        //Should return no content if no time is found
+        mockMvc.perform(get("/users/" + user.getId() + "/work-report")
+                        .param("startDate", startDate.toString())
+                        .param("endDate", endDate.toString())
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                .andExpect(status().isNoContent());
+    }
 }

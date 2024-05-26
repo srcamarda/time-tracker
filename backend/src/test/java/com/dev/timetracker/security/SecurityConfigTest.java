@@ -1,21 +1,14 @@
 package com.dev.timetracker.security;
 
 import com.dev.timetracker.dto.user.DTOLoginUser;
-import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 
-@TestConfiguration
+import java.util.Collections;
+
 public class SecurityConfigTest {
 
     public static DTOLoginUser basicUser = new DTOLoginUser("moana", "21055356070");
-
-//    @Bean
-//    @Primary
-//    public UserDetailsService userDetailsService(UserDetailsServiceAutoConfiguration userDetailsServiceAutoConfiguration) {
-//
-//        UserActive basicActiveUser = new UserActive(basicUser, Arrays.asList(
-//                new SimpleGrantedAuthority(Role.SENIOR.toString());
-//        ));
-//
-//        return new InMemoryUserDetailsManager(List.of(basicActiveUser));
-//    }
+    public static DTOLoginUser testUser = new DTOLoginUser("testUser", "07621310049");
+    public static UserDetails mockLogin = new User(testUser.username(), testUser.cpf(), Collections.emptyList());
 }

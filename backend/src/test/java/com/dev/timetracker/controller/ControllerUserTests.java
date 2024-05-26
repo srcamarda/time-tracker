@@ -12,6 +12,7 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
+import com.dev.timetracker.security.SecurityConfig;
 import com.dev.timetracker.service.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -28,18 +29,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static com.dev.timetracker.mocks.ProjectMocks.projectMock;
-import static com.dev.timetracker.mocks.ProjectMocks.projectMocks;
+import static com.dev.timetracker.mocks.ProjectMocks.*;
 import static com.dev.timetracker.mocks.TaskMocks.*;
 import static com.dev.timetracker.mocks.UserMocks.*;
 import static com.dev.timetracker.mocks.VariablesMocks.*;
-import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
+import static com.dev.timetracker.security.SecurityConfigTest.*;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -70,12 +72,24 @@ public class ControllerUserTests {
     @InjectMocks
     private ControllerUser controllerUser;
 
+    @MockBean
+    private SecurityConfig securityConfig;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+
     @BeforeAll
     public static void initializeTestMocks() {
         userMocks();
         taskMocks();
         projectMocks();
+        initializeVariables();
     }
+
+//    @BeforeEach
+//    public void loginMock() {
+//        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(mockLogin);
+//    }
 
     @Test
     public void registerShouldCreateNewUser() throws Exception {
@@ -181,11 +195,13 @@ public class ControllerUserTests {
 
         Mockito.when(repositoryUser.findByIdAndActiveTrue(user.getId())).thenReturn(user);
 
+        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(mockLogin);
+
         String responseJson = objectMapper.writeValueAsString(new DTOListUser(user));
 
         //When user is found, it should be returned
         mockMvc.perform(get("/users/" + user.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(testUser.username(), testUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }

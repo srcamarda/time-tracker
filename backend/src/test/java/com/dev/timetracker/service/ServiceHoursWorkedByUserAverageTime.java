@@ -1,7 +1,6 @@
 package com.dev.timetracker.service;
 
 import com.dev.timetracker.dto.report.DTOAverageTime;
-import com.dev.timetracker.dto.report.DTOProjectTime;
 import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryTask;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-import static com.dev.timetracker.mocks.ProjectMocks.project2;
 import static com.dev.timetracker.mocks.ProjectMocks.projectMocks;
 import static com.dev.timetracker.mocks.TaskMocks.*;
 import static com.dev.timetracker.mocks.UserMocks.user;

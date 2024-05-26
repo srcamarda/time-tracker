@@ -17,6 +17,7 @@ import com.dev.timetracker.service.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -73,9 +74,6 @@ public class ControllerUserTests {
     private ControllerUser controllerUser;
 
     @MockBean
-    private SecurityConfig securityConfig;
-
-    @MockBean
     private UserDetailsService userDetailsService;
 
     @BeforeAll
@@ -86,20 +84,18 @@ public class ControllerUserTests {
         initializeVariables();
     }
 
-//    @BeforeEach
-//    public void loginMock() {
-//        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(mockLogin);
-//    }
+    @BeforeEach
+    public void setup() {
+        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(mockLogin);
+    }
 
     @Test
     public void registerShouldCreateNewUser() throws Exception {
-
         Mockito.when(repositoryUser.existsByUsername(userDTO.username())).thenReturn(false);
         Mockito.when(repositoryUser.existsByCpf(userDTO.cpf())).thenReturn(false);
 
         String requestJson = objectMapper.writeValueAsString(userDTO);
 
-        //When register is successful, response should be ok
         mockMvc.perform(post("/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
@@ -111,6 +107,7 @@ public class ControllerUserTests {
 
         Assertions.assertEquals(user, newUser);
     }
+
 
     @Test
     public void registerShouldReturnBadRequestWhenUsernameAlreadyExists() throws Exception {
@@ -201,7 +198,8 @@ public class ControllerUserTests {
 
         //When user is found, it should be returned
         mockMvc.perform(get("/users/" + user.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(testUser.username(), testUser.cpf())))
+
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -217,12 +215,12 @@ public class ControllerUserTests {
 
         //When users are found, they should be returned
         mockMvc.perform(get("/users")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
         mockMvc.perform(get("/users/all")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -251,7 +249,7 @@ public class ControllerUserTests {
 
         //When user is updated, it should return ok
         mockMvc.perform(put("/users")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf()))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(responseJson))
                 .andExpect(status().isOk());
@@ -267,7 +265,7 @@ public class ControllerUserTests {
 
         //When user is activated, it should return ok
         mockMvc.perform(put("/users/activate/" + userMock.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         //Activate user must be called 1 time
@@ -281,7 +279,7 @@ public class ControllerUserTests {
 
         //When user is inactivated, it should return ok
         mockMvc.perform(put("/users/inactivate/" + userMock.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         //Inactivate user must be called 1 time
@@ -297,7 +295,7 @@ public class ControllerUserTests {
 
         //When user is deleted, it should return ok
         mockMvc.perform(delete("/users/" + user.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         //Check functions that must be called
@@ -318,7 +316,7 @@ public class ControllerUserTests {
 
         //When tasks are found for the user, they should be returned
         mockMvc.perform(get("/users/" + user.getId() + "/tasks")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -335,7 +333,7 @@ public class ControllerUserTests {
 
         //Should return the hours worked by the user
         mockMvc.perform(get("/users/" + user.getId() + "/hours")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -351,7 +349,7 @@ public class ControllerUserTests {
 
         //Should return the average time worked by the user
         mockMvc.perform(get("/users/" + user.getId() + "/average-task-time")
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -370,7 +368,7 @@ public class ControllerUserTests {
         mockMvc.perform(get("/users/" + user.getId() + "/work-report")
                         .param("startDate", startDate.toString())
                         .param("endDate", endDate.toString())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -384,7 +382,7 @@ public class ControllerUserTests {
         mockMvc.perform(get("/users/" + user.getId() + "/work-report")
                         .param("startDate", startDate.toString())
                         .param("endDate", endDate.toString())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isNoContent());
     }
 }

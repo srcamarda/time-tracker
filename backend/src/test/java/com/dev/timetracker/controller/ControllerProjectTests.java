@@ -2,10 +2,7 @@ package com.dev.timetracker.controller;
 
 import com.dev.timetracker.dto.project.DTOListProject;
 import com.dev.timetracker.dto.project.DTOUpdateProject;
-import com.dev.timetracker.dto.task.DTOListTask;
-import com.dev.timetracker.dto.task.DTOUpdateTask;
 import com.dev.timetracker.entity.EntityProject;
-import com.dev.timetracker.entity.EntityTask;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
@@ -13,6 +10,7 @@ import com.dev.timetracker.service.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -24,7 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -33,12 +31,14 @@ import java.util.stream.Collectors;
 
 import static com.dev.timetracker.mocks.ProjectMocks.*;
 import static com.dev.timetracker.mocks.TaskMocks.*;
-import static com.dev.timetracker.mocks.TaskMocks.task;
 import static com.dev.timetracker.mocks.UserMocks.user;
 import static com.dev.timetracker.mocks.UserMocks.userMocks;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
+import static com.dev.timetracker.security.SecurityConfigTest.mockLogin;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,11 +66,19 @@ public class ControllerProjectTests {
     @MockBean
     private ReportService reportService;
 
+    @MockBean
+    private UserDetailsService userDetailsService;
+
     @BeforeAll
     public static void initializeTestMocks() {
         userMocks();
         taskMocks();
         projectMocks();
+    }
+
+    @BeforeEach
+    public void setup() {
+        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(mockLogin);
     }
 
     @Test
@@ -81,7 +89,7 @@ public class ControllerProjectTests {
         String requestJson = objectMapper.writeValueAsString(projectDTO);
 
         mockMvc.perform(post("/projects")
-                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
+                        .with(user(basicUser.username()).password(basicUser.cpf()))
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());
@@ -98,7 +106,7 @@ public class ControllerProjectTests {
         String responseJson = objectMapper.writeValueAsString(new DTOListProject(project));
 
         mockMvc.perform(get("/projects/" + project.getId())
-                        .with(httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
@@ -113,8 +121,8 @@ public class ControllerProjectTests {
 
         String responseJson = objectMapper.writeValueAsString(projects.stream().map(DTOListProject::new).collect(Collectors.toList()));
 
-        mockMvc.perform(get("/projects/users/" + user.getId()).
-                        with(httpBasic(basicUser.username(), basicUser.cpf())))
+        mockMvc.perform(get("/projects/users/" + user.getId())
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
@@ -129,8 +137,8 @@ public class ControllerProjectTests {
 
         String responseJson = objectMapper.writeValueAsString(projects.map(DTOListProject::new).getContent());
 
-        mockMvc.perform(get("/projects").
-                        with(httpBasic(basicUser.username(), basicUser.cpf())))
+        mockMvc.perform(get("/projects")
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -144,8 +152,8 @@ public class ControllerProjectTests {
 
         String responseJson = objectMapper.writeValueAsString(projects.map(DTOListProject::new).getContent());
 
-        mockMvc.perform(get("/projects/all").
-                        with(httpBasic(basicUser.username(), basicUser.cpf())))
+        mockMvc.perform(get("/projects/all")
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
     }
@@ -155,8 +163,8 @@ public class ControllerProjectTests {
 
         Mockito.when(repositoryProject.getReferenceById(project.getId())).thenReturn(projectMock);
 
-        mockMvc.perform(get("/projects/" + project.getId() +"/users").
-                        with(httpBasic(basicUser.username(), basicUser.cpf())))
+        mockMvc.perform(get("/projects/" + project.getId() + "/users")
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
     }
 
@@ -182,8 +190,8 @@ public class ControllerProjectTests {
 
         Mockito.when(repositoryTask.findByProjectIdAndActiveTrue(project.getId())).thenReturn(Arrays.asList());
 
-        mockMvc.perform(get("/projects/"+ project.getId() +"/tasks")
-                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
+        mockMvc.perform(get("/projects/" + project.getId() + "/tasks")
+                        .with(user(basicUser.username()).password(basicUser.cpf()))
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
@@ -204,7 +212,7 @@ public class ControllerProjectTests {
         String requestJson = objectMapper.writeValueAsString(updateProject);
 
         mockMvc.perform(put("/projects")
-                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
+                        .with(user(basicUser.username()).password(basicUser.cpf()))
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());
@@ -230,7 +238,7 @@ public class ControllerProjectTests {
         Mockito.when(repositoryProject.getReferenceById(projectMock.getId())).thenReturn(projectMock);
 
         mockMvc.perform(put("/projects/activate/" + projectMock.getId())
-                        .with(httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         Mockito.verify(projectMock, Mockito.times(1)).activate();
@@ -242,7 +250,7 @@ public class ControllerProjectTests {
         Mockito.when(repositoryProject.getReferenceById(projectMock.getId())).thenReturn(projectMock);
 
         mockMvc.perform(put("/projects/inactivate/" + projectMock.getId())
-                        .with(httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         Mockito.verify(projectMock, Mockito.times(1)).inactivate();
@@ -255,7 +263,7 @@ public class ControllerProjectTests {
         Mockito.when(repositoryTask.findAllByProjectIdAndActiveTrue(project.getId())).thenReturn(List.of(taskMock));
 
         mockMvc.perform(delete("/projects/" + project.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
 

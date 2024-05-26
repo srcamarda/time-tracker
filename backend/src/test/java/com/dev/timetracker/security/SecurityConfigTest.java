@@ -8,7 +8,6 @@ import java.util.Collections;
 
 public class SecurityConfigTest {
 
-    public static DTOLoginUser basicUser = new DTOLoginUser("moana", "21055356070");
-    public static DTOLoginUser testUser = new DTOLoginUser("testUser", "07621310049");
-    public static UserDetails mockLogin = new User(testUser.username(), testUser.cpf(), Collections.emptyList());
+    public static DTOLoginUser basicUser = new DTOLoginUser("jose", "123");
+    public static UserDetails mockLogin = new User(basicUser.username(), basicUser.cpf(), Collections.emptyList());
 }

@@ -9,6 +9,7 @@ import com.dev.timetracker.repository.RepositoryUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,10 +31,14 @@ import static com.dev.timetracker.mocks.ProjectMocks.projectMocks;
 import static com.dev.timetracker.mocks.TaskMocks.*;
 import static com.dev.timetracker.mocks.UserMocks.userMocks;
 import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
+import static com.dev.timetracker.security.SecurityConfigTest.mockLogin;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.web.servlet.function.RequestPredicates.contentType;
 
 import java.util.List;
 
@@ -59,11 +65,19 @@ public class ControllerTaskTests {
     @InjectMocks
     private ControllerTask controllerTask;
 
+    @MockBean
+    private UserDetailsService userDetailsService;
+
     @BeforeAll
     public static void initializeTestMocks() {
         userMocks();
         taskMocks();
         projectMocks();
+    }
+
+    @BeforeEach
+    public void setup() {
+        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(mockLogin);
     }
 
     @Test
@@ -74,7 +88,7 @@ public class ControllerTaskTests {
         String requestJson = objectMapper.writeValueAsString(taskDTO);
 
         mockMvc.perform(post("/tasks")
-                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
+                        .with(user(basicUser.username()).password(basicUser.cpf()))
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());
@@ -91,7 +105,7 @@ public class ControllerTaskTests {
         String responseJson = objectMapper.writeValueAsString(new DTOListTask(task));
 
         mockMvc.perform(get("/tasks/" + task.getId())
-                        .with(httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
@@ -106,8 +120,8 @@ public class ControllerTaskTests {
 
         String responseJson = objectMapper.writeValueAsString(tasks.map(DTOListTask::new).getContent());
 
-        mockMvc.perform(get("/tasks").
-                with(httpBasic(basicUser.username(), basicUser.cpf())))
+        mockMvc.perform(get("/tasks")
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
@@ -122,8 +136,8 @@ public class ControllerTaskTests {
 
         String responseJson = objectMapper.writeValueAsString(tasks.map(DTOListTask::new).getContent());
 
-        mockMvc.perform(get("/tasks/all").
-                        with(httpBasic(basicUser.username(), basicUser.cpf())))
+        mockMvc.perform(get("/tasks/all")
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
 
@@ -147,7 +161,7 @@ public class ControllerTaskTests {
         String requestJson = objectMapper.writeValueAsString(updateTask);
 
         mockMvc.perform(put("/tasks")
-                        .with(httpBasic(basicUser.username(), basicUser.cpf()))
+                        .with(user(basicUser.username()).password(basicUser.cpf()))
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());
@@ -161,7 +175,7 @@ public class ControllerTaskTests {
         Mockito.when(repositoryTask.getReferenceById(taskMock.getId())).thenReturn(taskMock);
 
         mockMvc.perform(put("/tasks/activate/" + taskMock.getId())
-                        .with(httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         Mockito.verify(taskMock, Mockito.times(1)).activate();
@@ -174,7 +188,7 @@ public class ControllerTaskTests {
 
         //When user is inactivated, it should return ok
         mockMvc.perform(put("/tasks/inactivate/" + taskMock.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
         //Inactivate user must be called 1 time
@@ -188,7 +202,7 @@ public class ControllerTaskTests {
         Mockito.when(repositoryProject.findByTasksId(task.getId())).thenReturn(List.of(projectMock));
 
         mockMvc.perform(delete("/tasks/" + task.getId())
-                        .with(SecurityMockMvcRequestPostProcessors.httpBasic(basicUser.username(), basicUser.cpf())))
+                        .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
 
 

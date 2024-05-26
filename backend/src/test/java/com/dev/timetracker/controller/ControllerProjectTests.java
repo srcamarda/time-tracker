@@ -13,7 +13,6 @@ import com.dev.timetracker.repository.RepositoryUser;
 import com.dev.timetracker.service.ReportService;
 import com.dev.timetracker.utility.category.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.tomcat.util.http.parser.EntityTag;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

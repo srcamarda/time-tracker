@@ -12,7 +12,6 @@ import com.dev.timetracker.entity.EntityUser;
 import com.dev.timetracker.repository.RepositoryProject;
 import com.dev.timetracker.repository.RepositoryTask;
 import com.dev.timetracker.repository.RepositoryUser;
-import com.dev.timetracker.security.SecurityConfig;
 import com.dev.timetracker.service.ReportService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -108,7 +107,6 @@ public class ControllerUserTests {
         Assertions.assertEquals(user, newUser);
     }
 
-
     @Test
     public void registerShouldReturnBadRequestWhenUsernameAlreadyExists() throws Exception {
 
@@ -198,7 +196,6 @@ public class ControllerUserTests {
 
         //When user is found, it should be returned
         mockMvc.perform(get("/users/" + user.getId())
-
                         .with(SecurityMockMvcRequestPostProcessors.user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));

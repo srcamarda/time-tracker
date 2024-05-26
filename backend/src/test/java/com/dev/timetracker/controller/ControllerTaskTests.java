@@ -23,7 +23,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.dev.timetracker.mocks.ProjectMocks.projectMock;
@@ -34,11 +33,9 @@ import static com.dev.timetracker.security.SecurityConfigTest.basicUser;
 import static com.dev.timetracker.security.SecurityConfigTest.mockLogin;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.http.MediaType.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.web.servlet.function.RequestPredicates.contentType;
 
 import java.util.List;
 
@@ -108,7 +105,6 @@ public class ControllerTaskTests {
                         .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
-
     }
 
     @Test
@@ -124,7 +120,6 @@ public class ControllerTaskTests {
                         .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
-
     }
 
     @Test
@@ -140,7 +135,6 @@ public class ControllerTaskTests {
                         .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk())
                 .andExpect(content().json(responseJson));
-
     }
 
     @Test
@@ -165,8 +159,6 @@ public class ControllerTaskTests {
                         .contentType(APPLICATION_JSON)
                         .content(requestJson))
                 .andExpect(status().isOk());
-
-//        Mockito.verify(taskMock, Mockito.times(1)).update(updateTask);
     }
 
     @Test
@@ -204,7 +196,6 @@ public class ControllerTaskTests {
         mockMvc.perform(delete("/tasks/" + task.getId())
                         .with(user(basicUser.username()).password(basicUser.cpf())))
                 .andExpect(status().isOk());
-
 
         Mockito.verify(repositoryTask, Mockito.times(1)).deleteById(task.getId());
         Mockito.verify(repositoryProject, Mockito.times(1)).save(Mockito.any());
